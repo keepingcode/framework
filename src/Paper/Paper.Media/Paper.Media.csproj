@@ -1,0 +1,91 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.2;net462</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Design.Mappings\**" />
+    <Compile Remove="Design.Papers\**" />
+    <Compile Remove="Rendering.Papers\**" />
+    <Compile Remove="Rendering2\**" />
+    <Compile Remove="Routing\**" />
+    <Compile Remove="Serialization\temp\**" />
+    <Compile Remove="Utilities.Types\**" />
+    <Compile Remove="Utilities\**" />
+    <EmbeddedResource Remove="Design.Mappings\**" />
+    <EmbeddedResource Remove="Design.Papers\**" />
+    <EmbeddedResource Remove="Rendering.Papers\**" />
+    <EmbeddedResource Remove="Rendering2\**" />
+    <EmbeddedResource Remove="Routing\**" />
+    <EmbeddedResource Remove="Serialization\temp\**" />
+    <EmbeddedResource Remove="Utilities.Types\**" />
+    <EmbeddedResource Remove="Utilities\**" />
+    <None Remove="Design.Mappings\**" />
+    <None Remove="Design.Papers\**" />
+    <None Remove="Rendering.Papers\**" />
+    <None Remove="Rendering2\**" />
+    <None Remove="Routing\**" />
+    <None Remove="Serialization\temp\**" />
+    <None Remove="Utilities.Types\**" />
+    <None Remove="Utilities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="CaseVariantStringExtensions.cs" />
+    <Compile Remove="Data\Filter.cs" />
+    <Compile Remove="Data\Filter`1.cs" />
+    <Compile Remove="Design\DataExtensions.cs" />
+    <Compile Remove="Design\EntityDesign.cs" />
+    <Compile Remove="Design\ExposePaperAttribute.cs" />
+    <Compile Remove="Design\HeaderUtil.cs" />
+    <Compile Remove="Design\IPaper.cs" />
+    <Compile Remove="Design\ISortableEnumerable.cs" />
+    <Compile Remove="Design\ISortableQueryable.cs" />
+    <Compile Remove="Design\MediaObjectExtensions.cs" />
+    <Compile Remove="Design\Page.cs" />
+    <Compile Remove="Design\PageExtensions.cs" />
+    <Compile Remove="Design\PaperAttribute.cs" />
+    <Compile Remove="Design\PropertyExtensions.cs" />
+    <Compile Remove="Design\RecordExtensions.cs" />
+    <Compile Remove="Design\RowsExtensions.cs" />
+    <Compile Remove="Design\SortOrder.cs" />
+    <Compile Remove="FieldTypeEx.cs" />
+    <Compile Remove="Property.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Data\FilterExtensions.cs.bak" />
+    <None Remove="Data\Page.cs.bak" />
+    <None Remove="Design\EntityExtensions.cs.bak" />
+    <None Remove="PropertyCollection.cs.bak" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Utilities\ExpressionUtils.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="4.5.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\toolset\Toolset.Sequel\Toolset.Sequel.csproj" />
+    <ProjectReference Include="..\..\toolset\Toolset.Serialization\Toolset.Serialization.csproj" />
+    <ProjectReference Include="..\..\toolset\Toolset.Text.Template\Toolset.Text.Template.csproj" />
+    <ProjectReference Include="..\..\toolset\Toolset\Toolset.csproj" />
+  </ItemGroup>
+
+</Project>
