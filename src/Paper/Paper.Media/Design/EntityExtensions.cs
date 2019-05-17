@@ -507,7 +507,11 @@ namespace Paper.Media.Design
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static Field AddClass<TClass>(this Field entity)
     {
-      entity.WithClass().Add(Conventions.MakeName(typeof(TClass)));
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //entity.WithClass().Add(Conventions.MakeName(typeof(TClass)));
+      //
+
       return entity;
     }
 
@@ -545,9 +549,13 @@ namespace Paper.Media.Design
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static Field SetClass<TClass>(this Field entity)
     {
-      var @class = entity.WithClass();
-      @class.Clear();
-      @class.Add(Conventions.MakeName(typeof(TClass)));
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //var @class = entity.WithClass();
+      //@class.Clear();
+      //@class.Add(Conventions.MakeName(typeof(TClass)));
+      //
+
       return entity;
     }
 
@@ -593,9 +601,12 @@ namespace Paper.Media.Design
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static Field SetUserClass<TClass>(this Field entity)
     {
-      var @class = entity.WithClass();
-      @class.RemoveWhen(ClassNames.IsUserClass);
-      @class.Add(Conventions.MakeName(typeof(TClass)));
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //var @class = entity.WithClass();
+      //@class.RemoveWhen(ClassNames.IsUserClass);
+      //@class.Add(Conventions.MakeName(typeof(TClass)));
+
       return entity;
     }
 

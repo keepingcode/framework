@@ -16,7 +16,7 @@ namespace Toolset
         new[] { "\\"  , @"\\"  },   //  \\ Backslash character
         new[] { "\x08", @"\b"  },   //  \b Backspace (ascii code 08)
         new[] { "\x0C", @"\f"  },   //  \f Form feed (ascii code 0C)
-        new[] { "\n"  , @"\n"  },   //  \n New line
+        new[] { "\n"  , @"\n"  },   //  \n Create line
         new[] { "\r"  , @"\r"  },   //  \r Carriage return
         new[] { "\t"  , @"\t"  },   //  \t Tab
         new[] { "\""  , @"\""" }    //  \" Double quote

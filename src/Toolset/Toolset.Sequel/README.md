@@ -669,7 +669,7 @@ conexão aninha no escopo da thread que a invocou.
 
     static void Main()
     {
-      var primeira = Task.Factory.StartNew(() =>
+      var primeira = Task.Factory.StartCreate(() =>
       {
         
         using (var scope = new SequelScope("conexao")
@@ -680,7 +680,7 @@ conexão aninha no escopo da thread que a invocou.
         
       });
       
-      var segunda = Task.Factory.StartNew(() =>
+      var segunda = Task.Factory.StartCreate(() =>
       {
         
         using (var scope = new SequelScope("conexao")
@@ -794,7 +794,7 @@ App.config
                 // conexão.
                 for (int i = 0; i < 10; i++)
                 {
-                  Task.Factory.StartNew(() =>
+                  Task.Factory.StartCreate(() =>
                   {
               
                     using (var scope = new SequelScope.Shared("conexao")
@@ -808,7 +808,7 @@ App.config
                 // Esta thread receberá sua conexão normalmente porque
                 // tem seu escopo criado com SequelScope(), que não
                 // participa do compartilhamento de escopo.
-                Task.Factory.StartNew(() =>
+                Task.Factory.StartCreate(() =>
                 {
             
                   using (var scope = new SequelScope("conexao")
@@ -853,7 +853,7 @@ App.config
                 // conexão.
                 for (int i = 0; i < 10; i++)
                 {
-                  Task.Factory.StartNew(() =>
+                  Task.Factory.StartCreate(() =>
                   {
               
                     using (var scope = new SequelScope.Named("exemplo", "conexao")
@@ -867,7 +867,7 @@ App.config
                 // Esta thread receberá sua conexão normalmente porque
                 // tem um nome de escopo diferente daquele utilizado
                 // mais acima.
-                Task.Factory.StartNew(() =>
+                Task.Factory.StartCreate(() =>
                 {
             
                   using (var scope = new SequelScope.Named("sandbox", "conexao")
@@ -880,7 +880,7 @@ App.config
                 // Esta thread receberá sua conexão normalmente porque
                 // tem seu escopo criado com SequelScope(), que não
                 // participa do compartilhamento de escopo.
-                Task.Factory.StartNew(() =>
+                Task.Factory.StartCreate(() =>
                 {
             
                   using (var scope = new SequelScope("conexao")
@@ -919,7 +919,7 @@ Classe SequelSettings
             // conexão.
             for (int i = 0; i < 10; i++)
             {
-              Task.Factory.StartNew(() =>
+              Task.Factory.StartCreate(() =>
               {
           
                 using (var scope = new SequelScope.Shared("conexao")
@@ -933,7 +933,7 @@ Classe SequelSettings
             // Esta thread receberá sua conexão normalmente porque
             // tem seu escopo criado com SequelScope(), que não
             // participa do compartilhamento de escopo.
-            Task.Factory.StartNew(() =>
+            Task.Factory.StartCreate(() =>
             {
         
               using (var scope = new SequelScope("conexao")
@@ -962,7 +962,7 @@ Classe SequelSettings
             // conexão.
             for (int i = 0; i < 10; i++)
             {
-              Task.Factory.StartNew(() =>
+              Task.Factory.StartCreate(() =>
               {
           
                 using (var scope = new SequelScope.Named("exemplo", "conexao")
@@ -976,7 +976,7 @@ Classe SequelSettings
             // Esta thread receberá sua conexão normalmente porque
             // tem um nome de escopo diferente daquele utilizado
             // mais acima.
-            Task.Factory.StartNew(() =>
+            Task.Factory.StartCreate(() =>
             {
         
               using (var scope = new SequelScope.Named("sandbox", "conexao")
@@ -989,7 +989,7 @@ Classe SequelSettings
             // Esta thread receberá sua conexão normalmente porque
             // tem seu escopo criado com SequelScope(), que não
             // participa do compartilhamento de escopo.
-            Task.Factory.StartNew(() =>
+            Task.Factory.StartCreate(() =>
             {
         
               using (var scope = new SequelScope("conexao")

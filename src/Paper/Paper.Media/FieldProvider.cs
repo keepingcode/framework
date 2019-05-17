@@ -9,6 +9,7 @@ namespace Paper.Media
   /// Provedor de dados de um campo.
   /// </summary>
   [DataContract(Namespace = Namespaces.Default)]
+  [Obsolete("FieldProvider não existe mais. Foi substituido por propriedades no FieldDesign")]
   public class FieldProvider : IMediaObject, IHyperLink
   {
     /// <summary>

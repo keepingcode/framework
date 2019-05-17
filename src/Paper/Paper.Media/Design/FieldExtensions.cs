@@ -27,7 +27,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetPlaceholder(this Field field, string placeholder)
     {
-      field.Placeholder = placeholder;
+      
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.Placeholder = placeholder;
+
       return field;
     }
 
@@ -40,7 +43,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetCategory(this Field field, string category)
     {
-      field.Category = category;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.Category = category;
+
       return field;
     }
 
@@ -89,7 +95,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetDataType(this Field field, string dataType)
     {
-      field.DataType = dataType;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.DataType = dataType;
+
       return field;
     }
 
@@ -101,8 +110,11 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetDataType(this Field field, DataType dataType)
     {
-      field.DataType = dataType.GetName();
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.DataType = dataType.GetName();
       return field;
+
     }
 
     /// <summary>
@@ -113,7 +125,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetDataType(this Field field, Type dataType)
     {
-      field.DataType = Conventions.MakeDataType(dataType);
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.DataType = Conventions.MakeDataType(dataType);
+
       return field;
     }
 
@@ -137,7 +152,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetRequired(this Field field, bool required = true)
     {
-      field.Required = required;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.Required = required;
+
       return field;
     }
 
@@ -188,7 +206,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetAllowMany(this Field field, bool allowMany = true)
     {
-      field.AllowMany = allowMany;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.AllowMany = allowMany;
+
       return field;
     }
 
@@ -200,7 +221,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetAllowRange(this Field field, bool allowRange = true)
     {
-      field.AllowRange = allowRange;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.AllowRange = allowRange;
+
       return field;
     }
 
@@ -212,7 +236,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetAllowWildcards(this Field field, bool allowWildcards = true)
     {
-      field.AllowWildcard = allowWildcards;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.AllowWildcard = allowWildcards;
+
       return field;
     }
 
@@ -224,7 +251,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetMultiline(this Field field, bool multiline = true)
     {
-      field.Multiline = multiline;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.Multiline = multiline;
+
       return field;
     }
 
@@ -236,7 +266,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetMaxLength(this Field field, int maxLength)
     {
-      field.MaxLength = maxLength;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.MaxLength = maxLength;
+
       return field;
     }
 
@@ -248,7 +281,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetMinLength(this Field field, int minLength)
     {
-      field.MinLength = minLength;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.MinLength = minLength;
+
       return field;
     }
 
@@ -260,7 +296,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetPattern(this Field field, string pattern)
     {
-      field.Pattern = pattern;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.Pattern = pattern;
+
       return field;
     }
 
@@ -273,11 +312,14 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetProvider(this Field field, string href, params string[] keys)
     {
-      field.Provider = new FieldProvider
-      {
-        Href = href,
-        Keys = new NameCollection(keys)
-      };
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.Provider = new FieldProvider
+      //{
+      //  Href = href,
+      //  Keys = new NameCollection(keys)
+      //};
+
       return field;
     }
 
@@ -290,16 +332,19 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetProvider(this Field field, string href, IEnumerable<string> keys)
     {
-      if (keys == null)
-      {
-        keys = Enumerable.Empty<string>();
-      }
 
-      field.Provider = new FieldProvider
-      {
-        Href = href,
-        Keys = new NameCollection(keys)
-      };
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //if (keys == null)
+      //{
+      //  keys = Enumerable.Empty<string>();
+      //}
+      //
+      //field.Provider = new FieldProvider
+      //{
+      //  Href = href,
+      //  Keys = new NameCollection(keys)
+      //};
+
       return field;
     }
 
@@ -311,7 +356,10 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetProvider(this Field field, FieldProvider provider)
     {
-      field.Provider = provider;
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.Provider = provider;
+
       return field;
     }
 
@@ -323,8 +371,11 @@ namespace Paper.Media.Design
     /// <returns>A própria instância do campo modificado.</returns>
     public static Field SetProvider(this Field field, Action<FieldProvider> options)
     {
-      field.Provider = new FieldProvider();
-      options?.Invoke(field.Provider);
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.Provider = new FieldProvider();
+      //options?.Invoke(field.Provider);
+
       return field;
     }
 
@@ -364,9 +415,9 @@ namespace Paper.Media.Design
       {
         type = ((ParameterInfo)member).ParameterType;
       }
-      else if (member is FieldInfo)
+      else if (member is System.Reflection.FieldInfo)
       {
-        type = ((FieldInfo)member).FieldType;
+        type = ((System.Reflection.FieldInfo)member).FieldType;
       }
       else
       {
@@ -427,47 +478,59 @@ namespace Paper.Media.Design
 
     private static void SetDefaultDataType(Field field, object member, Type type)
     {
-      var attr = member._GetAttribute<DataTypeAttribute>();
-      if (attr != null)
-      {
-        field.DataType = attr.DataType;
-      }
-      else
-      {
-        field.SetDataType(type);
-      }
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //var attr = member._GetAttribute<DataTypeAttribute>();
+      //if (attr != null)
+      //{
+      //  field.DataType = attr.DataType;
+      //}
+      //else
+      //{
+      //  field.SetDataType(type);
+      //}
+
     }
 
     private static void SetDefaultRequired(Field field, object member, Type type)
     {
-      var attr = member._GetAttribute<RequiredAttribute>();
-      if (attr != null)
-      {
-        field.Required = attr.Required;
-      }
-      else
-      {
-        field.Required = type.IsValueType && !Is.Nullable(type);
-      }
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //var attr = member._GetAttribute<RequiredAttribute>();
+      //if (attr != null)
+      //{
+      //  field.Required = attr.Required;
+      //}
+      //else
+      //{
+      //  field.Required = type.IsValueType && !Is.Nullable(type);
+      //}
+
     }
 
     private static void SetDefaultProvider(Field field, object member, Type type)
     {
-      var attr = member._GetAttribute<ProviderAttribute>();
-      if (attr != null)
-      {
-        field.Provider = new FieldProvider()._CopyFrom(attr);
-      }
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //var attr = member._GetAttribute<ProviderAttribute>();
+      //if (attr != null)
+      //{
+      //  field.Provider = new FieldProvider()._CopyFrom(attr);
+      //}
+
     }
 
     private static void SetDefaultRange(Field field, object member, Type type)
     {
-      var attr = member._GetAttribute<RangeAttribute>();
-      if (attr != null)
-      {
-        field.MinLength = attr.Min;
-        field.MaxLength = attr.Max;
-      }
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //var attr = member._GetAttribute<RangeAttribute>();
+      //if (attr != null)
+      //{
+      //  field.MinLength = attr.Min;
+      //  field.MaxLength = attr.Max;
+      //}
+
     }
 
     private static void SetDefaultOptions(Field field, object member, Type type)

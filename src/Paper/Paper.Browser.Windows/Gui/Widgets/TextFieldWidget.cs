@@ -78,20 +78,22 @@ namespace Paper.Browser.Windows.Gui.Widgets
 
     public IEnumerable<string> GetErrors()
     {
-      if (Field == null)
-        yield break;
 
-      if (Field.Required == true && string.IsNullOrEmpty(txValue.Text))
-        yield return "Campo requerido";
-
-      if (Field.MinLength != null && txValue.Text.Length < Field.MinLength)
-        yield return $"Deve ter no mínimo {Field.MinLength} caracteres";
-
-      if (Field.MaxLength != null && txValue.Text.Length > Field.MaxLength)
-        yield return $"Deve ter no máximo {Field.MaxLength} caracteres";
-
-      if (Field.Pattern != null && Regex.IsMatch(txValue.Text, Field.Pattern))
-        yield return $"Não corresponde ao padrão de preenchimento: {Field.Pattern}";
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //      if (Field == null)
+      //yield break;
+      //
+      //if (Field.Required == true && string.IsNullOrEmpty(txValue.Text))
+      //  yield return "Campo requerido";
+      //
+      //if (Field.MinLength != null && txValue.Text.Length < Field.MinLength)
+      //  yield return $"Deve ter no mínimo {Field.MinLength} caracteres";
+      //
+      //if (Field.MaxLength != null && txValue.Text.Length > Field.MaxLength)
+      //  yield return $"Deve ter no máximo {Field.MaxLength} caracteres";
+      //
+      //if (Field.Pattern != null && Regex.IsMatch(txValue.Text, Field.Pattern))
+      //  yield return $"Não corresponde ao padrão de preenchimento: {Field.Pattern}";
     }
 
     private void UpdateLayout()
