@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="site\dist\" />
+    <EmbeddedResource Include="site\dist\**" />
   </ItemGroup>
 
 </Project>
