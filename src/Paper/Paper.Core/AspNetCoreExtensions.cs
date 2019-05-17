@@ -56,7 +56,8 @@ namespace Paper.Core
         .Map($"{prefix}/Api/1", chain => chain
           .UseRewriter(new RewriteOptions().AddRedirect("^$", "/Catalog"))
           .UseMiddleware<Middleware>()
-        );
+        )
+        .UseMiddleware<ResourceMiddleware>();
     }
 
     #endregion
