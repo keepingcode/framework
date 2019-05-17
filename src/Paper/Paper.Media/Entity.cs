@@ -36,12 +36,6 @@ namespace Paper.Media
 
     /// <summary>
     /// Coleção das propriedades da entidade. Opcional.
-    ///// </summary>
-    //[DataMember(EmitDefaultValue = false, Order = 40)]
-    //public virtual PropertyCollection Properties { get; set; }
-
-    /// <summary>
-    /// Coleção das propriedades da entidade. Opcional.
     /// </summary>
     [DataMember(EmitDefaultValue = false, Order = 40)]
     public virtual PropertyMap Properties { get; set; }
