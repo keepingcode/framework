@@ -1,0 +1,52 @@
+{
+  "name": "prototipaper",
+  "version": "0.0.1",
+  "description": "Protótipo do paper utilizando o framework Quasar",
+  "productName": "Paper Bot Prototipo",
+  "cordovaId": "org.cordova.quasar.app",
+  "author": "francine <francinescosta@gmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue src",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "enumify": "^1.0.4",
+    "is-absolute-url": "^2.1.0",
+    "is-url-external": "^1.0.3",
+    "moment": "^2.24.0",
+    "siren-parser": "^8.0.0",
+    "v-money": "^0.8.1",
+    "vue2-filters": "^0.5.1"
+  },
+  "devDependencies": {
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "devtron": "^1.4.0",
+    "electron": "^3.0.8",
+    "electron-debug": "^2.0.0",
+    "electron-devtools-installer": "^2.2.4",
+    "eslint": "^5.10.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "pug": "^2.0.3",
+    "pug-loader": "^2.4.0",
+    "pug-plain-loader": "^1.0.0",
+    "quasar-cli": "^0.17.0",
+    "strip-ansi": "=3.0.1"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
+  "resolutions": {
+    "ajv": "6.8.1"
+  }
+}
