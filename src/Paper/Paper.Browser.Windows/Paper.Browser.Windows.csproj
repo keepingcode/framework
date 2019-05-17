@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{298D802E-E00E-4DAB-9523-E6FBABBEB6AB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Paper.Browser.Windows</RootNamespace>
+    <AssemblyName>Paper.Browser.Windows</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Gui\ActionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\ActionForm.Designer.cs">
+      <DependentUpon>ActionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Extent.cs" />
+    <Compile Include="Gui\FormsExtensions.cs" />
+    <Compile Include="Gui\IFieldWidget.cs" />
+    <Compile Include="Gui\Layouts\FixedWindowLayout.cs" />
+    <Compile Include="Gui\Layouts\FlexWindowLayout.cs" />
+    <Compile Include="Gui\Layouts\IWindowLayout.cs" />
+    <Compile Include="Gui\Layouts\WindowLayouts.cs" />
+    <Compile Include="Gui\Panels\TablePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Panels\TablePanel.Designer.cs">
+      <DependentUpon>TablePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Widgets\CheckboxFieldWidget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Widgets\CheckboxFieldWidget.Designer.cs">
+      <DependentUpon>CheckboxFieldWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Widgets\HiddenFieldWidget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Widgets\HiddenFieldWidget.Designer.cs">
+      <DependentUpon>HiddenFieldWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Widgets\DatetimeLocalFieldWidget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Widgets\DatetimeLocalFieldWidget.Designer.cs">
+      <DependentUpon>DatetimeLocalFieldWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Widgets\NumberFieldWidget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Widgets\NumberFieldWidget.Designer.cs">
+      <DependentUpon>NumberFieldWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Widgets\SelectFieldWidget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Widgets\SelectFieldWidget.Designer.cs">
+      <DependentUpon>SelectFieldWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Widgets\SelectRecordFieldWidget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Widgets\SelectRecordFieldWidget.Designer.cs">
+      <DependentUpon>SelectRecordFieldWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Widgets\tem.cs" />
+    <Compile Include="Gui\Widgets\TextFieldWidget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Widgets\TextFieldWidget.Designer.cs">
+      <DependentUpon>TextFieldWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Widgets\WidgetExtensions.cs" />
+    <Compile Include="Lib\Mode.cs" />
+    <Compile Include="Lib\WindowAction.cs" />
+    <Compile Include="Lib\Pages\IPage.cs" />
+    <Compile Include="Lib\Pages\ISelectablePage.cs" />
+    <Compile Include="Gui\Metrics.cs" />
+    <Compile Include="Gui\DesktopForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\DesktopForm.Designer.cs">
+      <DependentUpon>DesktopForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\WindowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\WindowForm.Designer.cs">
+      <DependentUpon>WindowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\WidgetGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Gui\WidgetGrid.Designer.cs">
+      <DependentUpon>WidgetGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\WidgetGridLayout.cs" />
+    <Compile Include="Gui\IWidget.cs" />
+    <Compile Include="Helpers\Formatter.cs" />
+    <Compile Include="Gui\Widgets\TextWidget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Gui\Widgets\TextWidget.Designer.cs">
+      <DependentUpon>TextWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Lib\Content.cs" />
+    <Compile Include="Lib\Desktop.cs" />
+    <Compile Include="Lib\DesktopExtensions.cs" />
+    <Compile Include="Lib\Http.cs" />
+    <Compile Include="Lib\HttpClient.cs" />
+    <Compile Include="Lib\HttpClientExtensions.cs" />
+    <Compile Include="Lib\Pages\RecordPage.cs" />
+    <Compile Include="Lib\Pages\TablePage.cs" />
+    <Compile Include="Lib\Target.cs" />
+    <Compile Include="Lib\TargetExtensions.cs" />
+    <Compile Include="Lib\TargetNames.cs" />
+    <Compile Include="Lib\Window.cs" />
+    <Compile Include="Lib\WindowExtensions.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <EmbeddedResource Include="Gui\ActionForm.resx">
+      <DependentUpon>ActionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\DesktopForm.resx">
+      <DependentUpon>DesktopForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Panels\TablePanel.resx">
+      <DependentUpon>TablePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Widgets\CheckboxFieldWidget.resx">
+      <DependentUpon>CheckboxFieldWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Widgets\DatetimeLocalFieldWidget.resx">
+      <DependentUpon>DatetimeLocalFieldWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Widgets\NumberFieldWidget.resx">
+      <DependentUpon>NumberFieldWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Widgets\SelectFieldWidget.resx">
+      <DependentUpon>SelectFieldWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Widgets\SelectRecordFieldWidget.resx">
+      <DependentUpon>SelectRecordFieldWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Widgets\TextFieldWidget.resx">
+      <DependentUpon>TextFieldWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\WindowForm.resx">
+      <DependentUpon>WindowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\WidgetGrid.resx">
+      <DependentUpon>WidgetGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Widgets\TextWidget.resx">
+      <DependentUpon>TextWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\toolset\Toolset\Toolset.csproj">
+      <Project>{1069961a-0b85-4c18-80da-d35084eed1e5}</Project>
+      <Name>Toolset</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Paper.Media\Paper.Media.csproj">
+      <Project>{baf05d3d-51f7-470b-a304-7a3a535b7f9e}</Project>
+      <Name>Paper.Media</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

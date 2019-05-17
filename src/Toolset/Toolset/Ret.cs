@@ -136,11 +136,11 @@ namespace Toolset
       };
     }
 
-    public static Ret<T> NotFound<T>(T value)
+    public static Ret<T> NotFound<T>(T path)
     {
       return new Ret<T>
       {
-        Value = value,
+        Value = path,
         Status = new RetStatus
         {
           Code = HttpStatusCode.NotFound
