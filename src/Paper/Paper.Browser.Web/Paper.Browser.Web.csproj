@@ -23,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="site\dist\**" />
+    <EmbeddedResource Include="site\dist\**">
+      <LogicalName>\%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

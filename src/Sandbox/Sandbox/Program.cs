@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Paper.Browser.Web;
 using Paper.Media;
 using Toolset;
 using Toolset.Collections;
@@ -18,27 +19,26 @@ namespace Sandbox
     {
       try
       {
-        var json = @"
-{
-  ""name"": ""Field"",
-  ""value"":
-    {
-      ""title"": ""Title"",
-      ""value"": 10
-    }
-}
-";
+        var loader = new ResourceLoader();
 
-        using (var reader = new JsonReader(new StringReader(json)))
-        using (var writer = new GraphWriter<Field>())
+        foreach (var path in loader.ResourcePaths)
         {
-          reader.CopyTo(writer);
-
-          var user = writer.Graphs.FirstOrDefault();
-          Debug.WriteLine(user.Name);
-          Debug.WriteLine(user.Value);
+          Debug.WriteLine(path);
         }
 
+        Debug.WriteLine("- - -");
+
+        var ret = loader.FindResources(@"??d.file");
+        Debug.WriteLine(ret.Status); 
+        foreach (var path in ret.Value)
+        {
+          var content = loader.LoadResourceAsText(path);
+          Debug.Write(path);
+          Debug.Write(": ");
+          Debug.Write(content.Status);
+          Debug.Write(": ");
+          Debug.WriteLine(content);
+        }
       }
       catch (Exception ex)
       {

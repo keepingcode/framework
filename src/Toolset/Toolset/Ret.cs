@@ -244,6 +244,83 @@ namespace Toolset
       };
     }
 
+    public static Ret<T> FailWithValue<T>(HttpStatusCode status, string faultMessage, T value)
+    {
+      return new Ret
+      {
+        Value = value,
+        Status = new RetStatus
+        {
+          Code = status
+        },
+        Fault = new RetFault
+        {
+          Message = faultMessage
+        }
+      };
+    }
+
+    public static Ret<T> FailWithValue<T>(HttpStatusCode status, Exception exception, T value)
+    {
+      return new Ret
+      {
+        Value = value,
+        Status = new RetStatus
+        {
+          Code = status
+        },
+        Fault = new RetFault
+        {
+          Message = exception?.GetCauseMessage(),
+          Exception = exception
+        }
+      };
+    }
+
+    public static Ret<T> FailWithValue<T>(HttpStatusCode status, string faultMessage, Exception exception, T value)
+    {
+      return new Ret
+      {
+        Value = value,
+        Status = new RetStatus
+        {
+          Code = status
+        },
+        Fault = new RetFault
+        {
+          Message = faultMessage ?? exception.GetCauseMessage(),
+          Exception = exception
+        }
+      };
+    }
+
+    public static Ret<T> FailWithValue<T>(string faultMessage, T value)
+    {
+      return FailWithValue<T>(faultMessage, null, value);
+    }
+
+    public static Ret<T> FailWithValue<T>(Exception exception, T value)
+    {
+      return FailWithValue<T>(null, exception, value);
+    }
+
+    public static Ret<T> FailWithValue<T>(string faultMessage, Exception exception, T value)
+    {
+      return new Ret
+      {
+        Value = value,
+        Status = new RetStatus
+        {
+          Code = HttpStatusCode.InternalServerError
+        },
+        Fault = new RetFault
+        {
+          Message = faultMessage ?? exception?.GetCauseMessage(),
+          Exception = exception
+        }
+      };
+    }
+
     #endregion
   }
 }
