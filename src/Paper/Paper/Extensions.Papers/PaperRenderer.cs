@@ -287,7 +287,10 @@ namespace Paper.Extensions.Papers
           ).ToArray();
 
           action.AddField("Records", opt => opt
-            .SetTitle("Registros Afetados")
+
+            // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+            //.SetTitle("Registros Afetados")
+
             .SetPlaceholder("Selecione os registros afetados")
             .SetType(FieldTypeNames.SelectRecord)
             .SetDataType(DataTypeNames.Record)

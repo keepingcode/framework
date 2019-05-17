@@ -405,7 +405,9 @@ namespace Paper.Media.Design
     {
       var field = GetOrAddField(action.WithFields(), name);
 
-      field.SetTitle(title ?? name.ChangeCase(TextCase.ProperCase));
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //field.SetTitle(title ?? name.ChangeCase(TextCase.ProperCase));
+
       field.SetDataType(dataType ?? DataTypeNames.String);
 
       if (options != null)
@@ -417,29 +419,31 @@ namespace Paper.Media.Design
         // Aplicando padroes extendidos
         if (allowMulti)
         {
-          switch (field.DataType)
-          {
-            case DataTypeNames.Boolean:
-              break;
 
-            case DataTypeNames.Integer:
-            case DataTypeNames.Decimal:
-            case DataTypeNames.Datetime:
-            case DataTypeNames.Date:
-            case DataTypeNames.Time:
-              field.SetAllowMany();
-              field.SetAllowRange();
-              break;
-
-            case DataTypeNames.String:
-              field.SetAllowMany();
-              field.SetAllowWildcards();
-              break;
-
-            case DataTypeNames.Record:
-              field.SetAllowMany();
-              break;
-          }
+          // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+          //switch (field.DataType)
+          //{
+          //  case DataTypeNames.Boolean:
+          //    break;
+          //
+          //  case DataTypeNames.Integer:
+          //  case DataTypeNames.Decimal:
+          //  case DataTypeNames.Datetime:
+          //  case DataTypeNames.Date:
+          //  case DataTypeNames.Time:
+          //    field.SetAllowMany();
+          //    field.SetAllowRange();
+          //    break;
+          //
+          //  case DataTypeNames.String:
+          //    field.SetAllowMany();
+          //    field.SetAllowWildcards();
+          //    break;
+          //
+          //  case DataTypeNames.Record:
+          //    field.SetAllowMany();
+          //    break;
+          //}
         }
       }
     }
@@ -502,7 +506,7 @@ namespace Paper.Media.Design
 
       var memberType =
         (expression.Member as PropertyInfo)?.PropertyType
-        ?? (expression.Member as FieldInfo)?.FieldType
+        ?? (expression.Member as System.Reflection.FieldInfo)?.FieldType
         ?? typeof(string);
 
       fieldName = Conventions.MakeName(expression.Member.Name);

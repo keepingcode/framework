@@ -124,56 +124,65 @@ namespace Paper.Browser.Windows.Gui.Widgets
 
     public IEnumerable<string> GetErrors()
     {
-      if (Field == null)
-        yield break;
 
-      if (Field.Required == true && string.IsNullOrEmpty(txValue.Text))
-        yield return "Campo requerido";
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //
+      //if (Field == null)
+      //  yield break;
+      //
+      //if (Field.Required == true && string.IsNullOrEmpty(txValue.Text))
+      //  yield return "Campo requerido";
+      //
+      //if (txValue.Text == "")
+      //  yield break;
+      //
+      //if (Field.Pattern != null && Regex.IsMatch(txValue.Text, Field.Pattern))
+      //  yield return $"Não corresponde ao padrão de preenchimento: {Field.Pattern}";
+      //
+      //if (Field.DataType == DataTypeNames.Integer)
+      //{
+      //  if (!Regex.IsMatch(txValue.Text, @"^-?(([0-9]{1,2}\.)?([0-9]{3}\.)*[0-9]{3}|[0-9]+)$"))
+      //    yield return $"O número deve ser um inteiro válido sem casas decimais.";
+      //}
+      //else
+      //{
+      //  if (!Regex.IsMatch(txValue.Text, @"^-?(([0-9]{1,2}\.)?([0-9]{3}\.)*[0-9]{3}|[0-9]+)(,([0-9]{3}(\.[0-9]{3})*(\.[0-9]{1,2})?|[0-9]+))?$"))
+      //    yield return $"O número deve ser um valor decimal válido, com casas decimais separadas por vírgula e, opcionalmente, ponto como separador de milhar";
+      //}
 
-      if (txValue.Text == "")
-        yield break;
-
-      if (Field.Pattern != null && Regex.IsMatch(txValue.Text, Field.Pattern))
-        yield return $"Não corresponde ao padrão de preenchimento: {Field.Pattern}";
-
-      if (Field.DataType == DataTypeNames.Integer)
-      {
-        if (!Regex.IsMatch(txValue.Text, @"^-?(([0-9]{1,2}\.)?([0-9]{3}\.)*[0-9]{3}|[0-9]+)$"))
-          yield return $"O número deve ser um inteiro válido sem casas decimais.";
-      }
-      else
-      {
-        if (!Regex.IsMatch(txValue.Text, @"^-?(([0-9]{1,2}\.)?([0-9]{3}\.)*[0-9]{3}|[0-9]+)(,([0-9]{3}(\.[0-9]{3})*(\.[0-9]{1,2})?|[0-9]+))?$"))
-          yield return $"O número deve ser um valor decimal válido, com casas decimais separadas por vírgula e, opcionalmente, ponto como separador de milhar";
-      }
     }
 
     private bool TryCast(object value, out object number)
     {
-      if (Field.DataType == DataTypeNames.Integer)
-      {
-        var ok = Change.Try(value, out int output);
-        number = output;
-        return ok;
-      }
-      else
-      {
-        var ok = Change.Try(value, out decimal output);
-        number = output;
-        return ok;
-      }
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //if (Field.DataType == DataTypeNames.Integer)
+      //{
+      //  var ok = Change.Try(value, out int output);
+      //  number = output;
+      //  return ok;
+      //}
+      //else
+      //{
+      //  var ok = Change.Try(value, out decimal output);
+      //  number = output;
+      //  return ok;
+      //}
+
     }
 
     private void UpdateLayout()
     {
-      if (Field?.DataType == DataTypeNames.Decimal)
-      {
-        GridExtent = new Extent(3, 1);
-      }
-      else
-      {
-        GridExtent = new Extent(2, 1); 
-      }
+
+      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+      //if (Field?.DataType == DataTypeNames.Decimal)
+      //{
+      //  GridExtent = new Extent(3, 1);
+      //}
+      //else
+      //{
+      //  GridExtent = new Extent(2, 1); 
+      //}
     }
   }
 }

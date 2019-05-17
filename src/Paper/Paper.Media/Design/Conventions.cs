@@ -159,7 +159,7 @@ namespace Paper.Media.Design
       {
         type = (Type)member;
       }
-      else if (member is FieldInfo field)
+      else if (member is System.Reflection.FieldInfo field)
       {
         type = field.FieldType;
       }

@@ -261,7 +261,7 @@ namespace Toolset.Reflection
       }
     }
 
-    public static object _SetNew(this object target, string propertyName, params object[] args)
+    public static object _SetCreate(this object target, string propertyName, params object[] args)
     {
       var type = _GetPropertyInfo(target, propertyName)?.PropertyType;
       if (type == null)
@@ -273,9 +273,9 @@ namespace Toolset.Reflection
       return value;
     }
 
-    public static T _SetNew<T>(this object target, string propertyName, params object[] args)
+    public static T _SetCreate<T>(this object target, string propertyName, params object[] args)
     {
-      return (T)_SetNew(target, propertyName, args);
+      return (T)_SetCreate(target, propertyName, args);
     }
 
     public static bool _TrySet(this object target, string propertyName, object value)

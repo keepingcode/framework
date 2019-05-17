@@ -66,50 +66,6 @@
     <Compile Include="Gui\Panels\TablePanel.Designer.cs">
       <DependentUpon>TablePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Widgets\CheckboxFieldWidget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Gui\Widgets\CheckboxFieldWidget.Designer.cs">
-      <DependentUpon>CheckboxFieldWidget.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\Widgets\HiddenFieldWidget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Gui\Widgets\HiddenFieldWidget.Designer.cs">
-      <DependentUpon>HiddenFieldWidget.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\Widgets\DatetimeLocalFieldWidget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Gui\Widgets\DatetimeLocalFieldWidget.Designer.cs">
-      <DependentUpon>DatetimeLocalFieldWidget.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\Widgets\NumberFieldWidget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Gui\Widgets\NumberFieldWidget.Designer.cs">
-      <DependentUpon>NumberFieldWidget.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\Widgets\SelectFieldWidget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Gui\Widgets\SelectFieldWidget.Designer.cs">
-      <DependentUpon>SelectFieldWidget.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\Widgets\SelectRecordFieldWidget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Gui\Widgets\SelectRecordFieldWidget.Designer.cs">
-      <DependentUpon>SelectRecordFieldWidget.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\Widgets\tem.cs" />
-    <Compile Include="Gui\Widgets\TextFieldWidget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Gui\Widgets\TextFieldWidget.Designer.cs">
-      <DependentUpon>TextFieldWidget.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\Widgets\WidgetExtensions.cs" />
     <Compile Include="Lib\Mode.cs" />
     <Compile Include="Lib\WindowAction.cs" />
     <Compile Include="Lib\Pages\IPage.cs" />
@@ -136,12 +92,6 @@
     <Compile Include="Gui\WidgetGridLayout.cs" />
     <Compile Include="Gui\IWidget.cs" />
     <Compile Include="Helpers\Formatter.cs" />
-    <Compile Include="Gui\Widgets\TextWidget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Gui\Widgets\TextWidget.Designer.cs">
-      <DependentUpon>TextWidget.cs</DependentUpon>
-    </Compile>
     <Compile Include="Lib\Content.cs" />
     <Compile Include="Lib\Desktop.cs" />
     <Compile Include="Lib\DesktopExtensions.cs" />
@@ -167,32 +117,11 @@
     <EmbeddedResource Include="Gui\Panels\TablePanel.resx">
       <DependentUpon>TablePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Widgets\CheckboxFieldWidget.resx">
-      <DependentUpon>CheckboxFieldWidget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Widgets\DatetimeLocalFieldWidget.resx">
-      <DependentUpon>DatetimeLocalFieldWidget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Widgets\NumberFieldWidget.resx">
-      <DependentUpon>NumberFieldWidget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Widgets\SelectFieldWidget.resx">
-      <DependentUpon>SelectFieldWidget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Widgets\SelectRecordFieldWidget.resx">
-      <DependentUpon>SelectRecordFieldWidget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Widgets\TextFieldWidget.resx">
-      <DependentUpon>TextFieldWidget.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Gui\WindowForm.resx">
       <DependentUpon>WindowForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\WidgetGrid.resx">
       <DependentUpon>WidgetGrid.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Widgets\TextWidget.resx">
-      <DependentUpon>TextWidget.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -226,6 +155,9 @@
       <Project>{baf05d3d-51f7-470b-a304-7a3a535b7f9e}</Project>
       <Name>Paper.Media</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Gui\Widgets\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
