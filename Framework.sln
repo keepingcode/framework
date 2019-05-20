@@ -51,11 +51,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox.Host", "src\Sandbox
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paper", "src\Paper\Paper\Paper.csproj", "{DCC9719C-0A6F-434D-9948-B285EC0E24F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paper.Browser.Web", "src\Paper\Paper.Browser.Web\Paper.Browser.Web.csproj", "{248CFEBE-9D5E-498E-8F2A-87DBF967982C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paper.Browser.Web", "src\Paper\Paper.Browser.Web\Paper.Browser.Web.csproj", "{248CFEBE-9D5E-498E-8F2A-87DBF967982C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paper.Browser.Windows", "src\Paper\Paper.Browser.Windows\Paper.Browser.Windows.csproj", "{298D802E-E00E-4DAB-9523-E6FBABBEB6AB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paper.Media2", "src\Paper\Paper.Media2\Paper.Media2.csproj", "{01B55516-C753-49B0-A328-EA09B3957C1B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paper.Media3", "src\Paper\Paper.Media3\Paper.Media3.csproj", "{5A0FF4C3-0010-4782-A567-3E014D4ED4C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +153,10 @@ Global
 		{01B55516-C753-49B0-A328-EA09B3957C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01B55516-C753-49B0-A328-EA09B3957C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01B55516-C753-49B0-A328-EA09B3957C1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A0FF4C3-0010-4782-A567-3E014D4ED4C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A0FF4C3-0010-4782-A567-3E014D4ED4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A0FF4C3-0010-4782-A567-3E014D4ED4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A0FF4C3-0010-4782-A567-3E014D4ED4C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,6 +184,7 @@ Global
 		{248CFEBE-9D5E-498E-8F2A-87DBF967982C} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
 		{298D802E-E00E-4DAB-9523-E6FBABBEB6AB} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
 		{01B55516-C753-49B0-A328-EA09B3957C1B} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
+		{5A0FF4C3-0010-4782-A567-3E014D4ED4C0} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BFDF9B8E-0286-4B26-BD6B-0213BB8E5A3A}
