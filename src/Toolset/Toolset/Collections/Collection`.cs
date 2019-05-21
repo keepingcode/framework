@@ -115,6 +115,14 @@ namespace Toolset.Collections
       OnCommitAdd(store, items);
     }
 
+    public virtual void AddMany(params T[] items)
+    {
+      if (IsReadOnly)
+        throw new UnmodifiableException("A coleção não pode ser modificada.");
+
+      OnCommitAdd(store, items);
+    }
+
     public virtual void Clear()
     {
       if (IsReadOnly)

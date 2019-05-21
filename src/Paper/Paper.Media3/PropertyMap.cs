@@ -16,7 +16,13 @@ namespace Paper.Media3
     private readonly HashMap cache;
     private readonly Map graph;
 
-    public PropertyMap(IEntity entity)
+    public PropertyMap()
+    {
+      cache = new HashMap();
+      graph = new Map(null);
+    }
+
+    internal PropertyMap(IEntity entity)
     {
       cache = new HashMap();
 
@@ -91,6 +97,20 @@ namespace Paper.Media3
       return value;
     }
 
+    public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+    {
+      var enumerable =
+        from name in PropertyNames
+        let value = this[name]
+        select KeyValuePair.Create(name, value);
+      return enumerable.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
+
     private class Map : IPropertyMap
     {
       private readonly Func<object> getter;
@@ -145,6 +165,20 @@ namespace Paper.Media3
             graph._Set(propertyName, value);
           }
         }
+      }
+
+      public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+      {
+        var enumerable =
+          from name in PropertyNames
+          let value = this[name]
+          select KeyValuePair.Create(name, value);
+        return enumerable.GetEnumerator();
+      }
+
+      IEnumerator IEnumerable.GetEnumerator()
+      {
+        return GetEnumerator();
       }
     }
 

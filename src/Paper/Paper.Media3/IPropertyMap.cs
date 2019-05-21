@@ -8,11 +8,10 @@ using Toolset.Reflection;
 
 namespace Paper.Media3
 {
-  public interface IPropertyMap
+  public interface IPropertyMap : IEnumerable<KeyValuePair<string, object>>
   {
     IEnumerable<string> PropertyNames { get; }
 
     object this[string propertyName] { get; set; }
   }
 }
-
