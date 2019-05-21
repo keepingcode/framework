@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Paper.Media3.Design;
 using Toolset;
 
 namespace Paper.Media3
@@ -10,9 +11,13 @@ namespace Paper.Media3
     private NameCollection _class;
     private string _title;
     private NameCollection _rel;
-    private ValueMap _properties;
     private EntityCollection _entities;
     private LinkCollection _links;
+
+    public Entity()
+    {
+      this.Properties = new PropertyMap(this);
+    }
 
     public NameCollection Class
     {
@@ -22,7 +27,7 @@ namespace Paper.Media3
 
     public string Title
     {
-      get => _title ?? Change.To<string>(Properties["title"]);
+      get => _title ?? Change.To<string>(Properties["Title"]);
       set => _title = value;
     }
 
@@ -32,10 +37,9 @@ namespace Paper.Media3
       set => _rel = value;
     }
 
-    public ValueMap Properties
+    public PropertyMap Properties
     {
-      get => _properties ?? (_properties = new ValueMap());
-      set => _properties = value;
+      get;
     }
 
     public EntityCollection Entities
@@ -48,6 +52,12 @@ namespace Paper.Media3
     {
       get => _links ?? (_links = new LinkCollection());
       set => _links = value;
+    }
+
+    public static DataEntity<T> Create<T>(T data)
+      where T : class
+    {
+      return new DataEntity<T>(data);
     }
   }
 }

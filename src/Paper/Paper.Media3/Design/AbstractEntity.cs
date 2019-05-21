@@ -7,10 +7,14 @@ namespace Paper.Media3.Design
   public abstract class AbstractEntity : IEntity
   {
     private NameCollection _class;
-    private string _title;
     private NameCollection _rel;
     private EntityCollection _entities;
     private LinkCollection _links;
+
+    public AbstractEntity()
+    {
+      this.Properties = new PropertyMap(this);
+    }
 
     public virtual NameCollection Class
     {
@@ -28,6 +32,11 @@ namespace Paper.Media3.Design
     {
       get => _rel ?? (_rel = new NameCollection());
       set => _rel = value;
+    }
+
+    public PropertyMap Properties
+    {
+      get;
     }
 
     public virtual EntityCollection Entities

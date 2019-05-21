@@ -32,9 +32,13 @@ namespace Toolset
       Max = max;
     }
 
+    [Ignore]
     public bool IsMinSet => Min != null;
+
+    [Ignore]
     public bool IsMaxSet => Max != null;
 
+    [Ignore]
     public Type RawType { get; }
 
     public object Min

@@ -32,13 +32,22 @@ namespace Toolset
       this.RawValue = rawValue;
     }
 
+    [Ignore]
     public Type RawType { get; }
 
+    [Ignore]
     public VarKind Kind { get; set; }
 
+    [Ignore]
     public bool IsNull => Kind == VarKind.Null;
+
+    [Ignore]
     public bool IsValue => Kind == VarKind.Value;
+
+    [Ignore]
     public bool IsArray => Kind == VarKind.Array;
+
+    [Ignore]
     public bool IsRange => Kind == VarKind.Range;
 
     public object RawValue
@@ -110,18 +119,21 @@ namespace Toolset
       }
     }
 
+    [Ignore]
     public object Value
     {
       get => IsValue ? RawValue : Default.Of(RawType);
       set => RawValue = value;
     }
 
+    [Ignore]
     public IList Array
     {
       get => IsArray ? (IList)RawValue : null;
       set => RawValue = value;
     }
 
+    [Ignore]
     public Range Range
     {
       get => IsRange ? (Range)RawValue : null;
@@ -135,32 +147,32 @@ namespace Toolset
         : Change.To<string>(RawValue);
     }
 
-    public static implicit operator Var(object[] value)
+    public static explicit operator Var(object[] value)
     {
       return new Var(value);
     }
 
-    public static implicit operator Var(List<object> value)
+    public static explicit operator Var(List<object> value)
     {
       return new Var(value);
     }
 
-    public static implicit operator Var(Range value)
+    public static explicit operator Var(Range value)
     {
       return new Var(value);
     }
 
-    public static implicit operator object[] (Var value)
+    public static explicit operator object[] (Var value)
     {
       return value.Array as object[] ?? value.Array?.Cast<object>().ToArray();
     }
 
-    public static implicit operator List<object>(Var value)
+    public static explicit operator List<object>(Var value)
     {
       return value.Array as List<object> ?? value.Array?.Cast<object>().ToList();
     }
 
-    public static implicit operator Range(Var value)
+    public static explicit operator Range(Var value)
     {
       return value.Range;
     }

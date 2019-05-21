@@ -64,6 +64,18 @@ namespace Toolset.Reflection
       }
     }
 
+    public static bool _HasAttribute<T>(this object typeOrObject)
+      where T : Attribute
+    {
+      return _GetAttribute<T>(typeOrObject) != null;
+    }
+
+    public static bool _HasAttribute<T>(this object typeOrObject, string propertyOrMethodName)
+      where T : Attribute
+    {
+      return _GetAttribute<T>(typeOrObject, propertyOrMethodName) != null;
+    }
+
     public static T _GetAttribute<T>(this object typeOrObject)
       where T : Attribute
     {

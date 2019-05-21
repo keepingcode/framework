@@ -13,6 +13,8 @@ namespace Paper.Media3
 
     NameCollection Rel { get; set; }
 
+    PropertyMap Properties { get; }
+
     EntityCollection Entities { get; set; }
 
     LinkCollection Links { get; set; }
