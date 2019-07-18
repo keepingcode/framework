@@ -8,228 +8,194 @@
     )
       q-page(class="self-center")
 
-        h6(class="margin-bottom") {{ title }}
+        h6(class="margin-bottom") {{ $paper.browser.title }}
 
         q-table(
+          dense
           row-key="id"
           :data="items"
           :columns="columns"
           :pagination.sync="pagination"
-          :selected.sync="selected"
-          selection="multiple"
-          table-style="overflow-y:hidden"
+          :loading="loading"
           no-data-label="Não existem dados para exibir."
           no-results-label="Nenhum registro foi encontrado."
           loading-label="Carregando..."
           hide-bottom
-          dense
+          :class="menuFixedColumnClass"
+          :sort-method="sort"
+          binary-state-sort
         )
-
-          // PAGINAÇÂO
+          // PAGINAÇÃO
           template(
-            slot="top-right"
-            slot-scope="props"
+            v-slot:top
           )
+            div
+            q-space
             q-btn(
-              color="secondary"
               flat
-              :disabled="enableFirstPage"
-              @click.stop="goToFirstPage()"
+              dense
+              color="primary"
+              :disable="!$paper.browser.pagination.hasFirstPage()"
+              @click="goToPage('first')"
             )
               q-icon(name="first_page")
               span(class="gt-sm") Primeira Página
 
             q-btn(
-              color="secondary"
+              class="on-right"
               flat
-              :disable="enablePreviousPage"
-              @click.stop="goToPreviousPage()"
+              dense
+              color="primary"
+              :disable="!$paper.browser.pagination.hasPreviousPage()"
+              @click="goToPage('prev')"
             )
               q-icon(name="navigate_before")
               span(class="gt-sm") Anterior
 
             q-btn(
-              color="secondary"
+              class="on-right"
               flat
-              :disable="enableNextPage"
-              @click.stop="goToNextPage()"
+              dense
+              color="primary"
+              :disable="!$paper.browser.pagination.hasNextPage()"
+              @click="goToPage('next')"
             )
               q-icon(name="navigate_next")
               span(class="gt-sm") Próxima
 
-          // SELEÇÃO
-          q-tr(
-            slot="header"
-            slot-scope="props"
-          )
-            q-th(auto-width)
-              q-checkbox(
-                v-if="props.multipleSelect"
-                v-model="props.selected"
-                indeterminate-value="some"
-              )
-
-            q-th(
-              v-for="col in props.cols"
-              :key="col.name"
-              :props="props"
-            )
-              | {{ col.label }}
-
           // LINHAS CUSTOMIZADAS
-          q-tr(
-            slot="body"
-            slot-scope="rows"
-            :props="rows"
+          template(
+            v-slot:body-cell="props"
           )
-            q-td(auto-width)
-              q-checkbox(
-                color="primary"
-                v-model="rows.selected"
-              )
-
             q-td(
-              v-for="col in rows.cols"
-              :key="col.name"
-              :props="rows"
+              v-if="!isMenuColumn(props.col)"
+              :align="props.col.align_data"
+              :style="hasCelLink(props.row, props.col) ? 'cursor: pointer;' : ''"
             )
+              a(
+                href="#"
+                @click="openCelView(props.row, props.col)"
+                v-if="hasCelLink(props.row, props.col)"
+              )
+                q-paper-label(
+                  :name="props.col.name"
+                  :value="props.row.properties[props.col.name]"
+                  truncate
+                  link
+                )
+
+                q-tooltip {{ getCelTootip(props.row, props.col) }}
+
+                q-paper-visibility-btn(
+                  :text="String(props.row.properties[props.col.name])"
+                  :title="props.col.label"
+                )
+
               q-paper-label(
-                :name="col.name"
-                :value="rows.row[col.name]"
+                :name="props.col.name"
+                :value="props.row.properties[props.col.name]"
                 truncate
+                v-else
               )
 
+              q-paper-visibility-btn(
+                :text="String(props.row.properties[props.col.name])"
+                :title="props.col.label"
+              )
+
+            // Coluna do Menu
             q-td(
-              key="actions"
-              align="center"
+              v-else
               auto-width
-              v-if="showPopover"
             )
               q-btn(
                 size="sm"
                 flat
                 dense
-                color="secondary"
                 icon="more_vert"
                 class="q-mr-xs"
-                @click="toggleActionsPopover(rows)"
               )
-                q-popover(
-                  v-model="displayActionsMenu[rows.key]"
-                )
-                  q-list(
-                    dense
-                    link
-                  )
+                q-menu
+                  q-list(dense)
                     q-item(
-                      v-for="action in actions"
+                      v-for="action in $paper.browser.actions"
                       :key="action.name"
-                      v-close-overlay
-                      @click.native="openAction(action, rows.row)"
+                      v-close-popup
+                      clickable
+                      @click.native="openAction(action, props.row.properties)"
                     )
-                      q-item-main
-                        q-item-tile {{ action.title }}
+                      q-item-section
+                        q-item-label {{ action.title }}
 
 </template>
 
-<style>
-</style>
-
 <script>
-import QPaperLabel from '../components/PaperLabel.vue'
+import QPaperLabel from '../components/QPaperLabel.vue'
+import QPaperVisibilityBtn from '../components/QPaperVisibilityButton.vue'
 export default {
   data: () => ({
     pagination: {
-      rowsPerPage: 0
+      rowsPerPage: 15
     },
     selected: [],
-    displayActionsMenu: false
+    displayActionsMenu: false,
+    menuColumnName: '__menu',
+    loading: false
   }),
 
   computed: {
     items () {
-      var items = this.$paper.record.records.properties
+      var items = []
+      var properties = this.$paper.data.records.properties
+      properties.forEach((property, index) => {
+        var record = this.$paper.data.records.getRecord(index)
+        items.push({
+          properties: property,
+          links: record.links
+        })
+      })
       return items
-    },
-
-    title () {
-      var title = this.$paper.browser.title
-      return title
     },
 
     columns () {
       var columns = []
-      var headers = this.$paper.record.records.headers
+      var headers = this.$paper.data.records.headers
       if (headers) {
         headers.forEach(header => {
+          var isTextDataType = (header.properties.dataType === 'text') ||
+            (header.properties.dataType === 'string')
           columns.push({
             name: header.properties.name,
             type: header.properties.dataType,
             label: header.properties.title,
-            align: this.$paper.utils.isString(header) ? 'left' : 'center'
+            align: 'left',
+            align_data: isTextDataType ? 'left' : 'center',
+            sortable: header.hasLinkByRel('sort')
           })
         })
+        var hasActions = this.$paper.browser.hasActions()
+        if (hasActions) {
+          columns.push({
+            name: this.menuColumnName,
+            align: 'center'
+          })
+        }
       }
       return columns
     },
 
-    firstPage () {
-      var firstPage = this.$paper.browser.pagination.firstPage
-      return firstPage
-    },
-
-    nextPage () {
-      var nextPage = this.$paper.browser.pagination.nextPage
-      return nextPage
-    },
-
-    previousPage () {
-      var previousPage = this.$paper.browser.pagination.previousPage
-      return previousPage
-    },
-
-    enableFirstPage () {
-      var hasFirstPage = this.$paper.browser.pagination.hasFirstPage()
-      return !hasFirstPage
-    },
-
-    enableNextPage () {
-      var hasNextPage = this.$paper.browser.pagination.hasNextPage()
-      return !hasNextPage
-    },
-
-    enablePreviousPage () {
-      var hasPreviousPage = this.$paper.browser.pagination.hasPreviousPage()
-      return !hasPreviousPage
-    },
-
-    showPopover () {
-      return this.$paper.browser.hasActions()
-    },
-
-    actions () {
-      var actions = this.$paper.browser.actions
-      return actions
+    menuFixedColumnClass () {
+      var hasActions = this.$paper.browser.hasActions()
+      return hasActions ? 'last-sticky-column-table' : ''
     }
   },
 
   components: {
-    QPaperLabel
+    QPaperLabel,
+    QPaperVisibilityBtn
   },
 
   methods: {
-    goToFirstPage () {
-      this.$paper.browser.pagination.goToFirstPage()
-    },
-
-    goToNextPage () {
-      this.$paper.browser.pagination.goToNextPage()
-    },
-
-    goToPreviousPage () {
-      this.$paper.browser.pagination.goToPreviousPage()
-    },
-
     toggleActionsPopover (popoverid) {
       this.displayActionsMenu = !this.displayActionsMenu
     },
@@ -237,6 +203,56 @@ export default {
     openAction (action, item) {
       this.$paper.browser.setSelected(item)
       this.$paper.browser.openUrl(action.href)
+    },
+
+    isMenuColumn (column) {
+      var isMenuColumn = column.name === this.menuColumnName
+      return isMenuColumn
+    },
+
+    hasCelLink (row, col) {
+      var hasCelLink = row.links && row.links.some(link => link.rel.includes(col.name))
+      return hasCelLink
+    },
+
+    getRow (row) {
+      var record = this.$paper.data.records.getRecord(row.__index)
+      return record
+    },
+
+    getCelTootip (row, col) {
+      var celLink = row.links.find(link => link.rel.includes(col.name))
+      return celLink ? celLink.title : ''
+    },
+
+    openCelView (row, col) {
+      var celLink = row.links.find(link => link.rel.includes(col.name))
+      this.$paper.browser.openUrl(celLink.href)
+    },
+
+    goToPage (page) {
+      this.loading = true
+      this.$paper.browser.pagination.loadPage(page)
+        .then(response => {
+          if (!response.ok) {
+            this.$q.notify('Erro ao executar a paginação.')
+          }
+          this.loading = false
+        })
+    },
+
+    async sort (rows, sortBy, descending) {
+      console.log('pressed sort', sortBy)
+      this.loading = true
+      return this.$paper.browser.sort(sortBy)
+        .then(response => {
+          console.log('response sort', response)
+          if (!response.ok) {
+            this.$q.notify('Erro ao executar a ordenação.')
+          }
+          this.loading = false
+          return this.items
+        })
     }
   },
 
@@ -249,7 +265,24 @@ export default {
 </script>
 
 <style lang="stylus">
+a
+  text-decoration: none;
+
 .margin-bottom
   margin-top: 0px;
   margin-bottom: 30px;
+
+.last-sticky-column-table
+  thead tr:last-child th:last-child
+    background-color #fff
+    opacity 1
+
+  td:last-child
+    background-color #fff
+
+  thead tr:last-child th:last-child,
+  td:last-child
+    position sticky
+    right 0
+    z-index 1
 </style>

@@ -581,13 +581,13 @@
       "rel":[  
         "first"
       ],
-      "href":"http://localhost:8080/#/demo/tasks"
+      "href":"/statics/demo/tasks.json"
     },
     {  
       "rel":[  
         "prev"
       ],
-      "href":"http://localhost:8080/#/demo/tasks_pagina2"
+      "href":"/statics/demo/tasks_pagina2.json"
     },
     {  
       "rel":[  

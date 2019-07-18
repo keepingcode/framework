@@ -5,14 +5,14 @@
     class="ma-0 pa-0"
   )
     q-input(
-      v-model="field.value"
-      :value="field.value"
-      :name="field.name"
+      v-model="widget.properties.value"
+      :value="widget.properties.value"
+      :name="widget.properties.name"
     )
 </template>
 
 <script>
 export default {
-  props: ['field']
+  props: ['widget']
 }
 </script>

@@ -28,4 +28,10 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="site\node_modules\**" />
+    <EmbeddedResource Remove="site\node_modules\**" />
+    <None Remove="site\node_modules\**" />
+  </ItemGroup>
+
 </Project>

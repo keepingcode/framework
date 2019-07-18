@@ -2,7 +2,8 @@ import axios from 'axios'
 import { openURL } from 'quasar'
 
 export default class Requester {
-  constructor (router) {
+  constructor (store, router) {
+    this.store = store
     this.router = router
   }
 
@@ -38,6 +39,24 @@ export default class Requester {
       return {
         ok: false,
         data: error.response
+      }
+    })
+  }
+
+  async requestSiren (url, query) {
+    return this.httpRequest('get', url, query).then(response => {
+      console.log('response', response)
+      if (response.ok) {
+        try {
+          this.store.commit('paper/parseSiren', response.data.data)
+          return {
+            ok: true,
+            data: response.data.data
+          }
+        } catch (err) { }
+      }
+      return {
+        ok: false
       }
     })
   }

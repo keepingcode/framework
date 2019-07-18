@@ -3,13 +3,19 @@ import { date } from 'quasar'
 
 export default class Utils {
   constructor (filters) {
+    this.maxLength = 50
     this.filters = filters
     this.dataType = new DataType()
   }
 
-  truncate (text, maxLength) {
-    if (text && text.length > maxLength) {
-      text = text.substr(0, maxLength - 3) + '...'
+  isTruncate (text) {
+    var truncate = text && text.length > this.maxLength
+    return truncate
+  }
+
+  truncate (text) {
+    if (this.isTruncate(text)) {
+      text = text.substr(0, this.maxLength - 3) + '... '
     }
     return text
   }
@@ -28,7 +34,7 @@ export default class Utils {
       switch (item.properties.dataType) {
         case this.dataType.TEXT:
         case this.dataType.STRING:
-          value = truncate ? this.truncate(value, 30) : value
+          value = truncate ? this.truncate(value, this.maxLengthTruncate) : value
           break
         case this.dataType.BOOL:
           value = value === 1 ? '\u2714'.normalize() : '\u2717'.normalize()

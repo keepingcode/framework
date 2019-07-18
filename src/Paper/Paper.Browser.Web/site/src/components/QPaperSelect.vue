@@ -4,9 +4,10 @@
       multiple
       chips
       color="secondary"
-      :name="field.name"
-      :float-label="field.title"
+      :name="widget.properties.name"
+      :float-label="widget.properties.title"
       :options="options"
+      :label="widget.properties.title"
       v-model="selected"
     )
     input(
@@ -23,7 +24,7 @@ export default {
     options: []
   }),
 
-  props: ['field'],
+  props: ['widget'],
 
   created () {
     if (this.field && this.field.value && this.field.value.items) {

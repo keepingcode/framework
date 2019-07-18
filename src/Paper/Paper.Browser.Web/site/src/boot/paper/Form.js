@@ -1,11 +1,11 @@
-import PaperText from '../../components/PaperText.vue'
-import PaperNumber from '../../components/PaperNumber.vue'
-import PaperCheckbox from '../../components/PaperCheckbox.vue'
-import PaperSelect from '../../components/PaperSelect.vue'
-import PaperHidden from '../../components/PaperHidden.vue'
-import PaperDatetime from '../../components/PaperDatetime.vue'
-import PaperCurrency from '../../components/PaperCurrency.vue'
-import PaperLabel from '../../components/PaperLabel.vue'
+import PaperText from '../../components/QPaperText.vue'
+import PaperNumber from '../../components/QPaperNumber.vue'
+import PaperCheckbox from '../../components/QPaperCheckbox.vue'
+import PaperSelect from '../../components/QPaperSelect.vue'
+import PaperHidden from '../../components/QPaperHidden.vue'
+import PaperDatetime from '../../components/QPaperDatetime.vue'
+import PaperCurrency from '../../components/QPaperCurrency.vue'
+import PaperLabel from '../../components/QPaperLabel.vue'
 
 import Type from './Type.js'
 import DataType from './DataType.js'
@@ -19,9 +19,9 @@ export default class Form {
     this.type = new Type()
     this.router = router
     this.store = store
-    this.requester = new Requester(router)
+    this.requester = new Requester(store, router)
 
-    this.filtersActionName = '__filters'
+    this.filtersActionName = '__filter'
   }
 
   hasFilters () {
@@ -59,29 +59,33 @@ export default class Form {
       var result = filters.map(record => record.properties)
       return result
     }
-    return []
   }
 
   dynamicComponent (field, actionName) {
+    var headers = this.getProperties(actionName)
     switch (field.type) {
       case this.type.HIDDEN:
         return PaperHidden
       case this.type.DATETIME:
         return PaperDatetime
+      case this.type.DATE:
+        return PaperDatetime
       case this.type.TEXT:
-        return this._dynamicComponent(field, actionName)
+        if (!headers) {
+          return PaperText
+        }
+        return this._dynamicComponent(field, headers)
       case this.type.NUMBER:
-        return this._dynamicComponent(field, actionName)
+        if (!headers) {
+          return PaperNumber
+        }
+        return this._dynamicComponent(field, headers)
       default:
         return PaperText
     }
   }
 
-  _dynamicComponent (field, actionName) {
-    var headers = this.getProperties(actionName)
-    if (!headers) {
-      return PaperText
-    }
+  _dynamicComponent (field, headers) {
     var item = headers.find(header => header.name === field.name)
     if (!item) {
       return PaperText
@@ -106,7 +110,7 @@ export default class Form {
     }
   }
 
-  submit (action, form) {
+  async submit (form, link) {
     var params = {}
     if (form && form.length > 0) {
       for (var i = 0; i < form.length; i++) {
@@ -116,7 +120,12 @@ export default class Form {
         }
       }
     }
+    var page = link.href
+    if (this.router.currentRoute.name === 'demo') {
+      page = `/statics${page}.json`
+    }
+    console.log('page', page)
     console.log('params', params)
-    this.requester.openUrl(action.href, params)
+    return this.requester.requestSiren(page, params)
   }
 }

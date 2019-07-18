@@ -1,13 +1,12 @@
 import PageTypeEnum from './PageType.js'
 import Requester from './Requester.js'
-import { Notify } from 'quasar'
 
 export default class Browser {
   constructor (store, router) {
     this.store = store
     this.router = router
     this.pageTypeEnum = PageTypeEnum
-    this.requester = new Requester(router)
+    this.requester = new Requester(store, router)
     this.pagination = new Pagination(store, this.requester)
     this.action = new Action(store, this.router, this.requester)
   }
@@ -81,31 +80,6 @@ export default class Browser {
     }
   }
 
-  load () {
-    var url = this.router.currentRoute.path
-    if (this.isDemonstrationMode) {
-      var routeName = this.router.currentRoute.params.routeName
-      var rootRouteName = routeName.match(/^([^/]+)/)[0]
-      url = `/statics/demo/${rootRouteName}.json`
-    }
-    if (this.isFormMode()) {
-      url = url.substring(0, url.lastIndexOf('/'))
-    }
-    this.requester.httpRequest('get', url, this.router.currentRoute.query).then(response => {
-      if (response.ok) {
-        try {
-          this.store.commit('paper/parseSiren', response.data.data)
-        } catch (err) {
-          console.log('Erro ao converter o siren', err)
-          Notify.create({
-            message: 'Não foi possível carregar a página solicitada.',
-            type: 'negative'
-          })
-        }
-      }
-    })
-  }
-
   openUrl (url) {
     this.requester.openUrl(url)
   }
@@ -122,8 +96,43 @@ export default class Browser {
     this.store.commit('paper/setSelected', selected)
   }
 
-  setDemonstrationMode (demonstrationMode) {
-    this.store.commit('paper/setDemonstrationMode', demonstrationMode)
+  loadDemo () {
+    var rootRouteName = this.router.currentRoute.params.routeName.match(/^([^/]+)/)[0]
+    var url = `/statics/demo/${rootRouteName}.json`
+    if (this.isFormMode()) {
+      url = url.substring(0, url.lastIndexOf('/'))
+    }
+    this.requester.requestSiren(url, this.router.currentRoute.query)
+  }
+
+  load () {
+    var url = `${this.router.currentRoute.params.path}?f=json+siren`
+    if (this.isFormMode()) {
+      url = url.substring(0, url.lastIndexOf('/'))
+    }
+    this.requester.requestSiren(url, this.router.currentRoute.query)
+  }
+
+  async sort (sortBy) {
+    var entity = this.store.state.paper.entity
+    if (entity && entity.hasSubEntityByClass('header')) {
+      var headers = entity.getSubEntitiesByClass('header')
+      var header = headers.find(header => header.properties.name === sortBy)
+      if (header) {
+        var sortLink = header.getLinkByRel('sort')
+        return this.requester.requestSiren(sortLink.href)
+          .then(response => {
+            return response
+          })
+      }
+    }
+  }
+
+  async loadPage (page) {
+    if (this.router.currentRoute.name === 'demo') {
+      page = `/statics${page}.json`
+    }
+    return this.requester.requestSiren(page)
   }
 }
 
@@ -176,15 +185,19 @@ class Pagination {
   }
 
   goToFirstPage () {
-    this.requester.openUrl(this.firstPage.href)
+    this.requester.requestSiren(this.firstPage.href)
   }
 
-  goToNextPage () {
-    this.requester.openUrl(this.nextPage.href)
+  async loadPage (page) {
+    var entity = this.store.state.paper.entity
+    if (entity && entity.hasLinkByRel(page)) {
+      var link = entity.getLinkByRel(page)
+      return this.requester.requestSiren(link.href)
+    }
   }
 
   goToPreviousPage () {
-    this.requester.openUrl(this.previousPage.href)
+    this.requester.requestSiren(this.previousPage.href)
   }
 }
 
@@ -229,10 +242,6 @@ class Action {
       return this.current.method
     }
     return 'POST'
-  }
-
-  get placeholder () {
-    console.log('this.current', this.current)
   }
 
   getName () {

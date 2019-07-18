@@ -1,5 +1,5 @@
 export default {
-  entity: '',
+  entity: undefined,
   entities: [],
   selected: [],
   demonstrationMode: false

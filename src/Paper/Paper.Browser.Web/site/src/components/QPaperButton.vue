@@ -1,10 +1,10 @@
 <template lang="pug">
   div
-    q-btn {{ field.value }}
+    q-btn {{ widget.properties.value }}
 </template>
 
 <script>
   export default {
-    props: ['field']
+    props: ['widget']
   }
 </script>

@@ -1672,7 +1672,7 @@
       "rel":[  
         "link"
       ],
-      "href":"http://localhost:8080/#/demo/task"
+      "href":"http://localhost:8080/demo/task"
     },
     {  
       "title":"Tarefa Relativa",
@@ -1685,19 +1685,19 @@
       "rel":[  
         "first"
       ],
-      "href":"http://localhost:8080/#/demo/tasks"
+      "href":"/statics/demo/tasks.json"
     },
     {  
       "rel":[  
         "prev"
       ],
-      "href":"http://localhost:8080/#/demo/tasks"
+      "href":"/statics/demo/tasks.json"
     },
     {  
       "rel":[  
         "next"
       ],
-      "href":"http://localhost:8080/#/demo/tasks_pagina3"
+      "href":"/statics/demo/tasks_pagina3.json"
     },
     {  
       "rel":[  

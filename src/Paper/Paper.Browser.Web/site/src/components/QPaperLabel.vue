@@ -1,5 +1,5 @@
 <template lang="pug">
-  label {{ label }}
+  label(:class="classLink") {{ label }}
 </template>
 
 <script charset="utf-8">
@@ -14,18 +14,32 @@ export default {
     truncate: {
       type: Boolean,
       default: false
+    },
+    link: {
+      type: Boolean,
+      default: false
     }
   },
 
   computed: {
     label () {
-      var item = this.$paper.record.headers.getHeader(this.name)
+      var item = this.$paper.data.headers.getHeader(this.name)
       if (this.isKey) {
         return item.title
       }
       var property = this.$paper.utils.format(item, this.value, this.truncate)
       return property
+    },
+
+    classLink () {
+      var classLink = this.link ? 'link' : ''
+      return classLink
     }
   }
 }
 </script>
+
+<style lang="stylus">
+.link
+  cursor: pointer;
+</style>

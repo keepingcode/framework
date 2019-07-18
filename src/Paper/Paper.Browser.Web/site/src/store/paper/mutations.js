@@ -12,7 +12,3 @@ export const parseSiren = (state, data) => {
 export const setSelected = (state, data) => {
   state.selected = data
 }
-
-export const setDemonstrationMode = (state, data) => {
-  state.demonstrationMode = data
-}

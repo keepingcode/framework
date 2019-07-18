@@ -1,8 +1,9 @@
 <template lang="pug">
   q-input(
-    :value="field.value"
-    :name="field.name"
-    :float-label="field.title"
+    :value="widget.properties.value"
+    :name="widget.properties.name"
+    :float-label="widget.properties.title"
+    :label="widget.properties.title"
     prefix="R$"
   )
 </template>
@@ -10,7 +11,7 @@
 <script>
 import { VMoney } from 'v-money'
 export default {
-  props: ['field'],
+  props: ['widget'],
 
   data: () => ({
     money: {

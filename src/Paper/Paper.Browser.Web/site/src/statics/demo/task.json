@@ -221,6 +221,27 @@
   ],
   "links":[  
     {  
+      "title":"Envio de NFe",
+      "rel":[  
+         "menu"
+      ],
+      "href":"/demo/emails"
+    },
+    {  
+        "title":"Tasks",
+        "rel":[  
+          "menu"
+        ],
+        "href":"/demo/tasks"
+    },
+    {  
+        "title":"Task",
+        "rel":[  
+          "menu"
+        ],
+        "href":"/demo/task"
+    },
+    {  
       "title":"Google Search",
       "rel":[  
         "link"

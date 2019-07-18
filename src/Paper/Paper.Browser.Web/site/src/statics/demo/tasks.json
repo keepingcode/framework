@@ -65,13 +65,13 @@
           "class":[  
             "header"
           ],
-          "title":"Name",
+          "title":"Nome",
           "rel":[  
             "record"
           ],
           "properties":{  
             "name":"name",
-            "title":"Name",
+            "title":"Nome",
             "dataType":"text"
           }
         },
@@ -79,13 +79,13 @@
           "class":[  
             "header"
           ],
-          "title":"Age",
+          "title":"Idade",
           "rel":[  
             "record"
           ],
           "properties":{  
             "name":"age",
-            "title":"Age",
+            "title":"Idade",
             "dataType":"number"
           }
         },
@@ -93,13 +93,13 @@
           "class":[  
             "header"
           ],
-          "title":"Date",
+          "title":"Data",
           "rel":[  
             "record"
           ],
           "properties":{  
             "name":"date",
-            "title":"Date",
+            "title":"Data",
             "dataType":"datetime"
           }
         },
@@ -107,13 +107,13 @@
           "class":[  
             "header"
           ],
-          "title":"Price",
+          "title":"Preço",
           "rel":[  
             "record"
           ],
           "properties":{  
             "name":"price",
-            "title":"Price",
+            "title":"Preço",
             "dataType":"decimal"
           }
         },
@@ -121,13 +121,13 @@
           "class":[  
             "header"
           ],
-          "title":"Active",
+          "title":"Ativo",
           "rel":[  
             "record"
           ],
           "properties":{  
             "name":"active",
-            "title":"Active",
+            "title":"Ativo",
             "dataType":"bool"
           }
         },
@@ -135,13 +135,13 @@
           "class":[  
             "header"
           ],
-          "title":"Description",
+          "title":"Descrição",
           "rel":[  
             "record"
           ],
           "properties":{  
             "name":"description",
-            "title":"Description",
+            "title":"Descrição",
             "dataType":"text"
           }
         }
@@ -1307,7 +1307,7 @@
           "class":[  
             "header"
           ],
-          "title":"Name",
+          "title":"Nome",
           "rel":[  
             "record"
           ],
@@ -1321,7 +1321,7 @@
           "class":[  
             "header"
           ],
-          "title":"Age",
+          "title":"Idade",
           "rel":[  
             "record"
           ],
@@ -1335,7 +1335,7 @@
           "class":[  
             "header"
           ],
-          "title":"Date",
+          "title":"Data",
           "rel":[  
             "record"
           ],
@@ -1349,7 +1349,7 @@
           "class":[  
             "header"
           ],
-          "title":"Price",
+          "title":"Preço",
           "rel":[  
             "record"
           ],
@@ -1363,7 +1363,7 @@
           "class":[  
             "header"
           ],
-          "title":"Active",
+          "title":"Ativo",
           "rel":[  
             "record"
           ],
@@ -1377,7 +1377,7 @@
           "class":[  
             "header"
           ],
-          "title":"Description",
+          "title":"Descrição",
           "rel":[  
             "record"
           ],
@@ -1424,13 +1424,13 @@
       "class":[  
         "header"
       ],
-      "title":"Name",
+      "title":"Nome",
       "rel":[  
         "table"
       ],
       "properties":{  
         "name":"name",
-        "title":"Name",
+        "title":"Nome",
         "dataType":"text",
         "order":0
       },
@@ -1447,13 +1447,13 @@
       "class":[  
         "header"
       ],
-      "title":"Age",
+      "title":"Idade",
       "rel":[  
         "table"
       ],
       "properties":{  
         "name":"age",
-        "title":"Age",
+        "title":"Idade",
         "dataType":"number",
         "order":0
       },
@@ -1470,13 +1470,13 @@
       "class":[  
         "header"
       ],
-      "title":"Date",
+      "title":"Data",
       "rel":[  
         "table"
       ],
       "properties":{  
         "name":"date",
-        "title":"Date",
+        "title":"Data",
         "dataType":"datetime",
         "order":0
       },
@@ -1493,13 +1493,13 @@
       "class":[  
         "header"
       ],
-      "title":"Price",
+      "title":"Preço",
       "rel":[  
         "table"
       ],
       "properties":{  
         "name":"price",
-        "title":"Price",
+        "title":"Preço",
         "dataType":"decimal",
         "order":0
       },
@@ -1516,13 +1516,13 @@
       "class":[  
         "header"
       ],
-      "title":"Active",
+      "title":"Ativo",
       "rel":[  
         "table"
       ],
       "properties":{  
         "name":"active",
-        "title":"Active",
+        "title":"Ativo",
         "dataType":"bool",
         "order":0
       },
@@ -1539,13 +1539,13 @@
       "class":[  
         "header"
       ],
-      "title":"Description",
+      "title":"Descrição",
       "rel":[  
         "table"
       ],
       "properties":{  
         "name":"description",
-        "title":"Description",
+        "title":"Descrição",
         "dataType":"text",
         "order":0
       },
@@ -1957,13 +1957,33 @@
             "name":"message",
             "title":"Mensagem",
             "type":"text",
-            "dataType":"string",
-            "value":"Tem certeza que deseja exibir essa mensagem?"
+            "dataType":"string"
          }
       ]
     }
   ],
-  "links":[  
+  "links":[
+    {  
+      "title":"Envio de NFe",
+      "rel":[  
+         "menu"
+      ],
+      "href":"/demo/emails"
+    },
+    {  
+      "title":"Tasks",
+      "rel":[  
+        "menu"
+      ],
+      "href":"/demo/tasks"
+    },
+    {  
+      "title":"Task",
+      "rel":[  
+        "menu"
+      ],
+      "href":"/demo/task"
+    },
     {  
       "title":"Google Search",
       "rel":[  
@@ -1976,7 +1996,7 @@
       "rel":[  
         "link"
       ],
-      "href":"http://localhost:8080/#/demo/task"
+      "href":"http://localhost:8080/demo/task"
     },
     {  
       "title":"Tarefa Relativa",
@@ -1989,7 +2009,7 @@
       "rel":[  
         "next"
       ],
-      "href":"http://localhost:8080/#/demo/tasks_pagina2"
+      "href":"/statics/demo/tasks_pagina2.json"
     },
     {  
       "rel":[  

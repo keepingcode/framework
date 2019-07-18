@@ -1,16 +1,25 @@
 
 const routes = [
   {
-    path: '/:path(.*)',
+    path: '/demo',
     component: () => import('layouts/PaperLayout.vue'),
     children: [
       {
         path: '/demo/:routeName(.*)',
         name: 'demo',
-        props: { demonstrationMode: true },
+        component: () => import('pages/Demo.vue')
+      }
+    ]
+  },
+  {
+    path: '/page/:path(.*)*',
+    component: () => import('layouts/PaperLayout.vue'),
+    name: 'page',
+    children: [
+      {
+        path: '',
         component: () => import('pages/Page.vue')
-      },
-      { path: '', component: () => import('pages/Page.vue') }
+      }
     ]
   }
 ]

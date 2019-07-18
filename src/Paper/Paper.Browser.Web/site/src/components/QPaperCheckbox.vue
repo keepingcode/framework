@@ -3,18 +3,17 @@
     br
     input(
       type="checkbox"
-      color="secondary"
-      v-model="field.value"
-      :value="field.value"
-      :name="field.name"
+      v-model="widget.properties.value"
+      :value="widget.properties.value"
+      :name="widget.properties.name"
     )
-    span(class="label") {{ field.title }}
+    span(class="label") {{ widget.properties.title }}
     br
 </template>
 
 <script>
 export default {
-  props: ['field']
+  props: ['widget']
 }
 </script>
 

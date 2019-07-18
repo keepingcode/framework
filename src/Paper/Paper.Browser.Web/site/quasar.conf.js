@@ -2,8 +2,8 @@
 
 module.exports = function (ctx) {
   return {
-    // app plugins (/src/plugins)
-    plugins: [
+    // app boot (/src/boot)
+    boot: [
       'axios',
       'paper',
       'vue2-filters',
@@ -13,9 +13,9 @@ module.exports = function (ctx) {
       'app.styl'
     ],
     extras: [
-      ctx.theme.mat ? 'roboto-font' : null,
+      'roboto-font',
       'material-icons',
-      'fontawesome'
+      'fontawesome-v5'
     ],
     supportIE: false,
     build: {
@@ -48,39 +48,43 @@ module.exports = function (ctx) {
       components: [
         'QBtn',
         'QBtnDropdown',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
         'QCheckbox',
-        'QContextMenu',
+        'QDate',
+        'QDialog',
+        'QDrawer',
         'QField',
+        'QHeader',
         'QIcon',
+        'QInfiniteScroll',
         'QInput',
         'QItem',
-        'QItemMain',
-        'QItemSeparator',
-        'QItemSide',
-        'QItemTile',
+        'QItemSection',
+        'QItemLabel',
         'QLayout',
-        'QLayoutHeader',
-        'QLayoutDrawer',
         'QList',
-        'QListHeader',
-        'QModal',
-        'QModalLayout',
+        'QMenu',
         'QPageContainer',
         'QPage',
-        'QPopover',
+        'QPopupProxy',
         'QSelect',
+        'QSeparator',
         'QScrollArea',
+        'QSpace',
         'QTable',
-        'QTableColumns',
+        'QTime',
         'QToolbar',
         'QToolbarTitle',
+        'QTooltip',
         'QTh',
         'QTr',
         'QTd'
       ],
       directives: [
         'Ripple',
-        'CloseOverlay'
+        'ClosePopup'
       ],
       // Quasar plugins
       plugins: [
@@ -88,7 +92,7 @@ module.exports = function (ctx) {
         'Dialog'
       ]
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
-      // i18n: 'de' // Quasar language
+      // lang: 'de' // Quasar language
     },
     // animations: 'all' --- includes all animations
     animations: [],

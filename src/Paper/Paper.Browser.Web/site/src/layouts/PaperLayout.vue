@@ -1,15 +1,15 @@
 <template lang="pug">
   q-layout(view="lHh Lpr lFf")
-    q-layout-header
-      q-toolbar(color="primary")
+    q-header(elevated)
+      q-toolbar
         q-btn(
           flat
           round
           dense
-          v-if="showFiltersNavigation"
-          @click="openFiltersDrawerNavigation()"
-          icon="menu"
+          v-show="showFiltersDrawer"
+          @click="openFiltersDrawer()"
         )
+          q-icon(name="menu")
 
         q-toolbar-title
           | Prototipaper
@@ -21,24 +21,19 @@
           dense
           v-if="showLinksNavigation"
           @click="openLinksDrawerNavigation()"
-          icon="menu"
         )
+          q-icon(name="menu")
 
-    paper-filters-navigation(
-      ref="paperFiltersNavigation"
-    )
-
-    paper-drawer-navigation(
-      ref="paperLinksNavigation"
-    )
+    paper-filters-navigation(ref="filtersDrawer")
+    paper-drawer-navigation(ref="drawer")
 
     q-page-container
       router-view
 </template>
 
 <script>
-import PaperDrawerNavigation from '../components/PaperDrawerNavigation'
-import PaperFiltersNavigation from '../components/PaperFiltersNavigation'
+import PaperDrawerNavigation from '../components/QPaperDrawerNavigation'
+import PaperFiltersNavigation from '../components/QPaperFiltersNavigation'
 export default {
   components: {
     PaperDrawerNavigation,
@@ -52,19 +47,19 @@ export default {
       return hasLinks || hasActions
     },
 
-    showFiltersNavigation () {
-      // var hasFilters = this.$paper.browser.hasFilters()
-      return true
+    showFiltersDrawer () {
+      var hasFilters = this.$paper.filter.hasFilters()
+      return hasFilters
     }
   },
 
   methods: {
     openLinksDrawerNavigation () {
-      this.$refs.paperLinksNavigation.drawer = !this.$refs.paperLinksNavigation.drawer
+      this.$refs.filters.drawer = !this.$refs.filters.drawer
     },
 
-    openFiltersDrawerNavigation () {
-      this.$refs.paperFiltersNavigation.drawer = !this.$refs.paperFiltersNavigation.drawer
+    openFiltersDrawer () {
+      this.$refs.filtersDrawer.drawer = !this.$refs.filtersDrawer.drawer
     }
   }
 }

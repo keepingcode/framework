@@ -1,4 +1,4 @@
-export default class Record {
+export default class Data {
   constructor (store) {
     this.store = store
     this.headers = new Headers(this.store)
@@ -13,6 +13,20 @@ export default class Record {
     if (this.self && this.self.properties) {
       return this.self.properties
     }
+  }
+
+  get menu () {
+    if (this.self && this.self.hasLinkByRel('menu')) {
+      var links = this.self.getLinksByRel('menu')
+      return links
+    }
+  }
+
+  hasMenu () {
+    if (this.self) {
+      return this.self.hasLinkByRel('menu')
+    }
+    return false
   }
 
   getProperty (property) {
@@ -51,6 +65,7 @@ class Headers {
 class Records {
   constructor (store) {
     this.store = store
+    this.record = new Record()
   }
 
   get entity () {
@@ -75,5 +90,39 @@ class Records {
       var records = this.entity.getSubEntitiesByClass('header')
       return records
     }
+  }
+
+  getRecord (index) {
+    var object = this.entities[index]
+    var record = new Record(object)
+    return record
+  }
+}
+
+class Record {
+  constructor (record) {
+    this.record = record
+  }
+
+  get links () {
+    if (this.hasLinks) {
+      return this.record.links
+    }
+  }
+
+  get hasLinks () {
+    var hasLinks = this.record && this.record.links && this.record.links.length > 0
+    return hasLinks
+  }
+
+  get selfLink () {
+    if (this.hasSelfLink) {
+      return this.record.getLinksByRel('self')
+    }
+  }
+
+  get hasSelfLink () {
+    var hasSelfLink = this.record && this.record.hasLinkByRel('self')
+    return hasSelfLink
   }
 }

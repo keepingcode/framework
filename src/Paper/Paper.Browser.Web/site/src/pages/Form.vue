@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import PaperText from '../components/PaperText.vue'
-import PaperNumber from '../components/PaperNumber.vue'
-import PaperDatetime from '../components/PaperDatetime.vue'
-import PaperCheckbox from '../components/PaperCheckbox.vue'
-import PaperCurrency from '../components/PaperCurrency.vue'
+import PaperText from '../components/QPaperText.vue'
+import PaperNumber from '../components/QPaperNumber.vue'
+import PaperDatetime from '../components/QPaperDatetime.vue'
+import PaperCheckbox from '../components/QPaperCheckbox.vue'
+import PaperCurrency from '../components/QPaperCurrency.vue'
 export default {
   components: {
     PaperText,
@@ -75,7 +75,7 @@ export default {
     },
 
     dynamicComponent (field) {
-      var header = this.$paper.record.headers.getHeader(field.name)
+      var header = this.$paper.data.headers.getHeader(field.name)
       if (header && header.properties) {
         switch (header.properties.dataType) {
           case 'number':

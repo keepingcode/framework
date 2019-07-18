@@ -7,7 +7,7 @@ export default class Type {
     this.URL = 'url'
     this.EMAIL = 'email'
     this.PASSWORD = 'password'
-    this.DATETIME = 'datetime'
+    this.DATETIME = 'datetime-local'
     this.DATE = 'date'
     this.MONTH = 'month'
     this.WEEK = 'week'

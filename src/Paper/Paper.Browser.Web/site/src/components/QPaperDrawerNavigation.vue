@@ -1,34 +1,39 @@
 <template lang="pug">
-  q-layout-drawer(
+  q-drawer(
     side="right"
     v-model="drawer"
-    :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
+    bordered
+    content-class="bg-grey-2"
   )
     q-list(v-if="showLinks")
-      q-list-header
+      q-item-label(header)
         | NAVEGAÇÃO
       q-item(
         v-for="link in links"
         :key="link.href"
-        link
+        clickable
+        v-ripple
         @click.native="openUrl(link.href)"
       )
-        q-item-main(
-          :label="link.title"
-        )
+        q-item-section
+          q-item-label(
+            :label="link.title"
+          )
 
     q-list(v-if="showActions")
-      q-list-header
+      q-item-label(header)
         | AÇÕES
       q-item(
         v-for="action in actions"
         :key="action.href"
-        link
+        v-ripple
+        clickable
         @click.native="openAction(action.href)"
       )
-        q-item-main(
-          :label="action.title"
-        )
+        q-item-section
+          q-item-label(
+            :label="action.title"
+          )
 </template>
 
 <script>

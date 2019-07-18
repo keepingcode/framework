@@ -8,19 +8,19 @@
     )
       q-page(class="self-center")
         q-list(highlight)
-          q-list-header
+          q-item-label(header)
             | {{ title }}
           q-item(
             v-for="item in items"
             :key="item"
           )
-            q-item-main
-              q-item-tile(label)
+            q-item-section
+              q-item-label
                 q-paper-label(
                   :name="item"
                   isKey
                 )
-              q-item-tile(sublabel)
+              q-item-label
                 q-paper-label(
                   :name="item"
                   :value="getProperty(item)"
@@ -31,7 +31,7 @@
 </style>
 
 <script>
-import QPaperLabel from '../components/PaperLabel.vue'
+import QPaperLabel from '../components/QPaperLabel.vue'
 export default {
   components: {
     QPaperLabel
@@ -43,13 +43,13 @@ export default {
     },
 
     items () {
-      return this.$paper.record.headers.properties
+      return this.$paper.data.headers.properties
     }
   },
 
   methods: {
     getProperty (property) {
-      return this.$paper.record.getProperty(property)
+      return this.$paper.data.getProperty(property)
     }
   }
 }
