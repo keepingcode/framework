@@ -2,7 +2,7 @@
    "class":[  
       "table"
    ],
-   "title":"Envio De Nfe",
+   "title":"Demo",
    "properties":{  
       "__headers":{  
          "table":[  
@@ -2960,6 +2960,29 @@
             "self"
          ],
          "href":"http://localhost:8080/Api/1/Vortex/Paper/Papers/EnvioDeNfePaper?f=json+siren&offset=0&limit=14"
+      },
+      {
+         "rel":["self"],
+         "href":"demo"
+      },
+      {
+         "rel":["next"],
+         "href":"/page/demoPage2"
+      },
+      {
+         "rel":["home"],
+         "title":"Página Inicial",
+         "href":"/page/demoIndex"
+      },
+      {
+         "rel":["link"],
+         "title":"VueJS",
+         "href":"https://vuejs.org/"
+      },
+      {
+         "rel":["link"],
+         "title":"Google",
+         "href":"http://www.google.com"
       }
    ]
  }

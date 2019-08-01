@@ -54,7 +54,6 @@ export default class Filter {
     if (this.hasFilters()) {
       var entity = this.store.state.paper.entity
       var filter = entity.getSubEntityByRel(this.rel)
-      console.log('filter', filter.links)
       return filter.links
     }
   }

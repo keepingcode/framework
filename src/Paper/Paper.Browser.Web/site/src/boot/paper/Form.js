@@ -24,8 +24,24 @@ export default class Form {
     this.filtersActionName = '__filter'
   }
 
-  hasFilters () {
-    return this.hasForm(this.filtersActionName)
+  get forms () {
+    var entity = this.store.state.paper.entity
+    if (entity.hasLinkByRel('link')) {
+      var forms = entity.getLinksByRel('link')
+      return forms
+    }
+  }
+
+  getProperties (formName) {
+    if (this.hasForm()) {
+      var entity = this.store.state.paper.entity
+      if (entity && entity.hasSubEntityByClass(formName)) {
+        var links = entity.getSubEntitiesByClass(formName)
+        var result = links.map(record => record.properties)
+        return result
+      }
+      return links.properties
+    }
   }
 
   hasForm (formName) {
@@ -36,28 +52,11 @@ export default class Form {
     return false
   }
 
-  getFilters () {
-    return this.getForm(this.filtersActionName)
-  }
-
   getForm (formName) {
     if (this.hasForm(formName)) {
       var entity = this.store.state.paper.entity
       var form = entity.getActionByName(formName)
       return form
-    }
-  }
-
-  getFiltersProperties () {
-    return this.getProperties(this.filtersActionName)
-  }
-
-  getProperties (formName) {
-    var entity = this.store.state.paper.entity
-    if (entity && entity.hasSubEntityByClass(formName)) {
-      var filters = entity.getSubEntitiesByClass(formName)
-      var result = filters.map(record => record.properties)
-      return result
     }
   }
 

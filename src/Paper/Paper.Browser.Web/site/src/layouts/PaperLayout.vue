@@ -6,26 +6,25 @@
           flat
           round
           dense
-          v-show="showFiltersDrawer"
+          v-if="showFiltersDrawer"
           @click="openFiltersDrawer()"
         )
           q-icon(name="menu")
 
         q-toolbar-title
-          | Prototipaper
+          | {{ $paper.title }}
 
-      //-
         q-btn(
           flat
           round
           dense
           v-if="showLinksNavigation"
-          @click="openLinksDrawerNavigation()"
+          @click="openLinksDrawer()"
         )
           q-icon(name="menu")
 
     paper-filters-navigation(ref="filtersDrawer")
-    paper-drawer-navigation(ref="drawer")
+    paper-drawer-navigation(ref="linksDrawer")
 
     q-page-container
       router-view
@@ -43,8 +42,7 @@ export default {
   computed: {
     showLinksNavigation () {
       var hasLinks = this.$paper.browser.hasLinks()
-      var hasActions = this.$paper.browser.hasActions()
-      return hasLinks || hasActions
+      return hasLinks
     },
 
     showFiltersDrawer () {
@@ -54,8 +52,8 @@ export default {
   },
 
   methods: {
-    openLinksDrawerNavigation () {
-      this.$refs.filters.drawer = !this.$refs.filters.drawer
+    openLinksDrawer () {
+      this.$refs.linksDrawer.drawer = !this.$refs.linksDrawer.drawer
     },
 
     openFiltersDrawer () {

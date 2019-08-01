@@ -16,9 +16,7 @@
         @click.native="openUrl(link.href)"
       )
         q-item-section
-          q-item-label(
-            :label="link.title"
-          )
+          q-item-label {{ link.title }}
 
     q-list(v-if="showActions")
       q-item-label(header)
@@ -31,9 +29,7 @@
         @click.native="openAction(action.href)"
       )
         q-item-section
-          q-item-label(
-            :label="action.title"
-          )
+          q-item-label {{ action.title }}
 </template>
 
 <script>
