@@ -342,7 +342,7 @@ namespace Toolset
       if (targetType.IsEnum)
       {
         var text = value.ToString();
-        if (Regex.IsMatch(text, "[0-9]+"))
+        if (Regex.IsMatch(text, "^[0-9]+$"))
         {
           int number = int.Parse(text);
           convertedValue = Enum.ToObject(targetType, number);
