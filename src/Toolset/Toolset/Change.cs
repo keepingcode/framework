@@ -342,9 +342,10 @@ namespace Toolset
       if (targetType.IsEnum)
       {
         var text = value.ToString();
-        if (Regex.IsMatch(text, "^[0-9]+$"))
+        if (Regex.IsMatch(text, "^[0-9, ]+$"))
         {
-          int number = int.Parse(text);
+          var tokens = text.Split(',', ' ').NonNullOrEmpty();
+          var number = tokens.Select(int.Parse).Sum();
           convertedValue = Enum.ToObject(targetType, number);
         }
         else
