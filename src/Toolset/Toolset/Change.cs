@@ -316,6 +316,20 @@ namespace Toolset
         }
       }
 
+      if (targetType == typeof(Uri))
+      {
+        var text = value.ToString();
+        if (text.Contains(@"\"))
+        {
+          text = $"file:///{text.Replace(@"\", "/")}";
+        }
+        else if (Regex.IsMatch(text, @"^\w:$"))
+        {
+          text = $"file:///{text}/";
+        }
+        return new Uri(text, UriKind.RelativeOrAbsolute);
+      }
+
       var flags = BindingFlags.Static | BindingFlags.Public;
 
       var methods = sourceType.GetMethods(flags).Concat(targetType.GetMethods(flags));
