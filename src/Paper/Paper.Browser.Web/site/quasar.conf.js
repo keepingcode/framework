@@ -52,6 +52,7 @@ module.exports = function (ctx) {
         'QCardSection',
         'QCardActions',
         'QCheckbox',
+        'QCircularProgress',
         'QDate',
         'QDialog',
         'QDrawer',
@@ -80,7 +81,8 @@ module.exports = function (ctx) {
         'QTooltip',
         'QTh',
         'QTr',
-        'QTd'
+        'QTd',
+        'QUploader'
       ],
       directives: [
         'Ripple',

@@ -18,5 +18,6 @@ export default class Type {
     this.CHECKBOX = 'checkbox'
     this.RADIO = 'radio'
     this.FILE = 'file'
+    this.SELECT = 'select'
   }
 }

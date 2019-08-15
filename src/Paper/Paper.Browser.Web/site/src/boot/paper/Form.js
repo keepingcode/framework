@@ -4,8 +4,9 @@ import PaperCheckbox from '../../components/QPaperCheckbox.vue'
 import PaperSelect from '../../components/QPaperSelect.vue'
 import PaperHidden from '../../components/QPaperHidden.vue'
 import PaperDatetime from '../../components/QPaperDatetime.vue'
+import PaperDate from '../../components/QPaperDate.vue'
 import PaperCurrency from '../../components/QPaperCurrency.vue'
-import PaperLabel from '../../components/QPaperLabel.vue'
+import PaperUploader from '../../components/QPaperUploader.vue'
 
 import Type from './Type.js'
 import DataType from './DataType.js'
@@ -21,14 +22,24 @@ export default class Form {
     this.store = store
     this.requester = new Requester(store, router)
 
-    this.filtersActionName = '__filter'
+    this.rel = 'action'
   }
 
-  get forms () {
-    var entity = this.store.state.paper.entity
-    if (entity.hasLinkByRel('link')) {
-      var forms = entity.getLinksByRel('link')
-      return forms
+  get widgets () {
+    if (this.hasForm()) {
+      var entity = this.store.state.paper.entity
+      var filter = entity.getSubEntityByRel(this.rel)
+      var widgets = filter.getSubEntitiesByClass('widget')
+      return widgets
+    }
+  }
+
+  get links () {
+    if (this.hasForm()) {
+      var entity = this.store.state.paper.entity
+      var form = entity.getSubEntityByRel(this.rel)
+      var links = form.links.filter(link => link.class === undefined || !link.class.includes('widget'))
+      return links
     }
   }
 
@@ -44,10 +55,10 @@ export default class Form {
     }
   }
 
-  hasForm (formName) {
+  hasForm () {
     var entity = this.store.state.paper.entity
     if (entity) {
-      return entity.hasActionByName(formName)
+      return entity.hasSubEntityByRel(this.rel)
     }
     return false
   }
@@ -60,42 +71,33 @@ export default class Form {
     }
   }
 
-  dynamicComponent (field, actionName) {
-    var headers = this.getProperties(actionName)
-    switch (field.type) {
+  dynamicComponent (widget) {
+    switch (widget.properties.type) {
       case this.type.HIDDEN:
         return PaperHidden
+      case this.type.SELECT:
+        return PaperSelect
       case this.type.DATETIME:
         return PaperDatetime
       case this.type.DATE:
-        return PaperDatetime
+        return PaperDate
+      case this.type.FILE:
+        return PaperUploader
       case this.type.TEXT:
-        if (!headers) {
-          return PaperText
-        }
-        return this._dynamicComponent(field, headers)
+        return this._dynamicComponent(widget)
       case this.type.NUMBER:
-        if (!headers) {
-          return PaperNumber
-        }
-        return this._dynamicComponent(field, headers)
+        return this._dynamicComponent(widget)
       default:
         return PaperText
     }
   }
 
-  _dynamicComponent (field, headers) {
-    var item = headers.find(header => header.name === field.name)
-    if (!item) {
-      return PaperText
-    }
-    switch (item.dataType) {
+  _dynamicComponent (widget) {
+    switch (widget.properties.dataType) {
       case this.dataType.HIDDEN:
         return PaperHidden
       case this.dataType.DATETIME:
         return PaperDatetime
-      case this.dataType.STRING:
-        return PaperLabel
       case this.dataType.DECIMAL:
         return PaperCurrency
       case this.dataType.MULTI:
@@ -104,6 +106,8 @@ export default class Form {
         return PaperNumber
       case this.dataType.BOOL:
         return PaperCheckbox
+      case this.dataType.INT:
+        return PaperNumber
       default:
         return PaperText
     }

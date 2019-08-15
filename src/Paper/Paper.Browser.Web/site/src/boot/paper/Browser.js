@@ -28,6 +28,8 @@ export default class Browser {
     if (entity) {
       if (entity.hasClass('table')) {
         return PageTypeEnum.GRID
+      } else if (entity.hasClass('form')) {
+        return PageTypeEnum.FORM
       }
     }
     return PageTypeEnum.VIEW

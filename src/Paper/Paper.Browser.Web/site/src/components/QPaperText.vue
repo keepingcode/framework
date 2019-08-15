@@ -1,9 +1,9 @@
 <template lang="pug">
   q-input(
     :name="widget.properties.name"
-    :value="widget.properties.value"
+    :value="value"
     :label="widget.properties.title"
-    v-model="widget.properties.value"
+    v-model="value"
   )
 </template>
 
@@ -11,9 +11,9 @@
 export default {
   props: ['widget'],
 
-  methods: {
-    clear () {
-      this.widget.value = ''
+  computed: {
+    value () {
+      return ''
     }
   }
 }

@@ -13,7 +13,7 @@
 
 import Vue from 'vue'
 
-import {Quasar,QBtn,QBtnDropdown,QCard,QCardSection,QCardActions,QCheckbox,QDate,QDialog,QDrawer,QField,QHeader,QIcon,QInfiniteScroll,QInput,QItem,QItemSection,QItemLabel,QLayout,QList,QMenu,QPageContainer,QPage,QPopupProxy,QSelect,QSeparator,QScrollArea,QSpace,QTable,QTime,QToolbar,QToolbarTitle,QTooltip,QTh,QTr,QTd,Ripple,ClosePopup,Notify,Dialog} from 'quasar'
+import {Quasar,QBtn,QBtnDropdown,QCard,QCardSection,QCardActions,QCheckbox,QCircularProgress,QDate,QDialog,QDrawer,QField,QHeader,QIcon,QInfiniteScroll,QInput,QItem,QItemSection,QItemLabel,QLayout,QList,QMenu,QPageContainer,QPage,QPopupProxy,QSelect,QSeparator,QScrollArea,QSpace,QTable,QTime,QToolbar,QToolbarTitle,QTooltip,QTh,QTr,QTd,QUploader,Ripple,ClosePopup,Notify,Dialog} from 'quasar'
 
 
-Vue.use(Quasar, { config: {},components: {QBtn,QBtnDropdown,QCard,QCardSection,QCardActions,QCheckbox,QDate,QDialog,QDrawer,QField,QHeader,QIcon,QInfiniteScroll,QInput,QItem,QItemSection,QItemLabel,QLayout,QList,QMenu,QPageContainer,QPage,QPopupProxy,QSelect,QSeparator,QScrollArea,QSpace,QTable,QTime,QToolbar,QToolbarTitle,QTooltip,QTh,QTr,QTd},directives: {Ripple,ClosePopup},plugins: {Notify,Dialog} })
+Vue.use(Quasar, { config: {},components: {QBtn,QBtnDropdown,QCard,QCardSection,QCardActions,QCheckbox,QCircularProgress,QDate,QDialog,QDrawer,QField,QHeader,QIcon,QInfiniteScroll,QInput,QItem,QItemSection,QItemLabel,QLayout,QList,QMenu,QPageContainer,QPage,QPopupProxy,QSelect,QSeparator,QScrollArea,QSpace,QTable,QTime,QToolbar,QToolbarTitle,QTooltip,QTh,QTr,QTd,QUploader},directives: {Ripple,ClosePopup},plugins: {Notify,Dialog} })

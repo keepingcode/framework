@@ -22,7 +22,7 @@
           loading-label="Carregando..."
           hide-bottom
           :class="menuFixedColumnClass"
-          :sort-method="sort"
+          :sort-method="customSort"
           binary-state-sort
         )
           // PAGINAÇÃO
@@ -135,6 +135,7 @@ import QPaperVisibilityBtn from '../components/QPaperVisibilityButton.vue'
 export default {
   data: () => ({
     pagination: {
+      sortBy: 'name',
       rowsPerPage: 15
     },
     selected: [],
@@ -169,8 +170,10 @@ export default {
             type: header.properties.dataType,
             label: header.properties.title,
             align: 'left',
+            field: row => header.properties.name,
+            format: val => `${val}`,
             align_data: isTextDataType ? 'left' : 'center',
-            sortable: header.hasLinkByRel('sort')
+            sortable: true
           })
         })
         var hasActions = this.$paper.browser.hasActions()
@@ -234,25 +237,28 @@ export default {
       this.loading = true
       this.$paper.browser.pagination.loadPage(page)
         .then(response => {
-          if (!response.ok) {
+          if (!response || !response.ok) {
             this.$q.notify('Erro ao executar a paginação.')
           }
           this.loading = false
         })
     },
 
-    async sort (rows, sortBy, descending) {
-      console.log('pressed sort', sortBy)
-      this.loading = true
-      return this.$paper.browser.sort(sortBy)
-        .then(response => {
-          console.log('response sort', response)
-          if (!response.ok) {
-            this.$q.notify('Erro ao executar a ordenação.')
-          }
+    customSort (rows, sortBy, descending) {
+      if (sortBy) {
+        this.loading = true
+        setTimeout(() => {
+          this.$paper.browser.sort(sortBy)
+            .then(response => {
+              if (!response || !response.ok) {
+                this.$q.notify('Erro ao executar a ordenação.')
+              }
+              return this.items
+            })
           this.loading = false
-          return this.items
-        })
+        }, 1500)
+      }
+      return this.items
     }
   },
 

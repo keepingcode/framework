@@ -1,0 +1,74 @@
+{  
+  "class":[  
+     "form"
+  ],
+  "title":"TRT",
+  "entities":[
+    {
+      "class": [ "form" ],
+      "rel": [ "action" ],
+      "properties": {
+        "name": "Processar",
+        "title": "Processar",
+        "method": "POST"
+      },
+      "links": [
+        {
+         "rel": [ "submit" ],
+         "title": "Processar",
+         "href": "http://localhost:5000/api/processador/TRT"
+        },
+        {
+          "class": [ "widget" ],
+          "rel": [ "file" ],
+          "title": "Enviar arquivo",
+          "href": "http://localhost:5000/api/upload"
+         }
+      ],
+      "entities":[
+         {
+           "class": [ "widget" ],
+           "rel": [ "field" ],
+           "properties": {
+              "type": "date",
+              "dataType": "date",
+              "name": "dataPublicacao",
+              "title": "Data do processamento"
+            }
+         },
+         {
+           "class": [ "widget" ],
+           "rel": [ "field" ],
+           "properties": {
+              "type": "select",
+              "dataType": "select",
+              "name": "estado",
+              "title": "Estado",
+              "allowMany": false,
+              "value": [ 1 ],
+              "options": [
+                {
+                  "key": 1,
+                  "value": "MG"
+                },
+                {
+                  "key": 2,
+                  "value": "RJ"
+                }
+              ]
+            }
+         },
+         {
+           "class": [ "widget" ],
+           "rel": [ "field" ],
+           "properties": {
+              "type": "file",
+              "dataType": "file",
+              "name": "file",
+              "title": "Arquivo"
+            }
+         }
+      ]
+    }
+  ]
+}

@@ -1,19 +1,16 @@
 <template lang="pug">
   div
     q-select(
-      multiple
-      chips
       color="secondary"
+      option-value="key"
+      option-label="value"
       :name="widget.properties.name"
       :float-label="widget.properties.title"
-      :options="options"
+      :options="widget.properties.options"
       :label="widget.properties.title"
       v-model="selected"
-    )
-    input(
-      type="hidden"
-      :name="field.name"
-      :value="selected"
+      emit-value
+      map-options
     )
 </template>
 
@@ -25,19 +22,6 @@ export default {
   }),
 
   props: ['widget'],
-
-  created () {
-    if (this.field && this.field.value && this.field.value.items) {
-      this.options = this.field.value.items
-      /*
-      this.field.value.items.forEach(item => {
-        if (item.selected) {
-          this.selected.push(item.value)
-        }
-      })
-      */
-    }
-  },
 
   methods: {
     clear () {

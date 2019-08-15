@@ -1,96 +1,119 @@
 <template lang="pug">
-  div
+  q-page(
+    padding
+    class="justify-center"
+  )
+    q-card(class="my-card")
+      div(class="q-pa-md")
+        form(ref="formulario")
+          div(
+            row
+            v-for="widget in widgets"
+            :key="widget.properties.name"
+          )
+            component(
+              :is="$paper.form.dynamicComponent(widget)"
+              :widget="widget"
+              :ref="widget.properties.name"
+            )
 
-    q-page(
-      padding
-      class="justify-center"
-    )
+          div(class="btns q-pa-lg")
+            q-btn(
+              color="secondary"
+              v-for="link in links"
+              @click="submit(link)"
+              :key="link.href"
+            ) {{ link.title }}
 
-      h6 Registros Afetados
-
-      div {{ records }}
-
-      h6 {{ title }}
-
-      div(
-        row
-        v-for="field in fields"
-        :key="field.name"
-      )
-        component(:is="dynamicComponent(field)" :field="field")
+            q-circular-progress(
+              indeterminate
+              size="20px"
+              color="secondary"
+              class="q-ma-md"
+              v-if="showProgress"
+            )
 
 </template>
 
 <script>
-import PaperText from '../components/QPaperText.vue'
-import PaperNumber from '../components/QPaperNumber.vue'
-import PaperDatetime from '../components/QPaperDatetime.vue'
-import PaperCheckbox from '../components/QPaperCheckbox.vue'
-import PaperCurrency from '../components/QPaperCurrency.vue'
 export default {
-  components: {
-    PaperText,
-    PaperNumber,
-    PaperDatetime,
-    PaperCheckbox,
-    PaperCurrency
-  },
-
-  props: {
-    demonstrationMode: {
-      type: Boolean,
-      default: false
+  data () {
+    return {
+      showProgress: false
     }
   },
 
   computed: {
-    records () {
-      var selected = this.$paper.browser.selected
-      return selected
+    widgets () {
+      var widgets = this.$paper.form.widgets
+      return widgets
     },
 
-    title () {
-      var action = this.$paper.browser.action.title
-      return action
-    },
-
-    fields () {
-      var fields = this.$paper.browser.action.fields
-      return fields
-    },
-
-    placeholder () {
-      var placeholder = this.$paper.browser.action.placeholder
-      return placeholder
+    links () {
+      var links = this.$paper.form.links
+      return links
     }
   },
 
   methods: {
-    submit () {
-      console.log('submit')
-    },
-
-    goBack () {
-      this.$router.go(-1)
-    },
-
-    dynamicComponent (field) {
-      var header = this.$paper.data.headers.getHeader(field.name)
-      if (header && header.properties) {
-        switch (header.properties.dataType) {
-          case 'number':
-            return PaperNumber
-          case 'datetime':
-            return PaperDatetime
-          case 'bool':
-            return PaperCheckbox
-          case 'decimal':
-            return PaperCurrency
-          default:
-            return PaperText
+    submit (link) {
+      this.showProgress = true
+      var form = this.$refs['formulario']
+      var formData = new FormData()
+      if (form && form.length > 0) {
+        for (var i = 0; i < form.length; i++) {
+          var field = form[i]
+          if (field && field.name && field.value) {
+            formData.append(field.name, field.value)
+          }
         }
       }
+      formData.append('tribunal', 'TRT')
+      this.$axios.request({
+        url: link.href,
+        method: 'POST',
+        data: formData,
+        config: {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json;application/vnd.siren+json;charset=UTF-8;',
+            'Access-Control-Expose-Headers': 'Access-Control-*',
+            'Access-Control-Allow-Headers': 'Access-Control-*, Origin, X-Requested-With, Content-Type, Accept',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+            'Access-Control-Allow-Origin': '*',
+            'Allow': 'GET, POST, PUT, DELETE, OPTIONS, HEAD'
+          }
+        }
+      }).then(response => {
+        this.showProgress = false
+        this.$q.notify('Arquivo processado com sucesso.')
+        return {
+          ok: true,
+          data: response
+        }
+      }).catch(error => {
+        if (!error.response) {
+          return {
+            ok: false,
+            data: error.response
+          }
+        }
+        console.log('Erro: ', error.response)
+        this.showProgress = false
+        this.$q.notify(`Erro ao processar o arquivo: ${error.response} `)
+        return {
+          ok: false,
+          data: error.response
+        }
+      })
     }
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.my-card
+  width 100%
+  max-width 500px
+  justify-content center
+</style>

@@ -40,6 +40,8 @@ export default {
       switch (this.$paper.browser.type) {
         case this.$paper.browser.pageTypeEnum.GRID:
           return PaperGrid
+        case this.$paper.browser.pageTypeEnum.FORM:
+          return PaperForm
         default:
           return PaperView
       }

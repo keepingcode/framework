@@ -7,8 +7,8 @@ export default class Requester {
     this.router = router
   }
 
-  httpRequest (method, href, params) {
-    var getParams = method.toLowerCase() === 'get' ? params : ''
+  async httpRequest (method, href, data) {
+    var params = method.toLowerCase() === 'get' ? data : ''
     var header = {
       'Accept': 'application/json;application/vnd.siren+json;charset=UTF-8;',
       'Access-Control-Expose-Headers': 'Access-Control-*',
@@ -20,8 +20,8 @@ export default class Requester {
     return axios.request({
       url: href,
       method: method,
-      data: params,
-      params: getParams,
+      data: data,
+      params: params,
       headers: header
     }).then(response => {
       return {
@@ -44,8 +44,7 @@ export default class Requester {
   }
 
   async requestSiren (url, query) {
-    return this.httpRequest('get', url, query).then(response => {
-      console.log('response', response)
+    await this.httpRequest('get', url, query).then(response => {
       if (response.ok) {
         try {
           this.store.commit('paper/parseSiren', response.data.data)
@@ -53,7 +52,9 @@ export default class Requester {
             ok: true,
             data: response.data.data
           }
-        } catch (err) { }
+        } catch (err) {
+          console.log('erro')
+        }
       }
       return {
         ok: false
