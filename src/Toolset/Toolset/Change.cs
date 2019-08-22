@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using Toolset.Collections;
 using Toolset.Reflection;
 
 namespace Toolset

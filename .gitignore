@@ -1,0 +1,16 @@
+/src/Paper/Paper.Browser.Web/bin
+/src/Paper/Paper/obj
+/src/Paper/Paper.Media/obj
+/src/Paper/Paper.Core/obj
+/src/Toolset/Toolset/obj
+/src/Toolset/Toolset.Text.Template/obj
+/src/Toolset/Toolset.Serialization/obj
+/src/Toolset/Toolset.Sequel/obj
+/src/Paper/Paper.Browser.Web/obj
+/src/Paper/Paper/bin
+/src/Toolset/Toolset/bin
+/src/Paper/Paper.Media/bin
+/src/Toolset/Toolset.Sequel/bin
+/src/Toolset/Toolset.Serialization/bin
+/src/Paper/Paper.Core/bin
+/src/Toolset/Toolset.Text.Template/bin
