@@ -15,32 +15,23 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Settings\**" />
-    <EmbeddedResource Remove="Settings\**" />
-    <None Remove="Settings\**" />
+    <Compile Remove="WebHost.cs" />
+    <Compile Remove="WebHostInstaller.cs" />
+    <Compile Remove="WebHostInstaller.Designer.cs" />
+    <Compile Remove="WebHostInstaller`1.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Host\WebHost.cs" />
-    <Compile Remove="Pipelines\Headers.cs" />
-    <Compile Remove="Pipelines\PathArgs.cs" />
-    <Compile Remove="Pipelines\PathIndex.cs" />
-    <Compile Remove="Pipelines\PipelineCatalog.cs" />
-    <Compile Remove="Pipelines\PipelineRenderer.cs" />
-    <Compile Remove="Pipelines\QueryArgs.cs" />
-    <Compile Remove="Pipelines\Renderer.cs" />
-    <Compile Remove="Pipelines\RenderingContext.cs" />
+    <EmbeddedResource Remove="WebHostInstaller.resx" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Server.HttpSys" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
@@ -54,8 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Toolset\Toolset.Sequel\Toolset.Sequel.csproj" />
-    <ProjectReference Include="..\..\Toolset\Toolset\Toolset.csproj" />
+    <ProjectReference Include="..\Innkeeper\Innkeeper.csproj" />
   </ItemGroup>
 
 </Project>

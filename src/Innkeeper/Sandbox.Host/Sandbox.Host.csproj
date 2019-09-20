@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;net462</TargetFrameworks>
-    <OutputType>Library</OutputType>
+    <TargetFrameworks>netcoreapp3;net47</TargetFrameworks>
+    <OutputType>Exe</OutputType>
     <Version>1.0.0</Version>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -15,6 +17,8 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Toolset\Toolset.Sequel\Toolset.Sequel.csproj" />
+    <ProjectReference Include="..\..\Toolset\Toolset\Toolset.csproj" />
     <ProjectReference Include="..\Innkeeper\Innkeeper.csproj" />
   </ItemGroup>
 

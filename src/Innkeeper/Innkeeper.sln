@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innkeeper", "Innkeeper\Innkeeper.csproj", "{DBDB4697-050A-4980-AB93-B243D92316D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{5C053C9C-D10C-4681-95B7-C9E8C5584881}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandbox", "Sandbox", "{BA4ECD57-B2CB-479E-8D62-31FABA8A71BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox.Host", "Sandbox.Host\Sandbox.Host.csproj", "{B6978F10-1521-45E8-8493-ED922D97C9B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolset", "..\Toolset\Toolset\Toolset.csproj", "{7F19DAE7-719C-4645-8DDD-2F68CB398F24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Innkeeper", "Innkeeper", "{93FC6DC4-F235-4BCB-94F4-CAB03ED691FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Toolset", "Toolset", "{87FC090F-4F11-401A-84F3-D3C752C39D9B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolset.Sequel", "..\Toolset\Toolset.Sequel\Toolset.Sequel.csproj", "{986A9651-B09D-46E2-935D-BD609BF1376C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBDB4697-050A-4980-AB93-B243D92316D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBDB4697-050A-4980-AB93-B243D92316D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBDB4697-050A-4980-AB93-B243D92316D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBDB4697-050A-4980-AB93-B243D92316D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6978F10-1521-45E8-8493-ED922D97C9B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6978F10-1521-45E8-8493-ED922D97C9B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6978F10-1521-45E8-8493-ED922D97C9B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6978F10-1521-45E8-8493-ED922D97C9B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F19DAE7-719C-4645-8DDD-2F68CB398F24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F19DAE7-719C-4645-8DDD-2F68CB398F24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F19DAE7-719C-4645-8DDD-2F68CB398F24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F19DAE7-719C-4645-8DDD-2F68CB398F24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{986A9651-B09D-46E2-935D-BD609BF1376C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{986A9651-B09D-46E2-935D-BD609BF1376C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{986A9651-B09D-46E2-935D-BD609BF1376C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{986A9651-B09D-46E2-935D-BD609BF1376C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DBDB4697-050A-4980-AB93-B243D92316D9} = {93FC6DC4-F235-4BCB-94F4-CAB03ED691FB}
+		{B6978F10-1521-45E8-8493-ED922D97C9B1} = {BA4ECD57-B2CB-479E-8D62-31FABA8A71BE}
+		{7F19DAE7-719C-4645-8DDD-2F68CB398F24} = {87FC090F-4F11-401A-84F3-D3C752C39D9B}
+		{93FC6DC4-F235-4BCB-94F4-CAB03ED691FB} = {5C053C9C-D10C-4681-95B7-C9E8C5584881}
+		{87FC090F-4F11-401A-84F3-D3C752C39D9B} = {5C053C9C-D10C-4681-95B7-C9E8C5584881}
+		{986A9651-B09D-46E2-935D-BD609BF1376C} = {87FC090F-4F11-401A-84F3-D3C752C39D9B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BFDF9B8E-0286-4B26-BD6B-0213BB8E5A3A}
+	EndGlobalSection
+EndGlobal
