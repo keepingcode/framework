@@ -22,14 +22,23 @@ namespace Toolset
       {
         if (_assemblies == null)
         {
-          var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-          var appPath = System.IO.Path.GetDirectoryName(assembly.Location);
+          var mainAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+          var appPath = System.IO.Path.GetDirectoryName(mainAssembly.Location);
 
-          _assemblies =
-            Directory
-              .GetFiles(appPath, "*.dll", SearchOption.TopDirectoryOnly)
-              .Select(Assembly.LoadFrom)
-              .ToArray();
+          var files = Directory.GetFiles(appPath, "*.dll", SearchOption.TopDirectoryOnly);
+          var assemblies = new List<Assembly>(files.Length);
+
+          foreach (var file in files)
+          {
+            try
+            {
+              var assembly = Assembly.LoadFrom(file);
+              assemblies.Add(assembly);
+            }
+            catch { /* Nada a fazer. O componente não é compatível com DotNet. */ }
+          }
+
+          _assemblies = assemblies.ToArray();
 
           Console.WriteLine("--assemblies--");
           Console.WriteLine(string.Join(Environment.NewLine, _assemblies.Select(x => x.FullName)));
