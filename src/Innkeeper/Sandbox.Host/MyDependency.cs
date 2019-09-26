@@ -6,6 +6,6 @@ namespace Sandbox.Host
 {
   public class MyDependency
   {
-    public string Message { get; } = "Olá, mundo!";
+    public string Message { get; } = "Hello, world! It worked like a charm!";
   }
 }

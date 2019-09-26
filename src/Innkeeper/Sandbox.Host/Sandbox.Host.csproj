@@ -17,8 +17,12 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Toolset\Toolset.Sequel\Toolset.Sequel.csproj" />
     <ProjectReference Include="..\..\Toolset\Toolset\Toolset.csproj" />
+    <ProjectReference Include="..\Innkeeper.Host.Core\Innkeeper.Host.Core.csproj" />
     <ProjectReference Include="..\Innkeeper\Innkeeper.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,4 @@
-﻿using Innkeeper.Modules;
-using Innkeeper.Pipelines;
+﻿using Innkeeper.Host;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,9 +7,9 @@ using Toolset;
 namespace Sandbox.Host
 {
   [Expose]
-  public class MyModule : IModule
+  public class MyModule : Innkeeper.Host.Module
   {
-    public void Ignite(IObjectFactoryBuilder builder)
+    public override void Configure(IObjectFactoryBuilder builder)
     {
       builder.AddSingleton<MyDependency>();
     }

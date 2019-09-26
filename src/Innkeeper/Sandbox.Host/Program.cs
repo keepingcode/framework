@@ -1,4 +1,4 @@
-﻿using Innkeeper.Host;
+﻿using Innkeeper.Host.Core;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -15,17 +15,11 @@ namespace Sandbox.Host
   {
     static void Main(string[] args)
     {
-      try
-      {
-        var builder = WebHost
-          .CreateDefaultBuilder(args)
-          .UseInnkeeper(opts => opts.AddPrefix("/").AddPrefix("Sandbox/App"));
-        builder.Build().Run();
-      }
-      catch (Exception ex)
-      {
-        ex.Trace();
-      }
+      InnkeeperHost.Start(
+        port: 9090,
+        prefix: "/Sandbox/App",
+        args: args
+      );
     }
   }
 }

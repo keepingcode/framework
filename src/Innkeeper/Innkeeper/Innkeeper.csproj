@@ -20,18 +20,20 @@
     <None Remove="Settings\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Host\WebHost.cs" />
-    <Compile Remove="Pipelines\Headers.cs" />
-    <Compile Remove="Pipelines\PathArgs.cs" />
-    <Compile Remove="Pipelines\PathIndex.cs" />
-    <Compile Remove="Pipelines\PipelineCatalog.cs" />
-    <Compile Remove="Pipelines\PipelineRenderer.cs" />
-    <Compile Remove="Pipelines\QueryArgs.cs" />
-    <Compile Remove="Pipelines\Renderer.cs" />
-    <Compile Remove="Pipelines\RenderingContext.cs" />
+    <Compile Remove="Host\Headers.cs" />
+    <Compile Remove="Host\PathArgs.cs" />
+    <Compile Remove="Host\PathIndex.cs" />
+    <Compile Remove="Host\PipelineCatalog.cs" />
+    <Compile Remove="Host\PipelineRenderer.cs" />
+    <Compile Remove="Host\QueryArgs.cs" />
+    <Compile Remove="Host\Renderer.cs" />
+    <Compile Remove="Host\RenderingContext.cs" />
+    <Compile Remove="Host\Request.cs" />
+    <Compile Remove="Host\Response.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <!--
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.2.0" />
@@ -49,6 +51,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
+    -->
     <PackageReference Include="Npgsql" Version="4.0.0" />
     <PackageReference Include="System.CodeDom" Version="4.5.0" />
   </ItemGroup>

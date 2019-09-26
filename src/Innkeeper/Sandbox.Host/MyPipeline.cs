@@ -1,4 +1,4 @@
-﻿using Innkeeper.Pipelines;
+﻿using Innkeeper.Host;
 using System;
 using System.Collections.Generic;
 using System.Text;
