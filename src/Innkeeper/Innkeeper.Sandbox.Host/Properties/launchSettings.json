@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Paper.Host": {
+    "Innkeeper.Sandbox.Host": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {
