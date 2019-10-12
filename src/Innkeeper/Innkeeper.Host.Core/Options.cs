@@ -2,7 +2,7 @@
 
 namespace Innkeeper.Host.Core
 {
-  public class Options
+  public class AppInfo
   {
     private int _port;
 

@@ -15,11 +15,20 @@ namespace Sandbox.Host
   {
     static void Main(string[] args)
     {
-      InnkeeperHost.Start(
-        port: 9090,
-        prefix: "/Sandbox/App",
-        args: args
-      );
+      try
+      {
+        var builder = WebHost
+          .CreateDefaultBuilder(args)
+          .UseInnkeeperHost(app => {
+            app.Port = 9090;
+          })
+          .UseStartup<Startup>();
+        builder.Build().Run();
+      }
+      catch (Exception ex)
+      {
+        ex.Trace();
+      }
     }
   }
 }

@@ -10,19 +10,21 @@ namespace Sandbox.Host
   [Expose]
   class MyPipeline : IPipeline
   {
-    private IObjectFactory factory;
+    private readonly MyDependency myDependency;
+    private readonly IWebAppInfo webAppInfo;
 
     public string Route { get; }
 
-    public MyPipeline(IObjectFactory factory)
+    public MyPipeline(MyDependency myDependency, IWebAppInfo webAppInfo)
     {
-      this.factory = factory;
+      this.myDependency = myDependency;
+      this.webAppInfo = webAppInfo;
     }
 
     public async Task RenderAsync(IRequestContext ctx, NextAsync next)
     {
-      var myDependency = this.factory.GetInstance<MyDependency>();
-      var buffer = UTF8Encoding.UTF8.GetBytes(myDependency.Message);
+      var message = $"{myDependency.Message} (App: {webAppInfo.Name}_v{webAppInfo.Version} / ID:{webAppInfo.Guid.ToString("D").ToUpper()})";
+      var buffer = UTF8Encoding.UTF8.GetBytes(message);
       await ctx.Response.Body.WriteAsync(buffer, 0, buffer.Length);
     }
   }

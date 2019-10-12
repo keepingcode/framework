@@ -12,13 +12,94 @@ namespace Toolset
   {
     static App()
     {
+      App.Guid = FindGuid();
+      App.Name = FindName();
       App.Path = FindPath();
       App.Version = FindVersion();
     }
 
+    /// <summary>
+    /// Identificador único da instância do aplicativo instalada.
+    /// Por padrão o identificador é armazenado na pasta de instalação do
+    /// aplicativo sob o nome de Guid.txt.
+    /// </summary>
+    public static Guid Guid { get; set; }
+
+    /// <summary>
+    /// Nome interno do aplicativo.
+    /// </summary>
+    public static string Name { get; set; }
+
+    /// <summary>
+    /// Caminho dos arquivos do aplicativo. Em geral corresponde à
+    /// pasta de instalação.
+    /// </summary>
     public static string Path { get; set; }
 
+    public static string CommonPath { get; set; }
+
+    /// <summary>
+    /// Versão corrente do aplicativo.
+    /// </summary>
     public static VersionInfo Version { get; set; }
+
+    /// <summary>
+    /// Descrição amigável opcional do aplicativo.
+    /// </summary>
+    public static string Description { get; set; }
+
+    static Guid FindGuid()
+    {
+      Guid? guid = null;
+
+      var path = FindPath();
+      var filepath = System.IO.Path.Combine(path, "Guid.txt");
+
+      if (File.Exists(filepath))
+      {
+        try
+        {
+          var content = File.ReadAllText(filepath).Trim();
+          guid = Guid.Parse(content);
+        }
+        catch { /* Nada a fazer */ }
+      }
+
+      if (guid == null)
+      {
+        guid = Guid.NewGuid();
+        try
+        {
+          var content = guid.Value.ToString("D");
+          File.WriteAllText(filepath, content);
+        }
+        catch { /* Nada a fazer */ }
+      }
+
+      return guid.Value;
+    }
+
+    /// <summary>
+    /// Determina o nome ideal para identificar este aplicativo.
+    /// </summary>
+    static string FindName()
+    {
+      try
+      {
+        var assembly = Assembly.GetEntryAssembly();
+        return assembly.FullName.Split(',').FirstOrDefault();
+      }
+      catch { /* Nada a fazer. */ }
+
+      try
+      {
+        var process = Process.GetCurrentProcess();
+        return process.ProcessName;
+      }
+      catch { /* Nada a fazer. */ }
+
+      return null;
+    }
 
     /// <summary>
     /// Obtém o caminho no qual o aplicativo está instalado.

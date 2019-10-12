@@ -75,47 +75,50 @@ namespace Innkeeper.Host.Core
 
     #region Configuring Pipeline (IWebHostBuilder)
 
-    public static IWebHostBuilder UseInnkeeper(this IWebHostBuilder builder, Action<Options> opts)
+    public static IWebHostBuilder UseInnkeeperHost(this IWebHostBuilder hostBuilder, Action<WebAppInfo> webAppBuilder)
     {
-      var options = new Options();
+      var webAppInfo = new WebAppInfo();
+      hostBuilder.ConfigureServices(services => services.AddSingleton<IWebAppInfo>(webAppInfo));
 
-      opts.Invoke(options);
+      webAppBuilder?.Invoke(webAppInfo);
 
-      var port = options.Port;
-      var urlPrefixes = options
-        .Prefixes
-        .Select(prefix => CreateUrlPrefix(prefix, options))
-        .ToArray();
+      var port = webAppInfo.Port;
 
-      builder.ConfigureAppConfiguration((ctx, config) => config.SetBasePath(App.Path));
+      hostBuilder.ConfigureAppConfiguration((ctx, config) => config.SetBasePath(App.Path));
 
       if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
       {
-        builder.UseHttpSys(httpSysOptions =>
+        var urlPrefix = CreateUrlPrefix(webAppInfo, appendPath: true);
+        hostBuilder.UseHttpSys(httpSysOptions =>
         {
           httpSysOptions.AllowSynchronousIO = true;
           httpSysOptions.Authentication.Schemes = Microsoft.AspNetCore.Server.HttpSys.AuthenticationSchemes.Basic;
           httpSysOptions.Authentication.AllowAnonymous = true;
           httpSysOptions.MaxConnections = null;
           httpSysOptions.MaxRequestBodySize = 30000000;
-          httpSysOptions.MaxAccepts = 30000000;
-          urlPrefixes.ForEach(urlPrefix => httpSysOptions.UrlPrefixes.Add(urlPrefix));
+          httpSysOptions.UrlPrefixes.Add(urlPrefix);
         });
       }
       else
       {
-        builder.UseUrls(urlPrefixes);
+        var urlPrefix = CreateUrlPrefix(webAppInfo, appendPath: false);
+        hostBuilder.UseUrls(urlPrefix);
       }
 
-      return builder;
+      return hostBuilder;
     }
 
-    private static string CreateUrlPrefix(string prefix, Options options)
-  {
+    private static string CreateUrlPrefix(IWebAppInfo webAppInfo, bool appendPath)
+    {
+      var prefix = webAppInfo.PathPrefix;
+      var port = webAppInfo.Port;
+
       if (!prefix.StartsWith("/")) prefix = $"/{prefix}";
       if (!prefix.EndsWith("/")) prefix += "/";
 
-      return $"http://localhost:{options.Port}{prefix}";
+      return appendPath
+        ? $"http://*:{port}{prefix}"
+        : $"http://*:{port}/";
     }
 
     #endregion
