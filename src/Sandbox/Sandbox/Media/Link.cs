@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Paper.Media3
+namespace Paper.Media
 {
-  public interface INode
+  public class Link : INode
   {
   }
 }

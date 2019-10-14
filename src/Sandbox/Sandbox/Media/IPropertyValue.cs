@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Paper.Media2
+namespace Paper.Media
 {
-  public enum Rel
+  public interface IPropertyValue : INode
   {
-    Self,
-    First,
-    Prev,
-    Next
   }
 }

@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Paper.Media3
+namespace Paper.Media
 {
-  public enum Rel
+  public interface INode
   {
-    Self,
-    First,
-    Prev,
-    Next
+
   }
 }
