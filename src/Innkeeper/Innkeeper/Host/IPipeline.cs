@@ -7,8 +7,6 @@ namespace Innkeeper.Host
 {
   public interface IPipeline
   {
-    string Route { get; }
-
     Task RenderAsync(IRequestContext ctx, NextAsync next);
   }
 }

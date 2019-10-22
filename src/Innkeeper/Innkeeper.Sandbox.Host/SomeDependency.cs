@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sandbox.Host
+namespace Innkeeper.Sandbox.Host
 {
   public class MyDependency
   {

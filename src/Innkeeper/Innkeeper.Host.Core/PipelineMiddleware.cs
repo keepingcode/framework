@@ -15,12 +15,12 @@ using Microsoft.AspNetCore.Http;
 
 namespace Innkeeper.Host.Core
 {
-  internal class Middleware
+  internal class PipelineMiddleware
   {
     private readonly IPipeline pipeline;
     private readonly RequestDelegate next;
 
-    public Middleware(IPipeline pipeline, RequestDelegate next)
+    public PipelineMiddleware(IPipeline pipeline, RequestDelegate next)
     {
       this.pipeline = pipeline;
       this.next = next;

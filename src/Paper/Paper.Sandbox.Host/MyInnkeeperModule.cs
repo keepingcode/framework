@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using Toolset;
 
-namespace Innkeeper.Sandbox.Host
+namespace Paper.Sandbox.Host
 {
   [Expose]
-  public class MyInnkeerperModule : Innkeeper.Host.IInnkeeperModule
+  public class MyInnkeerperModule : IInnkeeperModule
   {
     public void Configure(IObjectFactoryBuilder builder)
     {
-      builder.AddSingleton<MyDependency>();
+      builder.AddSingleton<SomeDependency>();
     }
   }
 }

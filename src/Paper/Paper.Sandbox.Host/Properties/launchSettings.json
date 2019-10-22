@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Sandbox.Host": {
+    "Paper.Sandbox.Host": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {

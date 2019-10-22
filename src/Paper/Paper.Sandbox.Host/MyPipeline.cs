@@ -5,22 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Toolset;
 
-namespace Innkeeper.Sandbox.Host
+namespace Paper.Sandbox.Host
 {
   [Expose]
-  class MyPipeline : IPipeline
+  public class MyPipeline : IPipeline
   {
-    private readonly MyDependency myDependency;
     private readonly IWebAppInfo webAppInfo;
+    private readonly SomeDependency myDependency;
 
-    public void Configure(IRouter router)
+    public MyPipeline(IRouter router, IWebAppInfo webAppInfo, SomeDependency myDependency)
     {
-    }
-
-    public MyPipeline(MyDependency myDependency, IWebAppInfo webAppInfo)
-    {
-      this.myDependency = myDependency;
+      router.Map("/My/Paper");
       this.webAppInfo = webAppInfo;
+      this.myDependency = myDependency;
     }
 
     public async Task RenderAsync(IRequestContext ctx, NextAsync next)

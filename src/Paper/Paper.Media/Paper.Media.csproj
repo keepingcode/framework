@@ -43,12 +43,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Attributes\FieldTypeAttribute.cs" />
     <Compile Remove="CaseVariantStringExtensions.cs" />
     <Compile Remove="Data\Filter.cs" />
     <Compile Remove="Data\Filter`1.cs" />
     <Compile Remove="Design\DataExtensions.cs" />
+    <Compile Remove="Design\EntityActionExtensions.cs" />
     <Compile Remove="Design\EntityDesign.cs" />
     <Compile Remove="Design\ExposePaperAttribute.cs" />
+    <Compile Remove="Design\FieldDesign.cs" />
+    <Compile Remove="Design\FieldExtensions.cs" />
     <Compile Remove="Design\HeaderUtil.cs" />
     <Compile Remove="Design\IPaper.cs" />
     <Compile Remove="Design\ISortableEnumerable.cs" />
@@ -61,7 +65,18 @@
     <Compile Remove="Design\RecordExtensions.cs" />
     <Compile Remove="Design\RowsExtensions.cs" />
     <Compile Remove="Design\SortOrder.cs" />
+    <Compile Remove="EntityAction.cs" />
+    <Compile Remove="EntityActionCollection.cs" />
+    <Compile Remove="Field.cs" />
+    <Compile Remove="FieldCollection.cs" />
+    <Compile Remove="FieldProvider.cs" />
+    <Compile Remove="FieldProviderExtensions.cs" />
+    <Compile Remove="FieldType.cs" />
     <Compile Remove="FieldTypeEx.cs" />
+    <Compile Remove="FieldTypeExtensions.cs" />
+    <Compile Remove="FieldTypeNames.cs" />
+    <Compile Remove="FieldValue.cs" />
+    <Compile Remove="FieldValueCollection.cs" />
     <Compile Remove="Property.cs" />
   </ItemGroup>
 

@@ -22,8 +22,10 @@ namespace Toolset
       {
         if (_assemblies == null)
         {
-          var mainAssembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-          var appPath = System.IO.Path.GetDirectoryName(mainAssembly.Location);
+          var exeAssembly = Assembly.GetEntryAssembly();
+
+          var appAssembly = exeAssembly ?? Assembly.GetExecutingAssembly();
+          var appPath = System.IO.Path.GetDirectoryName(appAssembly.Location);
 
           var files = Directory.GetFiles(appPath, "*.dll", SearchOption.TopDirectoryOnly);
           var assemblies = new List<Assembly>(files.Length);
@@ -36,6 +38,11 @@ namespace Toolset
               assemblies.Add(assembly);
             }
             catch { /* Nada a fazer. O componente não é compatível com DotNet. */ }
+          }
+
+          if (exeAssembly != null)
+          {
+            assemblies.Add(exeAssembly);
           }
 
           _assemblies = assemblies.ToArray();

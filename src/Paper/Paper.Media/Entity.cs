@@ -46,11 +46,11 @@ namespace Paper.Media
     [DataMember(EmitDefaultValue = false, Order = 50)]
     public virtual EntityCollection Entities { get; set; }
 
-    /// <summary>
-    /// Coleção das ações aplicáveis à entidade. Opcional.
-    /// </summary>
-    [DataMember(EmitDefaultValue = false, Order = 60)]
-    public virtual EntityActionCollection Actions { get; set; }
+    ///// <summary>
+    ///// Coleção das ações aplicáveis à entidade. Opcional.
+    ///// </summary>
+    //[DataMember(EmitDefaultValue = false, Order = 60)]
+    //public virtual EntityActionCollection Actions { get; set; }
 
     /// <summary>
     /// Coleção dos links de navegação associados à entidade. Opcional.

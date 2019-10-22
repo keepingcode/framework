@@ -116,18 +116,18 @@ namespace Paper.Media.Design
       return entity.Entities ?? (entity.Entities = new EntityCollection());
     }
 
-    /// <summary>
-    /// Obtém a propriedade da entidade instanciando a coleção caso esteja nula.
-    /// </summary>
-    /// <param name="entity">A entidade alvo.</param>
-    /// <returns>
-    /// A instância da entidade.
-    /// É garantido que a proprieadade está instanciada.
-    /// </returns>
-    public static EntityActionCollection WithActions(this Entity entity)
-    {
-      return entity.Actions ?? (entity.Actions = new EntityActionCollection());
-    }
+    ///// <summary>
+    ///// Obtém a propriedade da entidade instanciando a coleção caso esteja nula.
+    ///// </summary>
+    ///// <param name="entity">A entidade alvo.</param>
+    ///// <returns>
+    ///// A instância da entidade.
+    ///// É garantido que a proprieadade está instanciada.
+    ///// </returns>
+    //public static EntityActionCollection WithActions(this Entity entity)
+    //{
+    //  return entity.Actions ?? (entity.Actions = new EntityActionCollection());
+    //}
 
     /// <summary>
     /// Obtém a propriedade da entidade instanciando a coleção caso esteja nula.
@@ -499,21 +499,21 @@ namespace Paper.Media.Design
       return entity;
     }
 
-    /// <summary>
-    /// Adiciona uma classe à entidade.
-    /// </summary>
-    /// <param name="entity">A instância da entidade modificada.</param>
-    /// <typeparam name="TClass">O tipo da classe.</typeparam>
-    /// <returns>A própria instância da entidade para encadeamento.</returns>
-    public static Field AddClass<TClass>(this Field entity)
-    {
+    ///// <summary>
+    ///// Adiciona uma classe à entidade.
+    ///// </summary>
+    ///// <param name="entity">A instância da entidade modificada.</param>
+    ///// <typeparam name="TClass">O tipo da classe.</typeparam>
+    ///// <returns>A própria instância da entidade para encadeamento.</returns>
+    //public static Field AddClass<TClass>(this Field entity)
+    //{
 
-      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
-      //entity.WithClass().Add(Conventions.MakeName(typeof(TClass)));
-      //
+    //  // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+    //  //entity.WithClass().Add(Conventions.MakeName(typeof(TClass)));
+    //  //
 
-      return entity;
-    }
+    //  return entity;
+    //}
 
     /// <summary>
     /// Adiciona uma classe à entidade.
@@ -541,23 +541,23 @@ namespace Paper.Media.Design
       return entity;
     }
 
-    /// <summary>
-    /// Redefine as classes da entidade.
-    /// </summary>
-    /// <param name="entity">A instância da entidade modificada.</param>
-    /// <typeparam name="TClass">O tipo da classe.</typeparam>
-    /// <returns>A própria instância da entidade para encadeamento.</returns>
-    public static Field SetClass<TClass>(this Field entity)
-    {
+    ///// <summary>
+    ///// Redefine as classes da entidade.
+    ///// </summary>
+    ///// <param name="entity">A instância da entidade modificada.</param>
+    ///// <typeparam name="TClass">O tipo da classe.</typeparam>
+    ///// <returns>A própria instância da entidade para encadeamento.</returns>
+    //public static Field SetClass<TClass>(this Field entity)
+    //{
 
-      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
-      //var @class = entity.WithClass();
-      //@class.Clear();
-      //@class.Add(Conventions.MakeName(typeof(TClass)));
-      //
+    //  // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+    //  //var @class = entity.WithClass();
+    //  //@class.Clear();
+    //  //@class.Add(Conventions.MakeName(typeof(TClass)));
+    //  //
 
-      return entity;
-    }
+    //  return entity;
+    //}
 
     /// <summary>
     /// Redefine as classes da entidade.
@@ -599,16 +599,16 @@ namespace Paper.Media.Design
     /// <param name="entity">A instância da entidade modificada.</param>
     /// <typeparam name="TClass">O tipo da classe.</typeparam>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
-    public static Field SetUserClass<TClass>(this Field entity)
-    {
+    //public static Field SetUserClass<TClass>(this Field entity)
+    //{
 
-      // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
-      //var @class = entity.WithClass();
-      //@class.RemoveWhen(ClassNames.IsUserClass);
-      //@class.Add(Conventions.MakeName(typeof(TClass)));
+    //  // XXX: FIXME: Esta propriedade agora deve pertencer a uma entidade.
+    //  //var @class = entity.WithClass();
+    //  //@class.RemoveWhen(ClassNames.IsUserClass);
+    //  //@class.Add(Conventions.MakeName(typeof(TClass)));
 
-      return entity;
-    }
+    //  return entity;
+    //}
 
     /// <summary>
     /// Redefine as classes de usuário da entidade.

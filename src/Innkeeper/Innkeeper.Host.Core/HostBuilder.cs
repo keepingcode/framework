@@ -27,14 +27,32 @@ namespace Innkeeper.Host.Core
       var pipelineTypes = ExposedTypes.GetTypes<IPipeline>();
       foreach (var pipelineType in pipelineTypes)
       {
+        Console.WriteLine($"--routes--");
         try
         {
-          var pipeline = (IPipeline)objectFactory.CreateObject(pipelineType);
-          app.Map(pipeline.Route, builder => builder.UseMiddleware<Middleware>(pipeline));
+          var router = new Router();
+          var pipeline = (IPipeline)objectFactory.CreateObject(pipelineType, router);
+          if (router.Any())
+          {
+            foreach (var route in router)
+            {
+              app.Map(route, builder => builder.UseMiddleware<PipelineMiddleware>(pipeline));
+              Console.WriteLine($"{route} => {pipeline.GetType().FullName}");
+            }
+          }
+          else
+          {
+            app.UseMiddleware<PipelineMiddleware>(pipeline);
+            Console.WriteLine($"/ => {pipeline.GetType().FullName}");
+          }
         }
         catch (Exception ex)
         {
           ex.Trace();
+        }
+        finally
+        {
+          Console.WriteLine($"----");
         }
       }
       return app;
@@ -56,12 +74,12 @@ namespace Innkeeper.Host.Core
 
     private static void IgniteModules(IObjectFactoryBuilder builder)
     {
-      var types = ExposedTypes.GetTypes<IModule>();
+      var types = ExposedTypes.GetTypes<IInnkeeperModule>();
       foreach (var type in types)
       {
         try
         {
-          var module = (IModule)Activator.CreateInstance(type);
+          var module = (IInnkeeperModule)Activator.CreateInstance(type);
           module.Configure(builder);
         }
         catch (Exception ex)

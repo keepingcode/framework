@@ -3,15 +3,17 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 using Toolset;
 
-namespace Sandbox.Host
+namespace Paper.Sandbox.Host
 {
-  public static class Program
+  static class Program
   {
-    public static void Main(string[] args)
+    static void Main(string[] args)
     {
       try
       {

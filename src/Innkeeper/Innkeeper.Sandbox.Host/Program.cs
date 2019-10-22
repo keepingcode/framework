@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Toolset;
 
-namespace Sandbox.Host
+namespace Innkeeper.Sandbox.Host
 {
   static class Program
   {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Paper.Media
+namespace Paper.Design
 {
-  public interface IPropertyValue : INode
+  public interface IPaper
   {
   }
 }

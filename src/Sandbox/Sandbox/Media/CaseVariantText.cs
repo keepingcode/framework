@@ -5,7 +5,7 @@ using Toolset;
 
 namespace Paper.Media
 {
-  public class CaseVariantText : Text, INode, IPropertyValue
+  public class CaseVariantText : Text, INode, IValue
   {
     public static implicit operator string(CaseVariantText text)
     {

@@ -22,18 +22,18 @@ namespace Paper.Media.Data
 
     private static IEnumerable<KeyValuePair<string, object>> EnumerateEntries(IFilter filter)
     {
-      if (filter is EntityAction action)
-      {
-        if (action.Fields == null)
-          yield break;
-
-        foreach (var field in action.Fields)
-        {
-          var resolvedValue = ResolveValue(field.Value);
-          yield return new KeyValuePair<string, object>(field.Name, resolvedValue);
-        }
-      }
-      else
+      // if (filter is EntityAction action)
+      // {
+      //   if (action.Fields == null)
+      //     yield break;
+      // 
+      //   foreach (var field in action.Fields)
+      //   {
+      //     var resolvedValue = ResolveValue(field.Value);
+      //     yield return new KeyValuePair<string, object>(field.Name, resolvedValue);
+      //   }
+      // }
+      // else
       {
         var names = filter._GetPropertyNames();
         foreach (var name in names)

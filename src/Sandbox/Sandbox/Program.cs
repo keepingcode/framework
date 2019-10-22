@@ -20,14 +20,20 @@ namespace Sandbox
         entity.Properties = new NodeCollection<Property>();
         entity.Properties.Add(new Property());
         entity.Properties[0].Name = "Id";
-        entity.Properties[0].Value = (Text)"10";
+        entity.Properties[0].Value = Value.Get(10);
         entity.Properties.Add(new Property());
         entity.Properties[1].Name = "Name";
-        entity.Properties[1].Value = new PropertyCollection
+        entity.Properties[1].Value = new ValueCollection
         {
-          (Text)"Talz",
-          (CaseVariantText)"Telz"
+          Value.Get("Talz"),
+          (CaseVariantText)"Telz",
+          Value.GetArray(1, true, "3", null, DateTime.Now)
         };
+
+        foreach (var node in entity.DescendantNodesAndSelf())
+        {
+          Debug.WriteLine($"{node?.GetType().Name}");
+        }
       }
       catch (Exception ex)
       {

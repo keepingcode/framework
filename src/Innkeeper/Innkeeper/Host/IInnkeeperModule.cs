@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Innkeeper.Host
 {
-  public interface IModule
+  public interface IInnkeeperModule
   {
     void Configure(IObjectFactoryBuilder builder);
   }

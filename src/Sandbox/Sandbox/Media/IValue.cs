@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Paper.Media
 {
-  public class PropertyCollection : NodeCollection<IPropertyValue>, INode, IPropertyValue
+  public interface IValue : INode
   {
+    object Value { get; }
   }
 }
