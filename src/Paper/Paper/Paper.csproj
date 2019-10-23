@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;net462</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3;net47</TargetFrameworks>
     <OutputType>Library</OutputType>
     <Version>1.0.0</Version>
   </PropertyGroup>
@@ -20,53 +20,24 @@
     <Compile Remove="Extensions.Papers\**" />
     <Compile Remove="Extensions.Site.Rendering\**" />
     <Compile Remove="Extensions.Site\**" />
-    <Compile Remove="Extensions\**" />
     <Compile Remove="Rendering\**" />
     <Compile Remove="temp\**" />
     <EmbeddedResource Remove="Commons\**" />
     <EmbeddedResource Remove="Extensions.Papers\**" />
     <EmbeddedResource Remove="Extensions.Site.Rendering\**" />
     <EmbeddedResource Remove="Extensions.Site\**" />
-    <EmbeddedResource Remove="Extensions\**" />
     <EmbeddedResource Remove="Rendering\**" />
     <EmbeddedResource Remove="temp\**" />
     <None Remove="Commons\**" />
     <None Remove="Extensions.Papers\**" />
     <None Remove="Extensions.Site.Rendering\**" />
     <None Remove="Extensions.Site\**" />
-    <None Remove="Extensions\**" />
     <None Remove="Rendering\**" />
     <None Remove="temp\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Design\ActionRenderer.cs" />
-    <Compile Remove="Design\Format.cs" />
-    <Compile Remove="Design\Formatter.cs" />
-    <Compile Remove="Design\IForm.cs" />
-    <Compile Remove="Design\IFormatter.cs" />
-    <Compile Remove="Design\IPaperCatalog.cs" />
-    <Compile Remove="Design\IPaperContext.cs" />
-    <Compile Remove="Design\Links.cs" />
-    <Compile Remove="Design\PaperCaller.cs" />
-    <Compile Remove="Design\PaperCatalog.cs" />
-    <Compile Remove="Design\PaperContext.cs" />
-    <Compile Remove="Design\PaperDescriptor.cs" />
-    <Compile Remove="Design\PaperDescriptorExtensions.cs" />
-    <Compile Remove="Design\PaperLink.cs" />
-    <Compile Remove="Design\PaperPipeline.cs" />
-    <Compile Remove="Design\PaperRenderer.cs" />
-    <Compile Remove="Design\PaperRenderer2.cs" />
-    <Compile Remove="Design\Redirect.cs" />
-    <Compile Remove="Design\RenderContext.cs" />
-    <Compile Remove="Design\Result.cs" />
-    <Compile Remove="Design\SamplePaper.cs" />
-    <Compile Remove="Design\Tables.cs" />
     <Compile Remove="IPaperSettings.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Design\PaperLink.cs,bak" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Innkeeper\Innkeeper\Innkeeper.csproj" />
     <ProjectReference Include="..\..\toolset\Toolset.Sequel\Toolset.Sequel.csproj" />
     <ProjectReference Include="..\..\toolset\Toolset.Serialization\Toolset.Serialization.csproj" />
     <ProjectReference Include="..\..\toolset\Toolset.Text.Template\Toolset.Text.Template.csproj" />

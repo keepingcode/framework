@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Innkeeper.Host;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -129,6 +130,11 @@ namespace Paper.Media.Data
     }
 
     public void CopyFrom(IDictionary args)
+    {
+      CopyFromArgValue(args["sort"]);
+    }
+
+    public void CopyFrom(IArgs args)
     {
       CopyFromArgValue(args["sort"]);
     }

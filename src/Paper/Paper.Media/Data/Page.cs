@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Innkeeper.Host;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,6 +102,24 @@ namespace Paper.Media.Data
     }
 
     public void CopyFrom(IDictionary args)
+    {
+      if (args == null)
+        return;
+
+      var offset = Change.To<int?>(args["offset"]);
+      if (offset != null)
+      {
+        Offset = offset.Value;
+      }
+
+      var limit = Change.To<int?>(args["limit"]);
+      if (limit != null)
+      {
+        Limit = limit.Value;
+      }
+    }
+
+    public void CopyFrom(IArgs args)
     {
       if (args == null)
         return;

@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innkeeper.Host.Core", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innkeeper.Sandbox.Host", "src\Innkeeper\Innkeeper.Sandbox.Host\Innkeeper.Sandbox.Host.csproj", "{20F943CB-93E9-400F-88BD-0DB25BFD1C09}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paper.Sandbox.Host", "src\Paper\Paper.Sandbox.Host\Paper.Sandbox.Host.csproj", "{80EB4A68-3CD2-4724-B393-509D80920BA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{20F943CB-93E9-400F-88BD-0DB25BFD1C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20F943CB-93E9-400F-88BD-0DB25BFD1C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20F943CB-93E9-400F-88BD-0DB25BFD1C09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80EB4A68-3CD2-4724-B393-509D80920BA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80EB4A68-3CD2-4724-B393-509D80920BA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80EB4A68-3CD2-4724-B393-509D80920BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80EB4A68-3CD2-4724-B393-509D80920BA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +133,7 @@ Global
 		{298D802E-E00E-4DAB-9523-E6FBABBEB6AB} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
 		{DEBFCF4F-8B39-4B53-956E-A43F7C0FE4B7} = {8D5A807B-8B24-4C93-A86D-6A8D4B357419}
 		{20F943CB-93E9-400F-88BD-0DB25BFD1C09} = {8D5A807B-8B24-4C93-A86D-6A8D4B357419}
+		{80EB4A68-3CD2-4724-B393-509D80920BA9} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BFDF9B8E-0286-4B26-BD6B-0213BB8E5A3A}
