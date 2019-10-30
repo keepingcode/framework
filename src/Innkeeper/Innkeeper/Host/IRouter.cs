@@ -6,6 +6,9 @@ namespace Innkeeper.Host
 {
   public interface IRouter
   {
-    void Map(string route);
+    void Map<T>(string route)
+      where T : IPipeline;
+
+    void Map(string route, Type pipelineType);
   }
 }

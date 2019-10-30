@@ -12,7 +12,7 @@ namespace Paper.Host
   [Expose]
   class PaperInnkeeperModule : IInnkeeperModule
   {
-    public void Configure(IObjectFactoryBuilder builder)
+    public void ConfigureServices(IObjectFactoryBuilder builder)
     {
       var paperCatalog = new PaperCatalog();
       paperCatalog.Fill();

@@ -14,99 +14,28 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Toolset;
 using Toolset.Collections;
+using Toolset.Reflection;
 
 namespace Innkeeper.Host.Core
 {
-  public static class HostBuilder
+  public class HostBuilder
   {
-    #region Configuring Host (IApplicationBuilder)
-
-    public static IApplicationBuilder UseInnkeeper(this IApplicationBuilder app)
+    public void BuildHost(IWebHostBuilder webHostBuilder, Action<HostInfo> options)
     {
-      var objectFactory = app.ApplicationServices.GetRequiredService<IObjectFactory>();
-      var pipelineTypes = ExposedTypes.GetTypes<IPipeline>();
-      foreach (var pipelineType in pipelineTypes)
-      {
-        Console.WriteLine($"--routes--");
-        try
-        {
-          var router = new Router();
-          var pipeline = (IPipeline)objectFactory.CreateObject(pipelineType, router);
-          if (router.Any())
-          {
-            foreach (var route in router)
-            {
-              app.Map(route, builder => builder.UseMiddleware<PipelineMiddleware>(pipeline));
-              Console.WriteLine($"{route} => {pipeline.GetType().FullName}");
-            }
-          }
-          else
-          {
-            app.UseMiddleware<PipelineMiddleware>(pipeline);
-            Console.WriteLine($"/ => {pipeline.GetType().FullName}");
-          }
-        }
-        catch (Exception ex)
-        {
-          ex.Trace();
-        }
-        finally
-        {
-          Console.WriteLine($"----");
-        }
-      }
-      return app;
-    }
+      // Configuração básica
+      //
+      webHostBuilder.ConfigureAppConfiguration((ctx, config) => config.SetBasePath(App.Path));
 
-    #endregion
+      // Escolhendo e levantando o barramento
+      //
 
-    #region Configuring Services (AddInnkeeper)
+      var hostInfo = CollectHostInfo(options);
 
-    public static IServiceCollection AddInnkeeper(this IServiceCollection services)
-    {
-      var builder = new ObjectFactoryBuilder(services);
-      builder.AddObjectFactory();
-
-      IgniteModules(builder);
-
-      return services;
-    }
-
-    private static void IgniteModules(IObjectFactoryBuilder builder)
-    {
-      var types = ExposedTypes.GetTypes<IInnkeeperModule>();
-      foreach (var type in types)
-      {
-        try
-        {
-          var module = (IInnkeeperModule)Activator.CreateInstance(type);
-          module.Configure(builder);
-        }
-        catch (Exception ex)
-        {
-          ex.Trace();
-        }
-      }
-    }
-
-    #endregion
-
-    #region Configuring Pipeline (IWebHostBuilder)
-
-    public static IWebHostBuilder UseInnkeeperHost(this IWebHostBuilder hostBuilder, Action<WebAppInfo> webAppBuilder)
-    {
-      var webAppInfo = new WebAppInfo();
-      hostBuilder.ConfigureServices(services => services.AddSingleton<IWebAppInfo>(webAppInfo));
-
-      webAppBuilder?.Invoke(webAppInfo);
-
-      var port = webAppInfo.Port;
-
-      hostBuilder.ConfigureAppConfiguration((ctx, config) => config.SetBasePath(App.Path));
-
+      
+      /*
       if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
       {
-        var urlPrefix = CreateUrlPrefix(webAppInfo, appendPath: true);
+        var urlPrefix = "";// CreateUrlPrefix(hostInfo, appendPath: true);
         hostBuilder.UseHttpSys(httpSysOptions =>
         {
           httpSysOptions.AllowSynchronousIO = true;
@@ -119,26 +48,40 @@ namespace Innkeeper.Host.Core
       }
       else
       {
-        var urlPrefix = CreateUrlPrefix(webAppInfo, appendPath: false);
+        var urlPrefix = "";/CreateUrlPrefix(hostInfo, appendPath: false);
         hostBuilder.UseUrls(urlPrefix);
       }
-
-      return hostBuilder;
+      */
     }
 
-    private static string CreateUrlPrefix(IWebAppInfo webAppInfo, bool appendPath)
+    private static HostInfo CollectHostInfo(Action<HostInfo> options)
     {
-      var prefix = webAppInfo.PathPrefix;
-      var port = webAppInfo.Port;
+      var hostInfo = new HostInfo();
 
-      if (!prefix.StartsWith("/")) prefix = $"/{prefix}";
-      if (!prefix.EndsWith("/")) prefix += "/";
+      // Parametros iniciais
+      //
+      hostInfo.Guid = App.Guid;
+      hostInfo.Port = HostInfo.DefaultPort;
+      hostInfo.Name = App.Name;
+      hostInfo.Description = App.Description;
+      hostInfo.Version = App.Version;
 
-      return appendPath
-        ? $"http://*:{port}{prefix}"
-        : $"http://*:{port}/";
+      // Personalizacao dos parametros
+      //
+      options?.Invoke(hostInfo);
+
+      // Revisao dos parametros finais
+      //
+      if (hostInfo.Port == 0)
+      {
+        hostInfo.Port = HostInfo.DefaultPort;
+      }
+      if (string.IsNullOrEmpty(hostInfo.UrlPrefix))
+      {
+        hostInfo.UrlPrefix = HostInfo.MakePath(hostInfo.Name);
+      }
+
+      return hostInfo;
     }
-
-    #endregion
   }
 }

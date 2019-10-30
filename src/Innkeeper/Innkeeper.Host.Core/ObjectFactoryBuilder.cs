@@ -13,14 +13,7 @@ namespace Innkeeper.Host.Core
     public ObjectFactoryBuilder(IServiceCollection services)
     {
       this.services = services;
-    }
-
-    public IObjectFactoryBuilder AddObjectFactory()
-    {
-      this.services.AddSingleton<IObjectFactory>(
-        serviceProvider => new ObjectFactory(serviceProvider)
-      );
-      return this;
+      this.services.AddSingleton<IObjectFactory>(provider => new ObjectFactory(provider));
     }
 
     public IObjectFactoryBuilder AddSingleton(Type contract, object instance)

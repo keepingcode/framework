@@ -9,7 +9,7 @@ namespace Paper.Sandbox.Host
   [Expose]
   public class MyInnkeerperModule : IInnkeeperModule
   {
-    public void Configure(IObjectFactoryBuilder builder)
+    public void ConfigureServices(IObjectFactoryBuilder builder)
     {
       builder.AddSingleton<SomeDependency>();
     }

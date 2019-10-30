@@ -7,6 +7,5 @@ namespace Innkeeper.Host
 {
   public interface IInnkeeperModule
   {
-    void Configure(IObjectFactoryBuilder builder);
   }
 }

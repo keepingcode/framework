@@ -33,7 +33,6 @@
     <ProjectReference Include="..\..\Toolset\Toolset\Toolset.csproj" />
     <ProjectReference Include="..\..\Innkeeper\Innkeeper.Host.Core\Innkeeper.Host.Core.csproj" />
     <ProjectReference Include="..\..\Innkeeper\Innkeeper\Innkeeper.csproj" />
-    <ProjectReference Include="..\Paper.Media\Paper.Media.csproj" />
     <ProjectReference Include="..\Paper\Paper.csproj" />
   </ItemGroup>
 

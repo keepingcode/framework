@@ -20,23 +20,27 @@
     <Compile Remove="Extensions.Papers\**" />
     <Compile Remove="Extensions.Site.Rendering\**" />
     <Compile Remove="Extensions.Site\**" />
+    <Compile Remove="Rendering.bkp\**" />
     <Compile Remove="Rendering\**" />
     <Compile Remove="temp\**" />
     <EmbeddedResource Remove="Commons\**" />
     <EmbeddedResource Remove="Extensions.Papers\**" />
     <EmbeddedResource Remove="Extensions.Site.Rendering\**" />
     <EmbeddedResource Remove="Extensions.Site\**" />
+    <EmbeddedResource Remove="Rendering.bkp\**" />
     <EmbeddedResource Remove="Rendering\**" />
     <EmbeddedResource Remove="temp\**" />
     <None Remove="Commons\**" />
     <None Remove="Extensions.Papers\**" />
     <None Remove="Extensions.Site.Rendering\**" />
     <None Remove="Extensions.Site\**" />
+    <None Remove="Rendering.bkp\**" />
     <None Remove="Rendering\**" />
     <None Remove="temp\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Host\RequestExtensions.cs" />
     <Compile Remove="IPaperSettings.cs" />
   </ItemGroup>
 
@@ -51,7 +55,6 @@
     <ProjectReference Include="..\..\toolset\Toolset.Serialization\Toolset.Serialization.csproj" />
     <ProjectReference Include="..\..\toolset\Toolset.Text.Template\Toolset.Text.Template.csproj" />
     <ProjectReference Include="..\..\toolset\Toolset\Toolset.csproj" />
-    <ProjectReference Include="..\Paper.Media\Paper.Media.csproj" />
   </ItemGroup>
 
 </Project>

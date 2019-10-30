@@ -17,13 +17,11 @@ namespace Innkeeper.Sandbox.Host
     {
       try
       {
-        var builder = WebHost
-          .CreateDefaultBuilder(args)
-          .UseInnkeeperHost(app => {
-            app.Port = 9090;
-          })
-          .UseStartup<Startup>();
-        builder.Build().Run();
+        InnkeeperWebHost.Run(options => {
+          options.Port = 9090;
+          options.Name = "MyApp";
+          options.UrlPrefix = "/My/App";
+        }, args);
       }
       catch (Exception ex)
       {

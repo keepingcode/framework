@@ -11,21 +11,21 @@ namespace Innkeeper.Sandbox.Host
   class MyPipeline : IPipeline
   {
     private readonly MyDependency myDependency;
-    private readonly IWebAppInfo webAppInfo;
+    private readonly IHostInfo hostInfo;
 
     public void Configure(IRouter router)
     {
     }
 
-    public MyPipeline(MyDependency myDependency, IWebAppInfo webAppInfo)
+    public MyPipeline(MyDependency myDependency, IHostInfo hostInfo)
     {
       this.myDependency = myDependency;
-      this.webAppInfo = webAppInfo;
+      this.hostInfo = hostInfo;
     }
 
-    public async Task RenderAsync(IRequestContext ctx, NextAsync next)
+    public async Task RunAsync(IRequestContext ctx, NextAsync next)
     {
-      var message = $"{myDependency.Message} (App: {webAppInfo.Name}_v{webAppInfo.Version} / ID:{webAppInfo.Guid.ToString("D").ToUpper()})";
+      var message = $"{myDependency.Message} (App: {hostInfo.Name}_v{hostInfo.Version} / ID:{hostInfo.Guid.ToString("D").ToUpper()})";
       var buffer = UTF8Encoding.UTF8.GetBytes(message);
       await ctx.Response.Body.WriteAsync(buffer, 0, buffer.Length);
     }

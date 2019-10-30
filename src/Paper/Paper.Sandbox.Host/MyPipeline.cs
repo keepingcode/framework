@@ -10,10 +10,10 @@ namespace Paper.Sandbox.Host
   [Expose]
   public class MyPipeline : IPipeline
   {
-    private readonly IWebAppInfo webAppInfo;
+    private readonly IWebHost webAppInfo;
     private readonly SomeDependency myDependency;
 
-    public MyPipeline(IRouter router, IWebAppInfo webAppInfo, SomeDependency myDependency)
+    public MyPipeline(IRouter router, IWebHost webAppInfo, SomeDependency myDependency)
     {
       router.Map("/My/Paper");
       this.webAppInfo = webAppInfo;

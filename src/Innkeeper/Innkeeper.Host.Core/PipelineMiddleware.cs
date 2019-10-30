@@ -39,7 +39,7 @@ namespace Innkeeper.Host.Core
           throw new NullReferenceException("A instância de IObjectFactory não foi definida no IServiceProvider.");
 
         var nextAsync = new NextAsync(async () => await next(httpContext));
-        await pipeline.RenderAsync(ctx, nextAsync);
+        await pipeline.RunAsync(ctx, nextAsync);
       }
       catch (Exception ex)
       {

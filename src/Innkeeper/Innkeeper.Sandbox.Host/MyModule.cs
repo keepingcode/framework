@@ -9,7 +9,7 @@ namespace Innkeeper.Sandbox.Host
   [Expose]
   public class MyInnkeerperModule : Innkeeper.Host.IInnkeeperModule
   {
-    public void Configure(IObjectFactoryBuilder builder)
+    public void ConfigureServices(IObjectFactoryBuilder builder)
     {
       builder.AddSingleton<MyDependency>();
     }
