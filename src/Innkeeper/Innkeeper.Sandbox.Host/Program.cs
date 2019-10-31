@@ -17,11 +17,7 @@ namespace Innkeeper.Sandbox.Host
     {
       try
       {
-        InnkeeperWebHost.Run(options => {
-          options.Port = 9090;
-          options.Name = "MyApp";
-          options.UrlPrefix = "/My/App";
-        }, args);
+        InnkeeperWebHost.Run(app => app.Port = 9090, args);
       }
       catch (Exception ex)
       {

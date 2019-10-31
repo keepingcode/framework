@@ -64,7 +64,7 @@ namespace Toolset.Collections
     /// <typeparam name="T">O tipo do enumerado.</typeparam>
     /// <param name="enumerable">O enumerador.</param>
     /// <returns>Um enumerado contendo apenas os itens nao-nulos.</returns>
-    public static IEnumerable<T> NonNull<T>(this IEnumerable<T> enumerable)
+    public static IEnumerable<T> NotNull<T>(this IEnumerable<T> enumerable)
     {
       return (enumerable == null)
         ? Enumerable.Empty<T>()
@@ -79,7 +79,7 @@ namespace Toolset.Collections
     /// <typeparam name="T">O tipo do enumerado.</typeparam>
     /// <param name="enumerable">O enumerador.</param>
     /// <returns>Um enumerado contendo apenas os itens nao-vazios.</returns>
-    public static IEnumerable<T> NonNullOrEmpty<T>(this IEnumerable<T> enumerable)
+    public static IEnumerable<T> NotNullOrEmpty<T>(this IEnumerable<T> enumerable)
     {
       if (enumerable == null)
         return Enumerable.Empty<T>();
@@ -109,7 +109,7 @@ namespace Toolset.Collections
     /// <typeparam name="T">O tipo do enumerado.</typeparam>
     /// <param name="enumerable">O enumerador.</param>
     /// <returns>Um enumerado contendo apenas os itens nao em branco.</returns>
-    public static IEnumerable<T> NonNullOrWhitespace<T>(this IEnumerable<T> enumerable)
+    public static IEnumerable<T> NotNullOrWhitespace<T>(this IEnumerable<T> enumerable)
     {
       if (enumerable == null)
         return Enumerable.Empty<T>();

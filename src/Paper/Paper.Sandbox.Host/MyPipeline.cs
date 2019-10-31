@@ -1,30 +1,22 @@
 ﻿using Innkeeper.Host;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Toolset;
 
 namespace Paper.Sandbox.Host
 {
-  [Expose]
-  public class MyPipeline : IPipeline
+  [Expose, Route("/My/Site")]
+  class MyPipeline : IPipeline
   {
-    private readonly IWebHost webAppInfo;
-    private readonly SomeDependency myDependency;
-
-    public MyPipeline(IRouter router, IWebHost webAppInfo, SomeDependency myDependency)
+    public async Task RunAsync(IRequestContext ctx, NextAsync next)
     {
-      router.Map("/My/Paper");
-      this.webAppInfo = webAppInfo;
-      this.myDependency = myDependency;
-    }
-
-    public async Task RenderAsync(IRequestContext ctx, NextAsync next)
-    {
-      var message = $"{myDependency.Message} (App: {webAppInfo.Name}_v{webAppInfo.Version} / ID:{webAppInfo.Guid.ToString("D").ToUpper()})";
-      var buffer = UTF8Encoding.UTF8.GetBytes(message);
-      await ctx.Response.Body.WriteAsync(buffer, 0, buffer.Length);
+      var writer = new StreamWriter(ctx.Response.Body);
+      await writer.WriteAsync($"Olá, mundo!");
+      await writer.FlushAsync();
     }
   }
 }

@@ -15,8 +15,7 @@ namespace Innkeeper.Host.Core
   {
     public void ConfigureServices(IServiceCollection services)
     {
-      var objectFactoryBuilder = new ObjectFactoryBuilder(services);
-      Modules.ConfigureServices(objectFactoryBuilder);
+      services.AddPaper();
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -26,13 +25,13 @@ namespace Innkeeper.Host.Core
         app.UseDeveloperExceptionPage();
         app.UseDirectoryBrowser();
       }
-      else
-      {
-        //app.UseHsts();
-        //app.UseHttpsRedirection();
-      }
+      // else
+      // {
+      //   app.UseHsts();
+      //   app.UseHttpsRedirection();
+      // }
 
-      Modules.Configure(app);
+      app.UsePaper();
 
       app.UseDefaultFiles();
       app.UseStaticFiles();

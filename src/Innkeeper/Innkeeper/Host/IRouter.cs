@@ -6,9 +6,16 @@ namespace Innkeeper.Host
 {
   public interface IRouter
   {
-    void Map<T>(string route)
-      where T : IPipeline;
+    ICollection<string> Keys { get; }
 
-    void Map(string route, Type pipelineType);
+    IRouteCollection this[string key] { get; }
+
+    void Add(IRoute route);
+
+    IRoute Map<T>(PathPrefix route) where T : IPipeline;
+
+    IRoute Map(PathPrefix route, Type pipelineType);
+
+    ICollection<IRoute> Find(string path);
   }
 }

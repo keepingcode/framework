@@ -5,7 +5,7 @@ using Toolset;
 
 namespace Innkeeper.Host
 {
-  public interface IHostInfo
+  public interface IWebApp
   {
     Guid Guid { get; }
 

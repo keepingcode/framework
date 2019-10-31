@@ -14,6 +14,8 @@ namespace Innkeeper.Host
   {
     string RequestUri { get; }
 
+    string RequestPath { get; }
+
     string PathBase { get; }
 
     string Path { get; }

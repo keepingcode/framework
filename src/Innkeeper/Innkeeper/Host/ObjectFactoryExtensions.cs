@@ -46,6 +46,13 @@ namespace Innkeeper.Host
       return result;
     }
 
+    public static object Invoke(this IObjectFactory factory, object host, string methodName, params object[] extraArgs)
+    {
+      var type = host as Type ?? host.GetType();
+      var method = type.GetMethod(methodName);
+      return Invoke(factory, host, method, extraArgs);
+    }
+
     private static object SelectArgument(object[] args, Type expectedType)
     {
       var arg = args.FirstOrDefault(x => x?.GetType() == expectedType)

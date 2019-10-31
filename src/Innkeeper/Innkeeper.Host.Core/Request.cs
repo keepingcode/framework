@@ -18,6 +18,7 @@ namespace Innkeeper.Host.Core
     public Request(HttpContext context)
     {
       this.RequestUri = context.Request.GetDisplayUrl();
+      this.RequestPath = context.Request.PathBase + context.Request.Path;
       this.PathBase = context.Request.PathBase;
       this.Path = context.Request.Path;
       this.Method = context.Request.Method;
@@ -26,6 +27,8 @@ namespace Innkeeper.Host.Core
     }
 
     public string RequestUri { get; }
+
+    public string RequestPath { get; set; }
 
     public string PathBase { get; }
 

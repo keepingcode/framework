@@ -72,8 +72,8 @@ namespace Paper.Media
 
     private static PropertyMap UnwrapGraph(object graph, IEnumerable<IEnumerable<string>> select, IEnumerable<IEnumerable<string>> except)
     {
-      var accept = select?.Select(x => x.FirstOrDefault()).NonNull();
-      var ignore = except?.Where(x => x.Count() == 1).Select(x => x.First()).NonNull();
+      var accept = select?.Select(x => x.FirstOrDefault()).NotNull();
+      var ignore = except?.Where(x => x.Count() == 1).Select(x => x.First()).NotNull();
 
       var map = new PropertyMap();
 
@@ -101,8 +101,8 @@ namespace Paper.Media
     private static PropertyMap UnwrapDictionary(IDictionary dictionary, IEnumerable<IEnumerable<string>> select, IEnumerable<IEnumerable<string>> except)
     {
       var map = new PropertyMap();
-      var accept = select?.Select(x => x.FirstOrDefault()).NonNull();
-      var ignore = except?.Where(x => x.Count() == 1).Select(x => x.First()).NonNull();
+      var accept = select?.Select(x => x.FirstOrDefault()).NotNull();
+      var ignore = except?.Where(x => x.Count() == 1).Select(x => x.First()).NotNull();
 
       var keys =
         from key in dictionary.Keys.Cast<string>()
@@ -129,8 +129,8 @@ namespace Paper.Media
     private static PropertyMap UnwrapKeyValuePairs(IEnumerable keyValuePairs, IEnumerable<IEnumerable<string>> select, IEnumerable<IEnumerable<string>> except)
     {
       var map = new PropertyMap();
-      var accept = select?.Select(x => x.FirstOrDefault()).NonNull();
-      var ignore = except?.Where(x => x.Count() == 1).Select(x => x.First()).NonNull();
+      var accept = select?.Select(x => x.FirstOrDefault()).NotNull();
+      var ignore = except?.Where(x => x.Count() == 1).Select(x => x.First()).NotNull();
 
       var pairs =
         from entry in keyValuePairs.Cast<object>()

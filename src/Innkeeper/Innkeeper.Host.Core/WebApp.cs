@@ -7,11 +7,11 @@ using Toolset.Collections;
 
 namespace Innkeeper.Host.Core
 {
-  public class HostInfo : IHostInfo
+  public class WebApp : IWebApp
   {
     public const int DefaultPort = 90;
 
-    internal HostInfo()
+    internal WebApp()
     {
     }
 
@@ -31,7 +31,7 @@ namespace Innkeeper.Host.Core
     {
       if (string.IsNullOrEmpty(hostName)) return null;
 
-      var tokens = hostName.Split('.').NonNullOrEmpty();
+      var tokens = hostName.Split('.').NotNullOrEmpty();
       var path = "/" + string.Join("/", tokens);
       return path;
     }

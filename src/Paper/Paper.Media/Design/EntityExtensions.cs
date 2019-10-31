@@ -167,7 +167,7 @@ namespace Paper.Media.Design
     public static TEntity AddClass<TEntity>(this TEntity entity, params string[] classes)
       where TEntity : IMediaObject
     {
-      entity.WithClass().AddMany(classes.NonNull());
+      entity.WithClass().AddMany(classes.NotNull());
       return entity;
     }
 
@@ -181,7 +181,7 @@ namespace Paper.Media.Design
     public static TEntity AddClass<TEntity>(this TEntity entity, IEnumerable<string> classes)
       where TEntity : IMediaObject
     {
-      entity.WithClass().AddMany(classes.NonNull());
+      entity.WithClass().AddMany(classes.NotNull());
       return entity;
     }
 
@@ -253,7 +253,7 @@ namespace Paper.Media.Design
     {
       var @class = entity.WithClass();
       @class.Clear();
-      @class.AddMany(classes.NonNull());
+      @class.AddMany(classes.NotNull());
       return entity;
     }
 
@@ -269,7 +269,7 @@ namespace Paper.Media.Design
     {
       var @class = entity.WithClass();
       @class.Clear();
-      @class.AddMany(classes.NonNull());
+      @class.AddMany(classes.NotNull());
       return entity;
     }
 
@@ -351,7 +351,7 @@ namespace Paper.Media.Design
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsMetaClass);
-      @class.AddMany(classes.NonNull());
+      @class.AddMany(classes.NotNull());
       return entity;
     }
 
@@ -369,7 +369,7 @@ namespace Paper.Media.Design
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsMetaClass);
-      @class.AddMany(classes.NonNull());
+      @class.AddMany(classes.NotNull());
       return entity;
     }
 
@@ -424,7 +424,7 @@ namespace Paper.Media.Design
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsUserClass);
-      @class.AddMany(classes.NonNull());
+      @class.AddMany(classes.NotNull());
       return entity;
     }
 
@@ -443,7 +443,7 @@ namespace Paper.Media.Design
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsUserClass);
-      @class.AddMany(classes.NonNull());
+      @class.AddMany(classes.NotNull());
       return entity;
     }
 
@@ -689,7 +689,7 @@ namespace Paper.Media.Design
     public static TEntity AddRel<TEntity>(this TEntity entity, params string[] rels)
       where TEntity : IMediaObject
     {
-      entity.WithRel().AddMany(rels.NonNull());
+      entity.WithRel().AddMany(rels.NotNull());
       return entity;
     }
 
@@ -703,7 +703,7 @@ namespace Paper.Media.Design
     public static TEntity AddRel<TEntity>(this TEntity entity, IEnumerable<string> rels)
       where TEntity : IMediaObject
     {
-      entity.WithRel().AddMany(rels.NonNull());
+      entity.WithRel().AddMany(rels.NotNull());
       return entity;
     }
 
@@ -747,7 +747,7 @@ namespace Paper.Media.Design
     {
       var rel = entity.WithRel();
       rel.Clear();
-      rel.AddMany(rels.NonNull());
+      rel.AddMany(rels.NotNull());
       return entity;
     }
 
@@ -763,7 +763,7 @@ namespace Paper.Media.Design
     {
       var rel = entity.WithRel();
       rel.Clear();
-      rel.AddMany(rels.NonNull());
+      rel.AddMany(rels.NotNull());
       return entity;
     }
 

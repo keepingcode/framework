@@ -359,7 +359,7 @@ namespace Toolset
         var text = value.ToString();
         if (Regex.IsMatch(text, "^[0-9, ]+$"))
         {
-          var tokens = text.Split(',', ' ').NonNullOrEmpty();
+          var tokens = text.Split(',', ' ').NotNullOrEmpty();
           var number = tokens.Select(int.Parse).Sum();
           convertedValue = Enum.ToObject(targetType, number);
         }

@@ -14,24 +14,18 @@
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Settings\**" />
     <EmbeddedResource Remove="Settings\**" />
     <None Remove="Settings\**" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Host\Headers.cs" />
-    <Compile Remove="Host\PathArgs.cs" />
-    <Compile Remove="Host\PathIndex.cs" />
-    <Compile Remove="Host\PipelineCatalog.cs" />
-    <Compile Remove="Host\PipelineRenderer.cs" />
-    <Compile Remove="Host\QueryArgs.cs" />
-    <Compile Remove="Host\Renderer.cs" />
-    <Compile Remove="Host\RenderingContext.cs" />
-    <Compile Remove="Host\Request.cs" />
-    <Compile Remove="Host\Response.cs" />
-  </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Host\IPlatform.cs" />
+    <Compile Remove="Host\RouteGetterAttribute.cs" />
+  </ItemGroup>
+    
   <ItemGroup>
     <!--
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />

@@ -81,10 +81,10 @@ namespace Toolset.Sequel
     public static T Set<T>(this T sql, params object[] parameters)
       where T : IParameterMap
     {
-      var isGraph = parameters.NonNull().FirstOrDefault().IsGraph();
+      var isGraph = parameters.NotNull().FirstOrDefault().IsGraph();
       if (isGraph)
       {
-        var invalid = parameters.NonNull().FirstOrDefault(x => !x.IsGraph());
+        var invalid = parameters.NotNull().FirstOrDefault(x => !x.IsGraph());
         if (invalid != null)
         {
           throw new Exception("Todos os parâmetros deveriam ser objetos para extração de propriedads mas foi contrado: " + invalid.GetType().FullName);
@@ -97,7 +97,7 @@ namespace Toolset.Sequel
       }
       else
       {
-        var invalid = parameters.NonNull().FirstOrDefault(x => x.IsGraph());
+        var invalid = parameters.NotNull().FirstOrDefault(x => x.IsGraph());
         if (invalid != null)
         {
           throw new Exception("Era esperado uma lista de parâmetros simples na forma chave/valor mas foi encontrado: " + invalid.GetType().FullName);
@@ -249,7 +249,7 @@ namespace Toolset.Sequel
     {
       var graphs = graph.AsSingle().Concat(otherGraphs);
 
-      var invalid = graphs.NonNull().FirstOrDefault(x => !x.IsGraph());
+      var invalid = graphs.NotNull().FirstOrDefault(x => !x.IsGraph());
       if (invalid != null)
         throw new Exception("Todos os parâmetros deveriam ser objetos para extração de propriedads mas foi contrado: " + invalid.GetType().FullName);
 

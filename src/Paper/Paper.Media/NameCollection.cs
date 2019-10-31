@@ -75,8 +75,8 @@ namespace Paper.Media
     private static IEnumerable<string> ParseNames2(IEnumerable<string> tokens)
     {
       var names =
-        from token in tokens.NonNull()
-        from name in token.Split(',', ';', '|').NonNullOrWhitespace()
+        from token in tokens.NotNull()
+        from name in token.Split(',', ';', '|').NotNullOrWhitespace()
         select name;
       foreach (var name in names)
       {

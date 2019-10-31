@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Builder;
@@ -13,17 +14,27 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Toolset;
+using Toolset.Collections;
 
 namespace Innkeeper.Host.Core
 {
   public static class InnkeeperWebHost
   {
+    private class Parts
+    {
+      public WebApp WebApp { get; set; }
+
+      public Router Router { get; set; }
+
+      public ModuleCollection ModuleCollection { get; set; }
+    }
+
     public static void Run(params string[] args)
     {
       Run(options: null, args: args);
     }
 
-    public static void Run(Action<HostInfo> options, params string[] args)
+    public static void Run(Action<WebApp> options, params string[] args)
     {
       CreateDefaultBuilder(options, args)
         .UseStartup<DefaultStartup>()
@@ -36,12 +47,21 @@ namespace Innkeeper.Host.Core
       return CreateDefaultBuilder(options: null, args: args);
     }
 
-    public static IWebHostBuilder CreateDefaultBuilder(Action<HostInfo> options, params string[] args)
+    public static IWebHostBuilder CreateDefaultBuilder(Action<WebApp> options, params string[] args)
     {
       var builder = new WebHostBuilder();
-      var hostInfo = CollectHostInfo(options);
-      BuildInnkeeperHost(builder, hostInfo, args);
-      BuildInnkeeperPlatform(builder, hostInfo, args);
+      var webApp = IdentifyWebApp(options);
+      var router = Router.Create(webApp);
+      var moduleCollection = ModuleCollection.Create(webApp);
+      var context = new Parts
+      {
+        WebApp = webApp,
+        Router = router,
+        ModuleCollection = moduleCollection
+      };
+
+      BuildInnkeeperHost(builder, context, args);
+      BuildInnkeeperPlatform(builder, context, args);
       return builder;
     }
 
@@ -51,15 +71,27 @@ namespace Innkeeper.Host.Core
     }
 
     public static IWebHostBuilder UseInnkeeperPlatform(
-      this IWebHostBuilder webHostBuilder, Action<HostInfo> options, params string[] args)
+      this IWebHostBuilder webHostBuilder, Action<WebApp> options, params string[] args)
     {
-      var hostInfo = CollectHostInfo(options);
-      BuildInnkeeperPlatform(webHostBuilder, hostInfo, args);
+      var webApp = IdentifyWebApp(options);
+      var router = Router.Create(webApp);
+      var moduleCollection = ModuleCollection.Create(webApp);
+      var context = new Parts
+      {
+        WebApp = webApp,
+        Router = router,
+        ModuleCollection = moduleCollection
+      };
+
+      BuildInnkeeperPlatform(webHostBuilder, context, args);
       return webHostBuilder;
     }
 
-    private static void BuildInnkeeperHost(IWebHostBuilder builder, HostInfo hostInfo, string[] args)
+    private static void BuildInnkeeperHost(IWebHostBuilder builder, Parts parts, string[] args)
     {
+      var webApp = parts.WebApp;
+      var router = parts.Router;
+
       builder
         .ConfigureAppConfiguration((ctx, config) =>
         {
@@ -100,7 +132,6 @@ namespace Innkeeper.Host.Core
 
       if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
       {
-        var prefix = $"http://*:{hostInfo.Port}{hostInfo.UrlPrefix}";
         builder.UseHttpSys(httpSysOptions =>
         {
           httpSysOptions.AllowSynchronousIO = true;
@@ -108,12 +139,26 @@ namespace Innkeeper.Host.Core
           httpSysOptions.Authentication.AllowAnonymous = true;
           httpSysOptions.MaxConnections = null;
           httpSysOptions.MaxRequestBodySize = 30000000;
-          httpSysOptions.UrlPrefixes.Add(prefix);
+
+          if (router.Keys.Any())
+          {
+            foreach (var key in router.Keys)
+            {
+              var prefix = $"http://*:{webApp.Port}{key}";
+              httpSysOptions.UrlPrefixes.Add(prefix);
+            }
+          }
+          else
+          {
+            var prefix = $"http://*:{webApp.Port}{webApp.UrlPrefix}";
+            httpSysOptions.UrlPrefixes.Add(prefix);
+          }
+
         });
       }
       else
       {
-        var prefix = $"http://*:{hostInfo.Port}/";
+        var prefix = $"http://*:{webApp.Port}/";
         builder
           .UseKestrel()
           .ConfigureServices(services =>
@@ -123,43 +168,50 @@ namespace Innkeeper.Host.Core
       }
     }
 
-    private static void BuildInnkeeperPlatform(IWebHostBuilder builder, HostInfo hostInfo, string[] args)
+    private static void BuildInnkeeperPlatform(IWebHostBuilder builder, Parts parts, string[] args)
     {
       builder.ConfigureServices(services =>
       {
-        var objectFactoryBuilder = new ObjectFactoryBuilder(services);
-        Modules.ConfigureServices(objectFactoryBuilder);
+        services
+          .AddSingleton<IWebApp>(parts.WebApp)
+          .AddSingleton<IRouter>(parts.Router)
+          .AddSingleton<IModuleCollection>(parts.ModuleCollection);
       });
     }
 
-    private static HostInfo CollectHostInfo(Action<HostInfo> options)
+    private static WebApp IdentifyWebApp(Action<WebApp> options)
     {
-      var hostInfo = new HostInfo();
+      var webApp = new WebApp();
 
       // Parametros iniciais
       //
-      hostInfo.Guid = App.Guid;
-      hostInfo.Port = HostInfo.DefaultPort;
-      hostInfo.Name = App.Name;
-      hostInfo.Description = App.Description;
-      hostInfo.Version = App.Version;
+      webApp.Guid = App.Guid;
+      webApp.Port = WebApp.DefaultPort;
+      webApp.Name = App.Name;
+      webApp.Description = App.Description;
+      webApp.Version = App.Version;
 
       // Personalizacao dos parametros
       //
-      options?.Invoke(hostInfo);
+      options?.Invoke(webApp);
 
       // Revisao dos parametros finais
       //
-      if (hostInfo.Port == 0)
+      if (webApp.Port == 0)
       {
-        hostInfo.Port = HostInfo.DefaultPort;
+        webApp.Port = WebApp.DefaultPort;
       }
-      if (string.IsNullOrEmpty(hostInfo.UrlPrefix))
+      if (string.IsNullOrEmpty(webApp.UrlPrefix))
       {
-        hostInfo.UrlPrefix = HostInfo.MakePath(hostInfo.Name);
+        webApp.UrlPrefix = "/";
       }
 
-      return hostInfo;
+      // Sanitizando o prefixo de Url
+      //
+      var tokens = webApp.UrlPrefix.Split('/', '\\').NotNullOrEmpty();
+      webApp.UrlPrefix = "/" + string.Join("/", tokens);
+
+      return webApp;
     }
   }
 }

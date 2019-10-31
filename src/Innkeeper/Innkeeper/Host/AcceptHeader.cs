@@ -198,8 +198,8 @@ namespace Innkeeper.Host
       var acceptEncoding = headers[HeaderNames.AcceptEncoding] ?? "";
 
       var mimeTypes = (
-        from token in accept.Split(',').NonNullOrWhitespace()
-        let part = token.Split(';').NonNullOrWhitespace()
+        from token in accept.Split(',').NotNullOrWhitespace()
+        let part = token.Split(';').NotNullOrWhitespace()
         let type = part.First().Trim()
         let weight = part.Skip(1).FirstOrDefault()?.Trim().Replace("q=", "")
         orderby weight descending
@@ -207,8 +207,8 @@ namespace Innkeeper.Host
       ).ToList();
 
       var encodings = (
-        from token in acceptCharset.Split(',').NonNullOrWhitespace()
-        let part = token.Split(';').NonNullOrWhitespace()
+        from token in acceptCharset.Split(',').NotNullOrWhitespace()
+        let part = token.Split(';').NotNullOrWhitespace()
         let mime = part.First().Trim()
         let weight = part.Skip(1).FirstOrDefault()?.Trim().Replace("q=", "")
         orderby weight descending
@@ -216,8 +216,8 @@ namespace Innkeeper.Host
       ).ToList();
 
       var compressions = (
-        from token in acceptEncoding.Split(',').NonNullOrWhitespace()
-        let part = token.Split(';').NonNullOrWhitespace()
+        from token in acceptEncoding.Split(',').NotNullOrWhitespace()
+        let part = token.Split(';').NotNullOrWhitespace()
         let type = part.First().Trim()
         let weight = part.Skip(1).FirstOrDefault()?.Trim().Replace("q=", "")
         orderby weight descending

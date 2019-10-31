@@ -67,7 +67,7 @@ namespace Toolset.Serialization.Xml
       : base(settings)
     {
       this.reader = reader;
-      this.enumerator = EmitNodes().NonNull().GetEnumerator();
+      this.enumerator = EmitNodes().NotNull().GetEnumerator();
       this.scope = new Scope { Type = NodeType.Unknown };
     }
 

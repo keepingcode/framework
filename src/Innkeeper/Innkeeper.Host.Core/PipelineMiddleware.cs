@@ -17,12 +17,10 @@ namespace Innkeeper.Host.Core
 {
   internal class PipelineMiddleware
   {
-    private readonly IPipeline pipeline;
     private readonly RequestDelegate next;
 
-    public PipelineMiddleware(IPipeline pipeline, RequestDelegate next)
+    public PipelineMiddleware(RequestDelegate next)
     {
-      this.pipeline = pipeline;
       this.next = next;
     }
 
@@ -34,12 +32,30 @@ namespace Innkeeper.Host.Core
         var res = new Response(httpContext);
         var ctx = new RequestContext { Request = req, Response = res };
         
-        var factory = serviceProvider.GetService<IObjectFactory>();
-        if (factory == null)
+        var objectFactory = serviceProvider.GetService<IObjectFactory>();
+        if (objectFactory == null)
           throw new NullReferenceException("A instância de IObjectFactory não foi definida no IServiceProvider.");
 
-        var nextAsync = new NextAsync(async () => await next(httpContext));
-        await pipeline.RunAsync(ctx, nextAsync);
+        var router = objectFactory.GetInstance<IRouter>();
+        var routes = router.Find(req.RequestPath);
+        var iterator = routes.GetEnumerator();
+
+        NextAsync nextAsync = null;
+        nextAsync = new NextAsync(async () =>
+        {
+          if (iterator.MoveNext())
+          {
+            var route = iterator.Current;
+            var pipeline = route.CreatePipeline(objectFactory);
+            await pipeline.RunAsync(ctx, nextAsync);
+          }
+          else
+          {
+            await next(httpContext);
+          }
+        });
+
+        await nextAsync.Invoke();
       }
       catch (Exception ex)
       {

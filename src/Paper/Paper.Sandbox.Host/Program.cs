@@ -17,13 +17,11 @@ namespace Paper.Sandbox.Host
     {
       try
       {
-        var builder = WebHost
-          .CreateDefaultBuilder(args)
-          .UseInnkeeperHost(app => {
-            app.Port = 9090;
-          })
-          .UseStartup<Startup>();
-        builder.Build().Run();
+        InnkeeperWebHost.Run(app =>
+        {
+          app.Port = 9090;
+          app.Name = "PaperSandbox";
+        }, args);
       }
       catch (Exception ex)
       {

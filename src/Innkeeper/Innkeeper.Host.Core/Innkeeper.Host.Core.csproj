@@ -19,6 +19,11 @@
     <EmbeddedResource Remove="Settings\**" />
     <None Remove="Settings\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="AspNetCoreExtensions.cs" />
+    <Compile Remove="HostBuilder.cs" />
+    <Compile Remove="Platform.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
