@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Toolset;
 using Toolset.Collections;
 
-namespace Paper.Commons
+namespace Innkeeper.Rest
 {
-  public class PathIndex<TValue>
+  internal class PathIndex<TValue>
     where TValue : class
   {
     private readonly Node<TValue> entries = new Node<TValue>(null, null);
@@ -186,11 +186,8 @@ namespace Paper.Commons
       {
         foreach (var node in nodes)
         {
-          var child = node[token] ?? node["*"];
-          if (child != null)
-          {
-            yield return child;
-          }
+          if (node["*"] != null) yield return node["*"];
+          if (node[token] != null) yield return node[token];
         }
       }
     }

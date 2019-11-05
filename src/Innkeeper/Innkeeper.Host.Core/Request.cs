@@ -15,8 +15,9 @@ namespace Innkeeper.Host.Core
 {
   internal class Request : IRequest
   {
-    public Request(HttpContext context)
+    public Request(IRequestContext requestContext, HttpContext context)
     {
+      this.RequestContext = requestContext;
       this.RequestUri = context.Request.GetDisplayUrl();
       this.RequestPath = context.Request.PathBase + context.Request.Path;
       this.PathBase = context.Request.PathBase;
@@ -25,6 +26,8 @@ namespace Innkeeper.Host.Core
       this.Headers = new Headers(context.Request.Headers);
       this.Body = context.Request.Body;
     }
+
+    public IRequestContext RequestContext { get; }
 
     public string RequestUri { get; }
 
@@ -39,5 +42,10 @@ namespace Innkeeper.Host.Core
     public IHeaders Headers { get; }
 
     public Stream Body { get; }
+
+    public IRequestContext GetContext()
+    {
+      return RequestContext;
+    }
   }
 }

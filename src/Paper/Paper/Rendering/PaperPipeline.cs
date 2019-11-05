@@ -1,4 +1,5 @@
 ﻿using Innkeeper.Host;
+using Innkeeper.Rest;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,27 +10,36 @@ using Toolset;
 
 namespace Paper.Rendering
 {
-  class PaperPipeline : IPipeline
+  class PaperPipeline : RestPipeline
   {
-    private readonly Regex Pattern = new Regex("^/Catalogs/([^/]+)/Papers/([^/]+)/?$");
-
-    public async Task RunAsync(IRequestContext ctx, NextAsync next)
+    [Get("/")]
+    async Task GetCatalog(int id)
     {
-      var path = ctx.Request.RequestPath;
-      var match = Pattern.Match(path);
-      if (match.Success)
-      {
-        var module = match.Groups[1].Value;
-        var schema = match.Groups[2].Value;
+      await Res.SendAsync($"/id={id}");
+    }
 
-        var writer = new StreamWriter(ctx.Response.Body);
-        await writer.WriteAsync($"Rendering paper {schema} from module {module}...");
-        await writer.FlushAsync();
-      }
-      else
-      {
-        await next();
-      }
+    [Get("/Papers")]
+    async Task GetPapers()
+    {
+      await Res.SendAsync($"/Papers");
+    }
+
+    [Get("/Papers/{paper}")]
+    async Task GetPaper(string paper)
+    {
+      await Res.SendAsync($"/Papers/{paper}");
+    }
+
+    [Get("/Papers/{paper}/Actions")]
+    async Task GetActions(string paper)
+    {
+      await Res.SendAsync($"/Papers/{paper}/Actions");
+    }
+
+    [Get("/Papers/{paper}/Actions/{action}")]
+    async Task GetActions(string paper, string action)
+    {
+      await Res.SendAsync($"/Papers/{paper}/Actions/{action}");
     }
   }
 }

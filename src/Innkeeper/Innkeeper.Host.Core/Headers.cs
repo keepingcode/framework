@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Innkeeper.Host;
 using Microsoft.AspNetCore.Http;
 using Toolset;
+using Toolset.Net;
 
 namespace Innkeeper.Host.Core
 {
@@ -25,6 +26,12 @@ namespace Innkeeper.Host.Core
     {
       get => headers[key];
       set => headers[key] = value;
+    }
+
+    public string this[Header key]
+    {
+      get => headers[key.GetName()];
+      set => headers[key.GetName()] = value;
     }
   }
 }

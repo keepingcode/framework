@@ -25,5 +25,7 @@ namespace Innkeeper.Host
     IHeaders Headers { get; }
 
     Stream Body { get; }
+
+    IRequestContext GetContext();
   }
 }

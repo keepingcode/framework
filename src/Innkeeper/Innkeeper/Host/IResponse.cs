@@ -16,5 +16,7 @@ namespace Innkeeper.Host
     HttpStatusCode Status { get; set; }
 
     Stream Body { get; }
+
+    IRequestContext GetContext();
   }
 }

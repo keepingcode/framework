@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Toolset.Net;
 
 namespace Innkeeper.Host
 {
@@ -11,5 +12,7 @@ namespace Innkeeper.Host
     ICollection<string> Keys { get; }
 
     string this[string key] { get; set; }
+
+    string this[Header key] { get; set; }
   }
 }

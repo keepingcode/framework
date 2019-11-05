@@ -18,7 +18,7 @@ namespace Paper.Rendering
 
     public void Map(IRouter map)
     {
-      map.Map<PaperPipeline>($"/Catalogs/{webApp.Name}");
+      map.Map<PaperPipeline>($"/Paper/Api/1/Catalogs/{webApp.Name}");
     }
   }
 }

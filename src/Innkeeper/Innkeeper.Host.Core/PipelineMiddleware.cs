@@ -28,9 +28,9 @@ namespace Innkeeper.Host.Core
     {
       try
       {
-        var req = new Request(httpContext);
-        var res = new Response(httpContext);
-        var ctx = new RequestContext { Request = req, Response = res };
+        var ctx = new RequestContext();
+        var req = ctx.Request = new Request(ctx, httpContext);
+        var res = ctx.Response = new Response(ctx, httpContext);
         
         var objectFactory = serviceProvider.GetService<IObjectFactory>();
         if (objectFactory == null)

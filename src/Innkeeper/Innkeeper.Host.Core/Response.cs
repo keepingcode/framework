@@ -15,11 +15,14 @@ namespace Innkeeper.Host.Core
   {
     private readonly Microsoft.AspNetCore.Http.HttpResponse res;
 
-    public Response(HttpContext context)
+    public Response(IRequestContext requestContext, HttpContext context)
     {
+      this.RequestContext = requestContext;
       this.res = context.Response;
       this.Headers = new Headers(context.Response.Headers);
     }
+
+    public IRequestContext RequestContext { get; }
 
     public IHeaders Headers { get; }
 
@@ -32,6 +35,11 @@ namespace Innkeeper.Host.Core
     {
       get => (HttpStatusCode)res.StatusCode;
       set => res.StatusCode = (int)value;
+    }
+
+    public IRequestContext GetContext()
+    {
+      return RequestContext;
     }
   }
 }
