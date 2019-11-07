@@ -14,15 +14,19 @@ namespace Toolset.Net
   /// </summary>
   public static class MimeTypeNames
   {
-    public const string Plain = "text/plain";
-    public const string Json = "application/json";
-    public const string Xml = "application/xml";
-    public const string Csv = "text/csv";
     public const string OctetStream = "application/octet-stream";
-    public const string Siren = "application/vnd.siren+json";
-    public const string SirenXml = "application/vnd.siren+xml";
+    public const string PlainText = "text/plain";
+    public const string Csv = "text/csv";
     public const string Excel = "application/vnd.ms-excel";
 
+    public const string JsonApplication = "application/json";
+    public const string JsonText = "text/json";
+    public const string JsonSiren = "application/vnd.siren+json";
+
+    public const string XmlApplication = "application/xml";
+    public const string XmlText = "text/xml";
+    public const string XmlSiren = "application/vnd.siren+xml";
+    
     private static Dictionary<string, string> _catalog;
     private static string[] _all;
 

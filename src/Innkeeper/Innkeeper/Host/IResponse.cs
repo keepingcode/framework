@@ -18,5 +18,7 @@ namespace Innkeeper.Host
     Stream Body { get; }
 
     IRequestContext GetContext();
+
+    void SetBody(Func<Stream, Stream> bodyMaker);
   }
 }

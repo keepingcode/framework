@@ -7,15 +7,39 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Toolset;
+using Toolset.Net;
 
 namespace Paper.Rendering
 {
   class PaperPipeline : RestPipeline
   {
-    [Get("/")]
-    async Task GetCatalog(int id)
+    private readonly IPaperCatalog paperCatalog;
+    private readonly IObjectFactory objectFactory;
+
+    public PaperPipeline(IPaperCatalog paperCatalog, IObjectFactory objectFactory)
     {
-      await Res.SendAsync($"/id={id}");
+      this.paperCatalog = paperCatalog;
+      this.objectFactory = objectFactory;
+    }
+
+    protected async override Task SendFaultAsync(Exception exception)
+    {
+      try
+      {
+        var payload = Ret.Fail(exception);
+        await Res.SendMediaAsync(payload, mediaFormat: null);
+      }
+      catch
+      {
+        await base.SendFaultAsync(exception);
+      }
+    }
+
+    [Invoke(Verb.All, "/{*path}")]
+    async Task IgnorePath(string path)
+    {
+      Res.Headers[HeaderNames.ContentType] = "";
+      await Res.SendAsync($"Este caminho não corresponde a qualquer método da API: {path}");
     }
 
     [Get("/Papers")]

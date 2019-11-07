@@ -27,6 +27,16 @@ namespace Innkeeper.Rest
       }
     }
 
+    public InvokeAttribute(Verb verbs)
+      : this(verbs.GetValue(), route: null)
+    {
+    }
+
+    public InvokeAttribute(Verb verbs, string route)
+      : this(verbs.GetValue(), route)
+    {
+    }
+
     public string[] Verbs { get; }
 
     public string Route { get; }

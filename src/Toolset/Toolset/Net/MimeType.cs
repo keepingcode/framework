@@ -14,13 +14,17 @@ namespace Toolset.Net
   /// </summary>
   public enum MimeType
   {
-    Plain,
-    Json,
-    Xml,
-    Csv,
     OctetStream,
-    Siren,
-    SirenXml,
-    Excel
+    PlainText,
+    Csv,
+    Excel,
+
+    JsonApplication,
+    JsonText,
+    JsonSiren,
+
+    XmlApplication,
+    XmlText,
+    XmlSiren
   }
 }

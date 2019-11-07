@@ -162,10 +162,10 @@ namespace Innkeeper.Host
     public ICollection<string> Compressions { get; set; }
 
     public static string[] KnownMimeTypes = {
-      MimeTypeNames.Siren,
-      MimeTypeNames.Json,
-      MimeTypeNames.SirenXml,
-      MimeTypeNames.Xml
+      MimeTypeNames.JsonSiren,
+      MimeTypeNames.JsonApplication,
+      MimeTypeNames.XmlSiren,
+      MimeTypeNames.XmlApplication
     };
 
     public string BestMimeType

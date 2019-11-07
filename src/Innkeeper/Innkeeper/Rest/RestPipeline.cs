@@ -20,8 +20,11 @@ namespace Innkeeper.Rest
     private static readonly Map<Type, PathIndex<RestPath>> indexCache = new Map<Type, PathIndex<RestPath>>();
 
     protected IRequestContext Ctx { get; private set; }
+
     protected IRequest Req { get; private set; }
+
     protected IResponse Res { get; private set; }
+
     protected NextAsync Next { get; private set; }
 
     private PathIndex<RestPath> GetIndex()

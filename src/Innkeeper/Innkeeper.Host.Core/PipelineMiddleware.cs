@@ -6,12 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Net.Http.Headers;
 using Toolset;
 using Toolset.Xml;
 using Microsoft.Extensions.DependencyInjection;
 using Innkeeper.Host;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using System.IO.Compression;
+using Toolset.Net;
 
 namespace Innkeeper.Host.Core
 {
@@ -28,34 +30,17 @@ namespace Innkeeper.Host.Core
     {
       try
       {
-        var ctx = new RequestContext();
-        var req = ctx.Request = new Request(ctx, httpContext);
-        var res = ctx.Response = new Response(ctx, httpContext);
-        
         var objectFactory = serviceProvider.GetService<IObjectFactory>();
         if (objectFactory == null)
           throw new NullReferenceException("A instância de IObjectFactory não foi definida no IServiceProvider.");
 
-        var router = objectFactory.GetInstance<IRouter>();
-        var routes = router.Find(req.RequestPath);
-        var iterator = routes.GetEnumerator();
+        var ctx = new RequestContext();
+        ctx.Request = new Request(ctx, httpContext);
+        ctx.Response = new Response(ctx, httpContext);
 
-        NextAsync nextAsync = null;
-        nextAsync = new NextAsync(async () =>
-        {
-          if (iterator.MoveNext())
-          {
-            var route = iterator.Current;
-            var pipeline = route.CreatePipeline(objectFactory);
-            await pipeline.RunAsync(ctx, nextAsync);
-          }
-          else
-          {
-            await next(httpContext);
-          }
-        });
+        var pipelineInvoker = new PipelineInvoker();
 
-        await nextAsync.Invoke();
+        await pipelineInvoker.InvokeAsync(ctx, objectFactory, () => next.Invoke(httpContext));
       }
       catch (Exception ex)
       {

@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Host\Args.cs" />
     <Compile Remove="Host\IPlatform.cs" />
     <Compile Remove="Host\RouteGetterAttribute.cs" />
   </ItemGroup>

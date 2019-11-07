@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Innkeeper.Host;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 using Toolset.Collections;
 
 namespace Innkeeper.Host.Core
@@ -15,10 +17,14 @@ namespace Innkeeper.Host.Core
   {
     private readonly Microsoft.AspNetCore.Http.HttpResponse res;
 
+    private readonly Stream baseBody;
+    private Stream _body;
+
     public Response(IRequestContext requestContext, HttpContext context)
     {
-      this.RequestContext = requestContext;
       this.res = context.Response;
+      this.baseBody = context.Response.Body;
+      this.RequestContext = requestContext;
       this.Headers = new Headers(context.Response.Headers);
     }
 
@@ -28,7 +34,8 @@ namespace Innkeeper.Host.Core
 
     public Stream Body
     {
-      get => res.Body;
+      get => _body ?? baseBody;
+      private set => _body = value;
     }
 
     public HttpStatusCode Status
@@ -40,6 +47,11 @@ namespace Innkeeper.Host.Core
     public IRequestContext GetContext()
     {
       return RequestContext;
+    }
+
+    public void SetBody(Func<Stream, Stream> bodyMaker)
+    {
+      Body = bodyMaker.Invoke(baseBody);
     }
   }
 }

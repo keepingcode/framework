@@ -15,8 +15,12 @@ namespace Innkeeper.Host.Core
 {
   internal class Request : IRequest
   {
+    private readonly Stream baseBody;
+    private Stream _body;
+
     public Request(IRequestContext requestContext, HttpContext context)
     {
+      this.baseBody = context.Request.Body;
       this.RequestContext = requestContext;
       this.RequestUri = context.Request.GetDisplayUrl();
       this.RequestPath = context.Request.PathBase + context.Request.Path;
@@ -24,7 +28,7 @@ namespace Innkeeper.Host.Core
       this.Path = context.Request.Path;
       this.Method = context.Request.Method;
       this.Headers = new Headers(context.Request.Headers);
-      this.Body = context.Request.Body;
+      this.QueryArgs = new QueryArgs(context.Request.QueryString.Value);
     }
 
     public IRequestContext RequestContext { get; }
@@ -41,11 +45,22 @@ namespace Innkeeper.Host.Core
 
     public IHeaders Headers { get; }
 
-    public Stream Body { get; }
+    public IArgs QueryArgs { get; }
+
+    public Stream Body
+    {
+      get => _body ?? baseBody;
+      private set => _body = value;
+    }
 
     public IRequestContext GetContext()
     {
       return RequestContext;
+    }
+
+    public void SetBody(Func<Stream, Stream> bodyMaker)
+    {
+      Body = bodyMaker.Invoke(baseBody);
     }
   }
 }

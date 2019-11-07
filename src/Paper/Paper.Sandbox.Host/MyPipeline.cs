@@ -1,4 +1,5 @@
 ﻿using Innkeeper.Host;
+using Innkeeper.Rest;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,13 +11,12 @@ using Toolset;
 namespace Paper.Sandbox.Host
 {
   [Expose, Route("/My/Site")]
-  class MyPipeline : IPipeline
+  class MyPipeline : RestPipeline
   {
-    public async Task RunAsync(IRequestContext ctx, NextAsync next)
+    [Get("/")]
+    public async Task Echo()
     {
-      var writer = new StreamWriter(ctx.Response.Body);
-      await writer.WriteAsync($"Olá, mundo!");
-      await writer.FlushAsync();
+      await Res.SendAsync($"Olá, mundo!");
     }
   }
 }

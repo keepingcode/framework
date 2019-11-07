@@ -11,6 +11,6 @@ namespace Innkeeper.Host
 
     ICollection<string> Keys { get; }
 
-    Var this[string key] { get; }
+    Var this[string key] { get; set; }
   }
 }

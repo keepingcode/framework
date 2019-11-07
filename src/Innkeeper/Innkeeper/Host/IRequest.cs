@@ -24,8 +24,12 @@ namespace Innkeeper.Host
 
     IHeaders Headers { get; }
 
+    IArgs QueryArgs { get; }
+
     Stream Body { get; }
 
     IRequestContext GetContext();
+
+    void SetBody(Func<Stream, Stream> bodyMaker);
   }
 }

@@ -23,10 +23,10 @@ namespace Paper.Media.Serialization
 {
   public class MediaSerializer : ISerializer
   {
-    public const string Json = MimeTypeNames.Json;
-    public const string JsonSiren = MimeTypeNames.Siren;
-    public const string Xml = MimeTypeNames.Xml;
-    public const string XmlSiren = MimeTypeNames.SirenXml;
+    public const string Json = MimeTypeNames.JsonApplication;
+    public const string JsonSiren = MimeTypeNames.JsonSiren;
+    public const string Xml = MimeTypeNames.XmlApplication;
+    public const string XmlSiren = MimeTypeNames.XmlSiren;
     public const string Csv = MimeTypeNames.Csv;
     public const string Excel = MimeTypeNames.Excel;
 
