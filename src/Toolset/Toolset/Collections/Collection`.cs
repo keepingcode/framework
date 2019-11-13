@@ -20,7 +20,7 @@ namespace Toolset.Collections
   /// <seealso cref="System.Collections.ICollection" />
   /// <seealso cref="System.Collections.Generic.IReadOnlyList{T}" />
   /// <seealso cref="System.Collections.Generic.IReadOnlyCollection{T}" />
-  public class Collection<T> : IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable, IList, ICollection, IReadOnlyList<T>, IReadOnlyCollection<T>
+  public class Collection<T> : IExtendedCollection<T>
   {
     private readonly List<T> list;
     private readonly ItemStore store;

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Toolset.Collections
 {
-  public class Map<TKey, TValue> : IDictionary<TKey, TValue>, IDictionary
+  public class Map<TKey, TValue> : IMap<TKey, TValue>
   {
     private readonly Dictionary<TKey, TValue> map;
 
