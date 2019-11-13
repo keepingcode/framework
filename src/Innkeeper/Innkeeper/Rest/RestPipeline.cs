@@ -59,9 +59,7 @@ namespace Innkeeper.Rest
 
     protected virtual async Task SendFaultAsync(Exception exception)
     {
-      await Task.Yield();
-      // Produzir uma resposta de erro com Request.Body.Send()
-      throw exception;
+      await this.Res.SendAsync(exception.GetStackTrace());
     }
 
     protected virtual async Task SendResponseAsync()

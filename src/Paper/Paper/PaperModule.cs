@@ -1,4 +1,5 @@
 ﻿using Innkeeper.Host;
+using Paper.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,17 +12,26 @@ namespace Paper
   {
     public void Install(IObjectFactoryBuilder builder)
     {
-      // var paperCatalog = new PaperCatalog();
-      // paperCatalog.Fill();
-      // 
-      // Console.WriteLine("--papers--");
-      // foreach (var key in paperCatalog.Keys)
-      // {
-      //   Console.WriteLine($"{key} => /Paper/Api/1/Modules/{key.Module}/Papers/{key.Schema}");
-      // }
-      // Console.WriteLine("----");
-      // 
-      // builder.AddSingleton<IPaperCatalog>(paperCatalog);
+      var paperCatalog = new AggregateCatalog();
+
+      var exposedCatalog = new ExposedPaperCatalog();
+      paperCatalog.AddCatalog(exposedCatalog);
+
+      var objectFactory = builder.BuildObjectFactory();
+      foreach (var type in ExposedTypes.GetTypes<IPaperCatalog>())
+      {
+        try
+        {
+          var catalog = (IPaperCatalog)objectFactory.CreateObject(type);
+          paperCatalog.AddCatalog(catalog);
+        }
+        catch (Exception ex)
+        {
+          ex.Trace();
+        }
+      }
+
+      builder.AddSingleton<IPaperCatalog>(paperCatalog);
     }
   }
 }

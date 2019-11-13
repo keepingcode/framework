@@ -21,6 +21,9 @@ namespace Innkeeper.Host
 
       try
       {
+        ConfigureRequest(req);
+        ConfigureResponse(res);
+
         var router = objectFactory.GetInstance<IRouter>();
         var routes = router.Find(req.RequestPath);
         var iterator = routes.GetEnumerator();
@@ -55,6 +58,10 @@ namespace Innkeeper.Host
         await res.SendAsync(
           $"{(int)status} - {status.ToString().ChangeCase(TextCase.ProperCase)}{ln}{ex.Message}{ln}Caused by:{ln}{ex.GetStackTrace()}"
         );
+      }
+      finally
+      {
+        try { res.Body.Close(); } catch { /* Nada a fazer */ }
       }
     }
 
@@ -112,23 +119,6 @@ namespace Innkeeper.Host
       }
     }
 
-    private void ExpandContentType(string contentType, ref string mimeType, ref string contentCharset)
-    {
-      // Expande um conteúdo na forma:
-      //   text/plain; charset=UTF-8
-      // Produzindho:
-      //   mimeType=text/plain
-      //   contentCharset=UTF-8
-
-      string[] tokens;
-
-      tokens = contentType?.Split(':');
-      mimeType = tokens?.First() ?? mimeType;
-
-      tokens = tokens?.Skip(1).LastOrDefault()?.Split('=');
-      contentCharset = tokens?.LastOrDefault() ?? contentCharset;
-    }
-
     private void ConfigureResponse(IResponse res)
     {
       var req = res.GetContext().Request;
@@ -184,22 +174,6 @@ namespace Innkeeper.Host
         args["charset"] = null;
       }
 
-      if (args["encoding"] is Var encodingVar)
-      {
-        var format = encodingVar.RawValue?.ToString() ?? "";
-
-        // exemplo:
-        //   UTF-8
-        var pattern = @"^[^/=;\s]+$";
-        var match = Regex.Match(format, pattern);
-        if (match.Success)
-        {
-          acceptEncoding = format;
-        }
-
-        args["encoding"] = null;
-      }
-
       if (args["f"] is Var fVar)
       {
         var format = fVar.RawValue?.ToString() ?? "";
@@ -210,7 +184,7 @@ namespace Innkeeper.Host
         //     xml
         //     json.gz
         //     csv.gzip
-        var pattern = @"^([^/=;\s]+)/([^/=;\s]+)(?:;\s*charset=([^/=;\s]+))?$";
+        var pattern = @"^([\w\d_+-]+)(?:\.([\w\d_]+))?";
         var match = Regex.Match(format, pattern);
         if (match.Success)
         {
@@ -252,10 +226,30 @@ namespace Innkeeper.Host
           {
             acceptEncoding = "gzip";
           }
+          else
+          {
+            acceptEncoding = "";
+          }
         }
 
         // "f" é um parâmetro especial que pode ser tratado pelo pipeline e por isso não é apagado.
         // args["f"] = null;
+      }
+
+      if (args["encoding"] is Var encodingVar)
+      {
+        var format = encodingVar.RawValue?.ToString() ?? "";
+
+        // exemplo:
+        //   UTF-8
+        var pattern = @"^[^/=;\s]+$";
+        var match = Regex.Match(format, pattern);
+        if (match.Success)
+        {
+          acceptEncoding = format;
+        }
+
+        args["encoding"] = null;
       }
 
       //
@@ -276,6 +270,23 @@ namespace Innkeeper.Host
         res.Headers[HeaderNames.ContentEncoding] = "gzip";
         res.SetBody(body => new GZipStream(body, CompressionMode.Compress));
       }
+    }
+
+    private void ExpandContentType(string contentType, ref string mimeType, ref string contentCharset)
+    {
+      // Expande um conteúdo na forma:
+      //   text/plain; charset=UTF-8
+      // Produzindho:
+      //   mimeType=text/plain
+      //   contentCharset=UTF-8
+
+      string[] tokens;
+
+      tokens = contentType?.Split(':');
+      mimeType = tokens?.First() ?? mimeType;
+
+      tokens = tokens?.Skip(1).LastOrDefault()?.Split('=');
+      contentCharset = tokens?.LastOrDefault() ?? contentCharset;
     }
   }
 }

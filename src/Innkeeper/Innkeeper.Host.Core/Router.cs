@@ -51,6 +51,9 @@ namespace Innkeeper.Host.Core
 
     public ICollection<IRoute> Find(string path)
     {
+      if (!path.EndsWith("/")) path += "/";
+      if (!path.StartsWith("/")) path = "/" + path;
+
       // FIXME: O algoritmo deveria usar um índice em vez de varregar a fila
       var routes =
         (

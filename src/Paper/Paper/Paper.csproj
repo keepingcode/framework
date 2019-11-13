@@ -18,7 +18,6 @@
   <ItemGroup>
     <Compile Remove="Browser\**" />
     <Compile Remove="Commons\**" />
-    <Compile Remove="Design\**" />
     <Compile Remove="Extensions.Papers\**" />
     <Compile Remove="Extensions.Site.Rendering\**" />
     <Compile Remove="Extensions.Site\**" />
@@ -28,7 +27,6 @@
     <Compile Remove="temp\**" />
     <EmbeddedResource Remove="Browser\**" />
     <EmbeddedResource Remove="Commons\**" />
-    <EmbeddedResource Remove="Design\**" />
     <EmbeddedResource Remove="Extensions.Papers\**" />
     <EmbeddedResource Remove="Extensions.Site.Rendering\**" />
     <EmbeddedResource Remove="Extensions.Site\**" />
@@ -38,7 +36,6 @@
     <EmbeddedResource Remove="temp\**" />
     <None Remove="Browser\**" />
     <None Remove="Commons\**" />
-    <None Remove="Design\**" />
     <None Remove="Extensions.Papers\**" />
     <None Remove="Extensions.Site.Rendering\**" />
     <None Remove="Extensions.Site\**" />

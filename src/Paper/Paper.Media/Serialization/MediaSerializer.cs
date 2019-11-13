@@ -36,7 +36,7 @@ namespace Paper.Media.Serialization
     public static string[] SupportedMimeTypes { get; } = { JsonSiren, Json, XmlSiren, Xml, Csv, Excel };
 
     private readonly SerializationOptions options;
-    public readonly string mimeType;
+    private readonly string mimeType;
 
     public MediaSerializer()
       : this(null, null)

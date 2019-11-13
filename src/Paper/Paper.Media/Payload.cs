@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -7,6 +8,7 @@ using Paper.Media.Design;
 using Paper.Media.Serialization;
 using Toolset;
 using Toolset.Collections;
+using Toolset.Reflection;
 
 namespace Paper.Media
 {
@@ -80,6 +82,32 @@ namespace Paper.Media
       return entity;
     }
 
+    public static Payload FromGraph(object graph)
+    {
+      if (graph is Entity entity)
+        return FromEntity(entity);
+
+      var payload = new Payload();
+
+      if (graph is ICollection list)
+      {
+        payload.Records = new RecordCollection();
+        foreach (var item in list)
+        {
+          var map = new PropertyMap();
+          CopyGraphToMap(item, map);
+          payload.Records.Add(map);
+        }
+      }
+      else
+      {
+        payload.Record = new PropertyMap();
+        CopyGraphToMap(graph, payload.Record);
+      }
+
+      return payload;
+    }
+
     public static Payload FromEntity(Entity entity)
     {
       var payload = new Payload();
@@ -150,6 +178,17 @@ namespace Paper.Media
       }
       var properties = map.Where(x => !x.Key.EqualsAnyIgnoreCase("@class"));
       entity.AddProperties(properties);
+    }
+
+    private static void CopyGraphToMap(object graph, PropertyMap map)
+    {
+      var @class = graph.GetType().Name;
+      map.Add("@class", @class);
+      foreach (var property in graph._GetPropertyNames())
+      {
+        var value = graph._Get(property);
+        map.Add(property, value);
+      }
     }
 
     [CollectionDataContract(Namespace = Namespaces.Default, Name = "Records", ItemName = "Record")]
