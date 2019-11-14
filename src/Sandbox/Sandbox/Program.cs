@@ -46,6 +46,8 @@ namespace Sandbox
     private static readonly Regex namePattern = new Regex(@"^[^:/@]*$");
     private static readonly Regex pathPattern = new Regex(@"^(/[^/?]+)+/?$");
 
+    private static Regex uriPattern;
+
     private string _protocol;
     private string _host;
     private string _user;
@@ -144,19 +146,21 @@ namespace Sandbox
       return Clone();
     }
 
-    public Url Combine(params string[] fragments)
-    {
-      throw new NotImplementedException();
-    }
-
     public Url Append(params string[] fragments)
     {
-      throw new NotImplementedException();
+      var allTokens = fragments.Select(TokenizeUrl);
+
+      return this;
+    }
+
+    public Url Combine(params string[] fragments)
+    {
+      return this;
     }
 
     public Url Replace(params string[] fragments)
     {
-      throw new NotImplementedException();
+      return this;
     }
 
     public Url ClearArgs()
@@ -297,6 +301,41 @@ namespace Sandbox
     {
       return new Url(url);
     }
+
+    private static Tokens TokenizeUrl(string url)
+    {
+      if (uriPattern == null)
+      {
+        uriPattern = new Regex(@"^(?:(?:([^/@:]*):)?//(?:([^/@:]+)(?::([^/@:]+))?@)?([^/@:]+)(?::(\d+))?)?([^:?]+)?(?:\?(.*))?$");
+      }
+
+      var tokens = new Tokens();
+
+      var match = uriPattern.Match(url);
+      if (match.Success)
+      {
+        tokens.Protocol = match.Groups[1].Value;
+        tokens.User = match.Groups[2].Value;
+        tokens.Pass = match.Groups[3].Value;
+        tokens.Host = match.Groups[4].Value;
+        tokens.Port = match.Groups[5].Value;
+        tokens.Path = match.Groups[6].Value;
+        tokens.Args = match.Groups[7].Value;
+      }
+
+      return tokens;
+    }
+
+    private struct Tokens
+    {
+      public string Protocol { get; set; }
+      public string User { get; set; }
+      public string Pass { get; set; }
+      public string Host { get; set; }
+      public string Port { get; set; }
+      public string Path { get; set; }
+      public string Args { get; set; }
+    }
   }
 
   public static class Program
@@ -312,6 +351,7 @@ namespace Sandbox
         url.Port = 090;
         url.User = "xyz";
         url.Pass = "123";
+        url.Path = "/Api/1/App";
 
         url.Args["page"] = new Var(new Toolset.Range(10, 30));
         url.Args["oneShot"] = new Var(true);
@@ -319,6 +359,9 @@ namespace Sandbox
         url.Args["ids"] = new Var(new[] { 1, 2, 3 });
 
         Debug.WriteLine(url);
+        Debug.WriteLine(url.Clone().Append("Tananana/Talz?us=them"));
+        Debug.WriteLine(url.Clone().Combine("Tananana/Talz?us=them"));
+        Debug.WriteLine(url.Clone().Replace("Tananana/Talz?us=them"));
 
         //var other =
         //  url
