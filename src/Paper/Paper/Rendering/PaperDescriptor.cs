@@ -1,4 +1,5 @@
-﻿using Paper.Design;
+﻿using Innkeeper.Host;
+using Paper.Design;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,24 +9,12 @@ namespace Paper.Rendering
 {
   public class PaperDescriptor : IPaperDescriptor
   {
-    public string Module { get; set; }
+    public string Catalog { get; set; }
 
-    public string Schema { get; set; }
+    public string Paper { get; set; }
+
+    public string Title { get; set; }
 
     public Type PaperType { get; set; }
-
-    public static string IdentifyModule(Type paperType)
-    {
-      var attr = paperType._GetAttribute<PaperAttribute>();
-      var module = attr?.Module ?? paperType.Namespace;
-      return module;
-    }
-
-    public static string IdentifySchema(Type paperType)
-    {
-      var attr = paperType._GetAttribute<PaperAttribute>();
-      var schema = attr?.Schema ?? paperType.Name;
-      return schema;
-    }
   }
 }

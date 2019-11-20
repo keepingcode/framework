@@ -24,11 +24,11 @@ namespace Innkeeper.Host.Core
     {
       this.res = context.Response;
       this.baseBody = context.Response.Body;
-      this.RequestContext = requestContext;
+      this.Context = requestContext;
       this.Headers = new Headers(context.Response.Headers);
     }
 
-    public IRequestContext RequestContext { get; }
+    public IRequestContext Context { get; }
 
     public IHeaders Headers { get; }
 
@@ -42,11 +42,6 @@ namespace Innkeeper.Host.Core
     {
       get => (HttpStatusCode)res.StatusCode;
       set => res.StatusCode = (int)value;
-    }
-
-    public IRequestContext GetContext()
-    {
-      return RequestContext;
     }
 
     public void SetBody(Func<Stream, Stream> bodyMaker)

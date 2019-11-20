@@ -22,7 +22,7 @@ namespace Innkeeper.Host.Core
     public Request(IRequestContext requestContext, HttpContext context)
     {
       this.baseBody = context.Request.Body;
-      this.RequestContext = requestContext;
+      this.Context = requestContext;
       this.RequestUri = context.Request.GetDisplayUrl();
       this.RequestPath = context.Request.PathBase + context.Request.Path;
       this.PathBase = context.Request.PathBase;
@@ -32,7 +32,7 @@ namespace Innkeeper.Host.Core
       this.QueryArgs = new QueryArgs(context.Request.QueryString.Value);
     }
 
-    public IRequestContext RequestContext { get; }
+    public IRequestContext Context { get; }
 
     public string RequestUri { get; }
 
@@ -52,11 +52,6 @@ namespace Innkeeper.Host.Core
     {
       get => _body ?? baseBody;
       private set => _body = value;
-    }
-
-    public IRequestContext GetContext()
-    {
-      return RequestContext;
     }
 
     public void SetBody(Func<Stream, Stream> bodyMaker)

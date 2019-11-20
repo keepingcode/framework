@@ -15,32 +15,19 @@ namespace Paper.Rendering
 
     public void MapPaperDescriptor(IPaperDescriptor descriptor)
     {
-      var id = $"{descriptor.Module}/{descriptor.Schema}";
+      var id = $"{descriptor.Catalog}/{descriptor.Paper}";
       descriptorMap[id] = descriptor;
     }
 
-    public IPaperDescriptor MapPaperDescriptor(Type paperType)
+    public IPaperDescriptor MapPaperDescriptor(string catalog, string paper, Type paperType)
     {
       var descriptor = new PaperDescriptor
       {
-        Module = PaperDescriptor.IdentifyModule(paperType),
-        Schema = PaperDescriptor.IdentifySchema(paperType),
+        Catalog = catalog,
+        Paper = paper,
         PaperType = paperType
       };
-      var id = $"{descriptor.Module}/{descriptor.Schema}";
-      descriptorMap[id] = descriptor;
-      return descriptor;
-    }
-
-    public IPaperDescriptor MapPaperDescriptor(string module, string schema, Type paperType)
-    {
-      var descriptor = new PaperDescriptor
-      {
-        Module = module,
-        Schema = schema,
-        PaperType = paperType
-      };
-      var id = $"{descriptor.Module}/{descriptor.Schema}";
+      var id = $"{descriptor.Catalog}/{descriptor.Paper}";
       descriptorMap[id] = descriptor;
       return descriptor;
     }
@@ -55,9 +42,9 @@ namespace Paper.Rendering
       return descriptors;
     }
 
-    public ICollection<IPaperDescriptor> FindPaperDescriptor(string module)
+    public ICollection<IPaperDescriptor> FindPaperDescriptor(string catalog)
     {
-      var prefix = $"{module}/";
+      var prefix = $"{catalog}/";
       var descriptors = (
         from entry in descriptorMap
         where entry.Key.StartsWith(prefix)
@@ -66,9 +53,9 @@ namespace Paper.Rendering
       return descriptors;
     }
 
-    public IPaperDescriptor FindPaperDescriptor(string module, string schema)
+    public IPaperDescriptor FindPaperDescriptor(string catalog, string paper)
     {
-      var id = $"{module}/{schema}";
+      var id = $"{catalog}/{paper}";
       var descriptor = descriptorMap[id];
       return descriptor;
     }

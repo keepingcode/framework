@@ -5,8 +5,10 @@ using Paper.Media.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Toolset;
 using Toolset.Net;
 using Toolset.Reflection;
 
@@ -14,7 +16,21 @@ namespace Paper.Rendering
 {
   public static class ResponseExtensions
   {
-    public static async Task SendEntityAsync(this IResponse res, object payload)
+    public static async Task SendEntityStatusAsync(this IResponse res, HttpStatusCode status)
+    {
+      var req = res.Context.Request;
+      var entity = HttpEntity.Create(req.RequestUri, status);
+      await WriteEntityAsync(res, entity, status);
+    }
+
+    public static async Task SendEntityStatusAsync(this IResponse res, Ret ret)
+    {
+      var req = res.Context.Request;
+      var entity = HttpEntity.CreateFromRet(req.RequestUri, ret);
+      await WriteEntityAsync(res, entity, ret.Status.Code);
+    }
+
+    public static async Task SendEntityObjectAsync(this IResponse res, object payload)
     {
       var entity = payload as Entity;
       if (entity == null)
@@ -28,7 +44,7 @@ namespace Paper.Rendering
     {
       Entity entity;
 
-      var req = res.GetContext().Request;
+      var req = res.Context.Request;
       var mediaType = req.Headers[HeaderNames.Accept] ?? MimeTypeNames.JsonSiren;
 
       var isHypermedia = mediaType.Contains("siren");
@@ -50,9 +66,9 @@ namespace Paper.Rendering
       await WriteEntityAsync(res, entity);
     }
 
-    private static async Task WriteEntityAsync(IResponse res, Entity entity)
+    private static async Task WriteEntityAsync(IResponse res, Entity entity, HttpStatusCode status = HttpStatusCode.OK)
     {
-      var req = res.GetContext().Request;
+      var req = res.Context.Request;
       var accept = req.Headers[HeaderNames.Accept] ?? MimeTypeNames.JsonSiren;
       var contentType = MediaSerializer.ParseFormat(accept);
 
@@ -62,6 +78,7 @@ namespace Paper.Rendering
         entity.WithLinks().Add(new Link { Rel = RelNames.Self, Href = req.RequestUri });
       }
 
+      res.Status = status;
       res.Headers[HeaderNames.ContentType] = $"{contentType}; charset=UTF-8";
 
       var serializer = new MediaSerializer(contentType);

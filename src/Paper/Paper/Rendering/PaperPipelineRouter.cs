@@ -24,47 +24,47 @@ namespace Paper.Rendering
       map.Map<PaperPipeline>(path);
     }
 
-    public static string CreatePath(string module)
+    public static string CreatePath(string catalog)
     {
-      return $"/Paper/Api/1/Catalogs/{module}";
+      return $"/Paper/Api/1/Catalogs/{catalog}";
     }
 
-    public static string CreatePath(string module, string schema)
+    public static string CreatePath(string catalog, string paper)
     {
-      return $"/Paper/Api/1/Catalogs/{module}/Papers/{schema}";
+      return $"/Paper/Api/1/Catalogs/{catalog}/Papers/{paper}";
     }
 
-    public static string ExtractTokensFromPath(string path)
+    public static Schema ExplainPath(string path)
     {
-      if (!path.StartsWith("/Paper/Api/1/Catalogs/"))
-        return null;
-
-      var tokens = path.Split('?').First().Split('/');
-      var module = tokens[5];
-      return module;
-    }
-
-    public static void ExtractTokensFromPath(string path, out string module)
-    {
-      module = null;
-      if (path.StartsWith("/Paper/Api/1/Catalogs/"))
-      {
-        var tokens = path.Split('?').First().Split('/');
-        module = tokens[5];
-      }
-    }
-
-    public static void ExtractTokensFromPath(string path, out string module, out string schema)
-    {
-      module = null;
-      schema = null;
-
-      var regex = new Regex(@"^/Paper/Api/1/Catalogs/([^/?]+)(?:/Papers/([^/?]+))?");
+      var schema = new Schema();
+      var regex = new Regex(@"^/Paper/Api/1/Catalogs/([^/?]+)(?:/Papers/([^/?]+)(?:/Actions/([^/?]+))?)?");
       var match = regex.Match(path);
       if (match.Success)
       {
-        module = match.Groups[1].Value;
-        schema = match.Groups[2].Value;
+        var catalog = match.Groups[1].Value;
+        var paper = match.Groups[2].Value;
+        var action = match.Groups[3].Value;
+
+        schema.Catalog = string.IsNullOrEmpty(catalog) ? null : catalog;
+        schema.Paper = string.IsNullOrEmpty(paper) ? null : paper;
+        schema.Action = string.IsNullOrEmpty(action) ? null : action;
+      }
+      return schema;
+    }
+
+    public class Schema
+    {
+      public string Catalog { get; set; }
+      public string Paper { get; set; }
+      public string Action { get; internal set; }
+
+      public override string ToString()
+      {
+        var text = "";
+        if (Catalog != null) text += $"Catálogo:{Catalog}";
+        if (Paper != null) text += $"/Paper:{Paper}";
+        if (Action != null) text += $"/Ação:{Action}";
+        return text;
       }
     }
   }

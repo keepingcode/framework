@@ -6,9 +6,11 @@ namespace Paper.Rendering
 {
   public interface IPaperDescriptor
   {
-    string Module { get; }
+    string Catalog { get; }
 
-    string Schema { get; }
+    string Paper { get; }
+
+    string Title { get; }
 
     Type PaperType { get; }
   }

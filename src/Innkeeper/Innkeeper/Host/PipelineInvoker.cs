@@ -121,7 +121,7 @@ namespace Innkeeper.Host
 
     private void ConfigureResponse(IResponse res)
     {
-      var req = res.GetContext().Request;
+      var req = res.Context.Request;
       var args = req.QueryArgs;
 
       string acceptType = null;      // Mime type

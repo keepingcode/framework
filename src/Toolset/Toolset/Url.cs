@@ -192,7 +192,7 @@ namespace Toolset
         return;
 
       var oldNodes = (
-        from node in this.Path.Split('/')
+        from node in (this?.Path ?? "").Split('/')
         select node
       ).NotNullOrEmpty().ToArray();
 
@@ -217,7 +217,11 @@ namespace Toolset
           }
         case nameof(Append):
           {
-            path = "/" + string.Join("/", oldNodes.SkipLast(upwardCount).Concat(newNodes));
+            if (upwardCount > 0)
+            {
+              oldNodes = oldNodes.SkipLast(upwardCount).ToArray();
+            }
+            path = "/" + string.Join("/", oldNodes.Concat(newNodes));
             break;
           }
         case nameof(Combine):

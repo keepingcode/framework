@@ -12,12 +12,13 @@ namespace Paper
   {
     public void Install(IObjectFactoryBuilder builder)
     {
+      var objectFactory = builder.BuildObjectFactory();
+
       var paperCatalog = new AggregateCatalog();
 
-      var exposedCatalog = new ExposedPaperCatalog();
+      var exposedCatalog = objectFactory.CreateObject<ExposedPaperCatalog>();
       paperCatalog.AddCatalog(exposedCatalog);
 
-      var objectFactory = builder.BuildObjectFactory();
       foreach (var type in ExposedTypes.GetTypes<IPaperCatalog>())
       {
         try

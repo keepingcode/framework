@@ -44,82 +44,125 @@ namespace Paper.Rendering
     async Task NotFound(string path)
     {
       var ret = Ret.Fail(HttpStatusCode.NotFound, $"Este caminho não corresponde a qualquer método da API: {path}");
-      var payload = HttpEntity.CreateFromRet(Req.RequestUri, ret);
-      await Res.SendEntityAsync(payload);
+      await Res.SendEntityStatusAsync(ret);
     }
 
     [Get("/")]
     async Task GetCatalog()
     {
-      PaperPipelineRouter.ExtractTokensFromPath(Req.RequestPath, out string module);
+      var schema = PaperPipelineRouter.ExplainPath(Req.RequestPath);
 
-      var payload = new Beans.Catalog();
-      payload.Name = module;
-      payload.Title = module.ChangeCase(TextCase.ProperCase);
-      payload.Path = PaperPipelineRouter.CreatePath(module);
+      var catalog = new Beans.Catalog();
+      catalog.Name = schema.Catalog;
+      catalog.Path = PaperPipelineRouter.CreatePath(schema.Catalog);
 
-      await Res.SendEntityAsync(payload, FormatPayload);
+      await Res.SendEntityAsync(catalog, payload =>
+      {
+        var entity = FormatPayload(payload);
+        entity.AddLink(new Url(Req.RequestUri).Combine(".."), link => link.Title = "Catálogos");
+        entity.AddLink(new Url(Req.RequestUri).Append("Papers"), link => link.Title = "Papers");
+        return entity;
+      });
     }
 
     [Get("/Papers")]
     async Task GetPapers()
     {
-      var module = PaperPipelineRouter.ExtractTokensFromPath(Req.RequestPath);
-      var descriptors = paperCatalog.FindPaperDescriptor(module);
+      var schema = PaperPipelineRouter.ExplainPath(Req.RequestPath);
+      var descriptors = paperCatalog.FindPaperDescriptor(schema.Catalog);
 
-      var payload = (
+      var papers = (
         from descriptor in descriptors
         select new Beans.Paper
         {
-          Catalog = descriptor.Module,
-          Name = descriptor.Schema,
-          Title = descriptor.Schema.ChangeCase(TextCase.ProperCase),
-          Path = PaperPipelineRouter.CreatePath(descriptor.Module, descriptor.Schema)
+          Catalog = descriptor.Catalog,
+          Name = descriptor.Paper,
+          Path = PaperPipelineRouter.CreatePath(descriptor.Catalog, descriptor.Paper)
         }
       ).ToArray();
 
-      await Res.SendEntityAsync(payload, FormatPayload);
+      await Res.SendEntityAsync(papers, payload =>
+      {
+        var entity = FormatPayload(payload);
+        entity.AddLink(new Url(Req.RequestUri).Combine(".."), link => link.Title = "Catálogo");
+        foreach (var descriptor in descriptors)
+        {
+          var paper = descriptor.Paper;
+          var title = descriptor.Title;
+          entity.AddLink(new Url(Req.RequestUri).Append(paper), link => link.Title = title);
+        }
+        return entity;
+      });
     }
 
     [Get("/Papers/{paper}")]
     async Task GetPaper(string paper)
     {
-      PaperPipelineRouter.ExtractTokensFromPath(Req.RequestPath, out string module);
+      var schema = PaperPipelineRouter.ExplainPath(Req.RequestPath);
 
-      var descriptor = paperCatalog.FindPaperDescriptor(module, paper);
-      var payload = new Beans.Paper
+      var descriptor = paperCatalog.FindPaperDescriptor(schema.Catalog, schema.Paper);
+      if (descriptor == null)
       {
-        Catalog = descriptor.Module,
-        Name = descriptor.Schema,
-        Title = descriptor.Schema.ChangeCase(TextCase.ProperCase),
-        Path = PaperPipelineRouter.CreatePath(descriptor.Module, descriptor.Schema)
+        var ret = Ret.Fail(HttpStatusCode.NotFound, $"O obteto não existe: {schema}");
+        await Res.SendEntityStatusAsync(ret);
+        return;
+      }
+
+      var instance = new Beans.Paper
+      {
+        Catalog = descriptor.Catalog,
+        Name = descriptor.Paper,
+        Title = descriptor.Title,
+        Path = PaperPipelineRouter.CreatePath(descriptor.Catalog, descriptor.Paper)
       };
 
-      await Res.SendEntityAsync(payload, FormatPayload);
+      await Res.SendEntityAsync(instance, payload =>
+      {
+        var entity = FormatPayload(payload);
+        entity.AddLink(new Url(Req.RequestUri).Combine("../.."), link => link.Title = "Catálogo");
+        entity.AddLink(new Url(Req.RequestUri).Combine(".."), link => link.Title = "Papers");
+        entity.AddLink(new Url(Req.RequestUri).Append("Actions"), link => link.Title = "Ações");
+        return entity;
+      });
     }
 
     [Get("/Papers/{paper}/Actions")]
     async Task GetActions(string paper)
     {
-      PaperPipelineRouter.ExtractTokensFromPath(Req.RequestPath, out string module);
-
-      var descriptors = paperCatalog.FindPaperDescriptor(module);
-
-      var payload = new Beans.Action[0];
-
-      await Res.SendEntityAsync(payload, FormatPayload);
+      var schema = PaperPipelineRouter.ExplainPath(Req.RequestPath);
+      var descriptors = paperCatalog.FindPaperDescriptor(schema.Catalog, schema.Paper);
+      var actions = new Beans.Action[0];
+      await Res.SendEntityAsync(actions, payload =>
+      {
+        var entity = FormatPayload(payload);
+        entity.AddLink(new Url(Req.RequestUri).Combine("../../.."), link => link.Title = "Catálogo");
+        entity.AddLink(new Url(Req.RequestUri).Combine("../.."), link => link.Title = "Papers");
+        entity.AddLink(new Url(Req.RequestUri).Combine(".."), link => link.Title = "Paper");
+        foreach (var action in actions)
+        {
+          var name = action.Name;
+          var title = action.Title;
+          entity.AddLink(new Url(Req.RequestUri).Append(name), link => link.Title = title);
+        }
+        return entity;
+      });
     }
 
     [Get("/Papers/{paper}/Actions/{action}")]
     async Task GetActions(string paper, string action)
     {
-      PaperPipelineRouter.ExtractTokensFromPath(Req.RequestPath, out string module);
-
-      var descriptors = paperCatalog.FindPaperDescriptor(module);
-
-      var payload = new Beans.Action();
-
-      await Res.SendEntityAsync(payload, FormatPayload);
+      var schema = PaperPipelineRouter.ExplainPath(Req.RequestPath);
+      var descriptors = paperCatalog.FindPaperDescriptor(schema.Catalog, schema.Paper);
+      var instance = new Beans.Action();
+      await Res.SendEntityAsync(instance, payload =>
+      {
+        var entity = FormatPayload(payload);
+        entity.AddLink(new Url(Req.RequestUri).Combine("../../../.."), link => link.Title = "Catálogo");
+        entity.AddLink(new Url(Req.RequestUri).Combine("../../.."), link => link.Title = "Papers");
+        entity.AddLink(new Url(Req.RequestUri).Combine("../.."), link => link.Title = "Paper");
+        entity.AddLink(new Url(Req.RequestUri).Combine(".."), link => link.Title = "Ações");
+        return entity;
+      });
     }
 
     private Entity FormatPayload(object payload)
@@ -130,7 +173,8 @@ namespace Paper.Rendering
       {
         entity.WithClass().Add("records");
 
-        var headers = type.GetProperties().Select(x => (CaseVariantString)x.Name).ToArray();
+        var itemType = TypeOf.CollectionElement(type);
+        var headers = itemType.GetProperties().Select(x => (CaseVariantString)x.Name).ToArray();
         entity.WithProperties().Add("__meta", new
         {
           records = new

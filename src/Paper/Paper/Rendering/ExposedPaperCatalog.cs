@@ -1,4 +1,5 @@
-﻿using Paper.Design;
+﻿using Innkeeper.Host;
+using Paper.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace Paper.Rendering
 {
   class ExposedPaperCatalog : IPaperCatalog
   {
-    private HashMap<IPaperDescriptor> descriptorMap = new HashMap<IPaperDescriptor>();
+    private readonly HashMap<IPaperDescriptor> descriptorMap = new HashMap<IPaperDescriptor>();
 
-    public ExposedPaperCatalog()
+    public ExposedPaperCatalog(IWebApp webApp)
     {
-      Initialize();
+      Initialize(webApp);
     }
 
     public ICollection<IPaperDescriptor> FindPaperDescriptor(Type paperType)
@@ -46,26 +47,22 @@ namespace Paper.Rendering
       return descriptor;
     }
 
-    private void Initialize()
+    private void Initialize(IWebApp webApp)
     {
       Console.WriteLine("---PAPERS---");
       try
       {
+        var factory = new PaperDescriptorFactory(webApp);
         var types = ExposedTypes.GetTypes<IPaper>();
         foreach (var type in types)
         {
           try
           {
-            var descriptor = new PaperDescriptor
-            {
-              Module = PaperDescriptor.IdentifyModule(type),
-              Schema = PaperDescriptor.IdentifySchema(type),
-              PaperType = type
-            };
-            var id = $"{descriptor.Module}/{descriptor.Schema}";
+            var descriptor = factory.CreatePaperDescriptor(type);
+            var id = $"{descriptor.Catalog}/{descriptor.Paper}";
             descriptorMap[id] = descriptor;
 
-            Console.WriteLine($"{PaperPipelineRouter.CreatePath(descriptor.Module, descriptor.Schema)}");
+            Console.WriteLine($"{PaperPipelineRouter.CreatePath(descriptor.Catalog, descriptor.Paper)}");
           }
           catch (Exception ex)
           {

@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Toolset;
 using Toolset.Net;
 using Toolset.Xml;
 

@@ -7,9 +7,9 @@ namespace Paper.Rendering
 {
   public interface IPaperCatalog
   {
-    IPaperDescriptor FindPaperDescriptor(string module, string schema);
+    IPaperDescriptor FindPaperDescriptor(string catalog, string paper);
 
-    ICollection<IPaperDescriptor> FindPaperDescriptor(string module);
+    ICollection<IPaperDescriptor> FindPaperDescriptor(string catalog);
 
     ICollection<IPaperDescriptor> FindPaperDescriptor(Type paperType);
   }

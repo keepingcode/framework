@@ -47,6 +47,16 @@ namespace Paper.Media
       return new Href { Value = href.ToString() };
     }
 
+    public static implicit operator Href(Url href)
+    {
+      return new Href { Value = href.ToString() };
+    }
+
+    public static implicit operator Url(Href href)
+    {
+      return new Url(href.ToString());
+    }
+
     #region IXmlSerializable
 
     XmlSchema IXmlSerializable.GetSchema() => null;
