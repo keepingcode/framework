@@ -62,7 +62,7 @@ namespace Paper.Rendering
             var id = $"{descriptor.Catalog}/{descriptor.Paper}";
             descriptorMap[id] = descriptor;
 
-            Console.WriteLine($"{PaperPipelineRouter.CreatePath(descriptor.Catalog, descriptor.Paper)}");
+            Console.WriteLine($"/Paper/Api/Catalogs/{descriptor.Catalog}/Papers/{descriptor.Paper}");
           }
           catch (Exception ex)
           {

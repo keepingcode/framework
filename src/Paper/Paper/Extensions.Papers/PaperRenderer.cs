@@ -15,6 +15,7 @@ using Toolset;
 using Toolset.Collections;
 using Toolset.Net;
 using Toolset.Reflection;
+using Innkeeper.Host;
 
 namespace Paper.Extensions.Papers
 {

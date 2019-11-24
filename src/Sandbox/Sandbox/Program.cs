@@ -1,4 +1,7 @@
-﻿using Innkeeper.Rest;
+﻿using Innkeeper.Host;
+using Innkeeper.Rest;
+using Paper.Media;
+using Paper.Media.Design;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using Toolset;
 using Toolset.Collections;
+using Toolset.Reflection;
 using Toolset.Xml;
 
 namespace Sandbox
@@ -21,50 +25,75 @@ namespace Sandbox
     {
       try
       {
-        var url = new Url();
+        IPaperBuilderFactory factory = null;
 
-        url.Protocol = "http";
-        url.Host = "10.0.0.1";
-        url.Port = 090;
-        url.User = "xyz";
-        url.Pass = "123";
-        url.Path = "/Api/1/App";
+        var action = factory.CreatePaperBuilder("/MyCatalog/MyPaper/MyAction",
+          ctx => new { ArgCount = ctx.Args.Count }
+        );
 
-        url.Args["page"] = new Var(new Toolset.Range(10, 30));
-        //url.Args["oneShot"] = new Var(true);
-        //url.Args["search"] = new Var("Tananana");
-        url.Args["ids"] = new Var(new[] { 1, 2, 3 });
+        var invoiceGetter = action.PopulateOne((ctx, target) => new
+        {
+          InvoiceId = ctx.Args.Get<int>("InvoiceId"),
+          Number = 2,
+          Series = 3
+        });
+        var invoiceItemsGetter = action.PopulateMany((ctx, target) => new[]
+        {
+          new {
+            invoiceGetter(ctx).InvoiceId,
+            ItemId = 10,
+            Name = "Ten"
+          },
+          new {
+            invoiceGetter(ctx).InvoiceId,
+            ItemId = 11,
+            Name = "Eleven"
+          }
+        });
 
-        //Debug.WriteLine(url.Clone().Combine("?page.min=5&ids[]=33"));
-        //Debug.WriteLine(url.Clone().Combine("?page.min=5&ids[]=33"));
-        //Debug.WriteLine(url.Clone().Replace("?page.min=5&ids[]=33"));
+        action.Format(invoiceGetter);
+        action.Format(invoiceItemsGetter, (ctx, target, all, item, entity) =>
+        {
+          entity.AddClass($"MyFormattedItem");
+        });
 
+        var payloadGetter = action.Restore((ctx, target, payload) => payload);
 
-        Debug.WriteLine(url);
-
-        Debug.WriteLine(url.Clone().Combine(".././Xyz"));
-        Debug.WriteLine(url.Clone().Combine(".././../Xyz"));
-        Debug.WriteLine(url.Clone().Combine(".././../../Xyz"));
-
-        Debug.WriteLine(url.Clone().Append("/One/?x=1").Combine(".././Xyz?o=p"));
-        Debug.WriteLine(url.Clone().Append("/One/?x=1").Combine(".././../Xyz?o=p"));
-        Debug.WriteLine(url.Clone().Append("/One/?x=1").Combine(".././../../Xyz?o=p"));
-
-        //var other =
-        //  url
-        //    .Clone()
-        //    .ClearArgs()
-        //    .Append("/Talz")
-        //    .Combine("/Talz")
-        //    .Append("?a[]=1")
-        //    .Combine("?a[]=2")
-        //    .Replace("*//local:*/");
-
+        action.Act(payloadGetter, (ctx, target, payload) => Console.WriteLine("It`s done!"));
       }
       catch (Exception ex)
       {
         ex.Trace();
       }
     }
+
+    #region Types
+
+    interface IPaperContext
+    {
+      IMap<string, Var> Args { get; }
+      IObjectFactory Factory { get; }
+    }
+
+    interface IPaperBuilder<T>
+    {
+      Func<IPaperContext, TValue> PopulateOne<TValue>(Func<IPaperContext, T, TValue> populator);
+      Func<IPaperContext, TValue> PopulateMany<TValue>(Func<IPaperContext, T, TValue> populator);
+
+      void Format(Action<IPaperContext, T, Entity> formatter);
+      void Format<TValue>(Func<IPaperContext, TValue> getter, Action<IPaperContext, T, TValue, Entity> formatter = null);
+      void Format<TValue>(Func<IPaperContext, ICollection<TValue>> getter, Action<IPaperContext, T, ICollection<TValue>, TValue, Entity> formatter = null);
+
+      Func<IPaperContext, TValue> Restore<TValue>(Func<IPaperContext, T, Payload, TValue> restorer);
+
+      void Act<TValue>(Func<IPaperContext, TValue> getter, Action<IPaperContext, T, TValue> action);
+    }
+
+    interface IPaperBuilderFactory
+    {
+      IPaperBuilder<T> CreatePaperBuilder<T>(string name, Func<IPaperContext, T> factory);
+    }
+
+    #endregion
   }
 }

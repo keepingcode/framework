@@ -9,5 +9,8 @@ namespace Paper.Sandbox.Host
   [Expose]
   class MyPaper : IPaper
   {
+    public void Index() { }
+
+    public void DoSomething() { }
   }
 }

@@ -8,6 +8,12 @@ namespace Toolset.Collections
 {
   public interface IMap<TKey, TValue> : IDictionary<TKey, TValue>, IDictionary
   {
+    new int Count { get; }
+
+    new ICollection<TValue> Values { get; }
+
+    new TValue this[TKey key] { get; set; }
+
     void AddMany(IEnumerable<KeyValuePair<TKey, TValue>> items);
 
     void CopyToDictionary(IDictionary target);
@@ -15,10 +21,6 @@ namespace Toolset.Collections
     void CopyTo<TTargetKey, TTargetValue>(IDictionary<TTargetKey, TTargetValue> target);
 
     new void Add(TKey key, TValue value);
-
-    new ICollection<TValue> Values { get; }
-
-    new TValue this[TKey key] { get; set; }
 
     new bool ContainsKey(TKey key);
 

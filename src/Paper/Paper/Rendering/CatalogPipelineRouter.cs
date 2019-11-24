@@ -9,11 +9,11 @@ using Toolset;
 namespace Paper.Rendering
 {
   [Expose]
-  class PaperPipelineRouter : IPipelineRouter
+  class CatalogPipelineRouter : IPipelineRouter
   {
     private IWebApp webApp;
 
-    public PaperPipelineRouter(IWebApp webApp)
+    public CatalogPipelineRouter(IWebApp webApp)
     {
       this.webApp = webApp;
     }
@@ -21,23 +21,23 @@ namespace Paper.Rendering
     public void Map(IRouter map)
     {
       var path = CreatePath(webApp.Name);
-      map.Map<PaperPipeline>(path);
+      map.Map<CatalogPipeline>(path);
     }
 
     public static string CreatePath(string catalog)
     {
-      return $"/Paper/Api/1/Catalogs/{catalog}";
+      return $"/Paper/Api/Catalogs/{catalog}";
     }
 
     public static string CreatePath(string catalog, string paper)
     {
-      return $"/Paper/Api/1/Catalogs/{catalog}/Papers/{paper}";
+      return $"/Paper/Api/Catalogs/{catalog}/Papers/{paper}";
     }
 
     public static Schema ExplainPath(string path)
     {
       var schema = new Schema();
-      var regex = new Regex(@"^/Paper/Api/1/Catalogs/([^/?]+)(?:/Papers/([^/?]+)(?:/Actions/([^/?]+))?)?");
+      var regex = new Regex(@"^/Paper/Api/Catalogs/([^/?]+)(?:/Papers/([^/?]+)(?:/Actions/([^/?]+))?)?");
       var match = regex.Match(path);
       if (match.Success)
       {

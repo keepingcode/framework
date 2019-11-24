@@ -6,7 +6,6 @@
     <Version>1.0.0</Version>
     <ApplicationIcon />
     <StartupObject />
-    <RootNamespace>Paper</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -17,17 +16,27 @@
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="System.CodeDom" Version="4.5.0" />
-    <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.5.0" />
+    <Compile Remove="Media\**" />
+    <EmbeddedResource Remove="Media\**" />
+    <None Remove="Media\**" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Remove="REVISION.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Innkeeper\Innkeeper\Innkeeper.csproj" />
+    <ProjectReference Include="..\..\paper\Paper.Media\Paper.Media.csproj" />
+    <ProjectReference Include="..\..\Paper\Paper\Paper.csproj" />
+    <ProjectReference Include="..\..\Toolset\Toolset.Sequel\Toolset.Sequel.csproj" />
     <ProjectReference Include="..\..\toolset\Toolset.Serialization\Toolset.Serialization.csproj" />
-    <ProjectReference Include="..\..\toolset\Toolset\Toolset.csproj" />
+    <ProjectReference Include="..\..\toolset\Toolset.Text.Template\Toolset.Text.Template.csproj" />
+    <ProjectReference Include="..\..\Toolset\Toolset\Toolset.csproj" />
+    <ProjectReference Include="..\..\Innkeeper\Innkeeper.Host.Core\Innkeeper.Host.Core.csproj" />
+    <ProjectReference Include="..\..\Innkeeper\Innkeeper\Innkeeper.csproj" />
   </ItemGroup>
 
 </Project>
