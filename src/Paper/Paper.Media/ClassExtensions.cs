@@ -27,7 +27,7 @@ namespace Paper.Media
     /// <param name="media">O objeto de media alvo.</param>
     /// <returns>Verdadeiro se a coleção de nomes contém uma classe de metadado.</returns>
     public static bool HasMetaClass<TMediaObject>(this TMediaObject media)
-      where TMediaObject : IMediaObject
+      where TMediaObject : IMetaObject
     {
       return ClassNames.HasMetaClass(media.Class);
     }
@@ -41,7 +41,7 @@ namespace Paper.Media
     /// <param name="media">O objeto de media alvo.</param>
     /// <returns>Verdadeiro se a coleção de nomes contém uma classe de metadado.</returns>
     public static bool HasUserClass<TMediaObject>(this TMediaObject media)
-      where TMediaObject : IMediaObject
+      where TMediaObject : IMetaObject
     {
       return ClassNames.HasUserClass(media.Class);
     }
@@ -54,7 +54,7 @@ namespace Paper.Media
     /// <param name="media">O objeto de media alvo.</param>
     /// <returns>Verdadeiro se o tipo corresponde a uma classe de metadado; Falso caso contrário.</returns>
     public static IEnumerable<string> GetMetaClass<TMediaObject>(this TMediaObject media)
-      where TMediaObject : IMediaObject
+      where TMediaObject : IMetaObject
     {
       return ClassNames.GetMetaClass(media.Class);
     }
@@ -68,7 +68,7 @@ namespace Paper.Media
     /// <param name="media">O objeto de media alvo.</param>
     /// <returns>Verdadeiro se o tipo corresponde a uma classe de usuario; Falso caso contrário.</returns>
     public static IEnumerable<string> GetUserClass<TMediaObject>(this TMediaObject media)
-      where TMediaObject : IMediaObject
+      where TMediaObject : IMetaObject
     {
       return ClassNames.GetUserClass(media.Class);
     }

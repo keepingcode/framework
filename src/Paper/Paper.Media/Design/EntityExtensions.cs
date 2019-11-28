@@ -22,7 +22,7 @@ namespace Paper.Media.Design
     /// É garantido que a proprieadade está instanciada.
     /// </returns>
     public static NameCollection WithClass<TEntity>(this TEntity entity)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       return entity.Class ?? (entity.Class = new NameCollection());
     }
@@ -36,7 +36,7 @@ namespace Paper.Media.Design
     /// É garantido que a proprieadade está instanciada.
     /// </returns>
     public static NameCollection WithRel<TEntity>(this TEntity entity)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       return entity.Rel ?? (entity.Rel = new NameCollection());
     }
@@ -147,7 +147,7 @@ namespace Paper.Media.Design
     #region Title
 
     public static TEntity SetTitle<TEntity>(this TEntity entity, string title)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.Title = title;
       return entity;
@@ -165,7 +165,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes adicionadas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity AddClass<TEntity>(this TEntity entity, params string[] classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.WithClass().AddMany(classes.NotNull());
       return entity;
@@ -179,7 +179,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes adicionadas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity AddClass<TEntity>(this TEntity entity, IEnumerable<string> classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.WithClass().AddMany(classes.NotNull());
       return entity;
@@ -193,7 +193,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes adicionadas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity AddClass<TEntity>(this TEntity entity, params Class[] classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.WithClass().AddMany(classes.Select(x => x.GetName()));
       return entity;
@@ -207,7 +207,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes adicionadas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity AddClass<TEntity>(this TEntity entity, IEnumerable<Class> classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.WithClass().AddMany(classes.Select(x => x.GetName()));
       return entity;
@@ -221,7 +221,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes adicionadas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity AddClass<TEntity>(this TEntity entity, params Type[] classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.WithClass().AddMany(classes.Select(Conventions.MakeName));
       return entity;
@@ -235,7 +235,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes adicionadas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity AddClass<TEntity>(this TEntity entity, IEnumerable<Type> classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.WithClass().AddMany(classes.Select(Conventions.MakeName));
       return entity;
@@ -249,7 +249,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetClass<TEntity>(this TEntity entity, params string[] classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.Clear();
@@ -265,7 +265,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetClass<TEntity>(this TEntity entity, IEnumerable<string> classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.Clear();
@@ -281,7 +281,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetClass<TEntity>(this TEntity entity, params Class[] classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.Clear();
@@ -297,7 +297,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetClass<TEntity>(this TEntity entity, IEnumerable<Class> classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.Clear();
@@ -313,7 +313,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetClass<TEntity>(this TEntity entity, params Type[] classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.Clear();
@@ -329,7 +329,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetClass<TEntity>(this TEntity entity, IEnumerable<Type> classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.Clear();
@@ -347,7 +347,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetMetaClass<TEntity>(this TEntity entity, params string[] classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsMetaClass);
@@ -365,7 +365,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetMetaClass<TEntity>(this TEntity entity, IEnumerable<string> classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsMetaClass);
@@ -383,7 +383,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetMetaClass<TEntity>(this TEntity entity, params Class[] classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsMetaClass);
@@ -401,7 +401,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetMetaClass<TEntity>(this TEntity entity, IEnumerable<Class> classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsMetaClass);
@@ -420,7 +420,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetUserClass<TEntity>(this TEntity entity, params string[] classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsUserClass);
@@ -439,7 +439,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetUserClass<TEntity>(this TEntity entity, IEnumerable<string> classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsUserClass);
@@ -458,7 +458,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetUserClass<TEntity>(this TEntity entity, params Type[] classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsUserClass);
@@ -477,7 +477,7 @@ namespace Paper.Media.Design
     /// <param name="classes">As classes redefinidas.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetUserClass<TEntity>(this TEntity entity, IEnumerable<Type> classes)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var @class = entity.WithClass();
       @class.RemoveWhen(ClassNames.IsUserClass);
@@ -687,7 +687,7 @@ namespace Paper.Media.Design
     /// <param name="rels">Os relacionamentos adicionados.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity AddRel<TEntity>(this TEntity entity, params string[] rels)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.WithRel().AddMany(rels.NotNull());
       return entity;
@@ -701,7 +701,7 @@ namespace Paper.Media.Design
     /// <param name="rels">Os relacionamentos adicionados.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity AddRel<TEntity>(this TEntity entity, IEnumerable<string> rels)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.WithRel().AddMany(rels.NotNull());
       return entity;
@@ -715,7 +715,7 @@ namespace Paper.Media.Design
     /// <param name="rels">Os relacionamentos adicionados.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity AddRel<TEntity>(this TEntity entity, params Rel[] rels)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.WithRel().AddMany(rels.Select(x => x.GetName()));
       return entity;
@@ -729,7 +729,7 @@ namespace Paper.Media.Design
     /// <param name="rels">Os relacionamentos adicionados.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity AddRel<TEntity>(this TEntity entity, IEnumerable<Rel> rels)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       entity.WithRel().AddMany(rels.Select(x => x.GetName()));
       return entity;
@@ -743,7 +743,7 @@ namespace Paper.Media.Design
     /// <param name="rels">Os relacionamentos definidos.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetRel<TEntity>(this TEntity entity, params string[] rels)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var rel = entity.WithRel();
       rel.Clear();
@@ -759,7 +759,7 @@ namespace Paper.Media.Design
     /// <param name="rels">Os relacionamentos definidos.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetRel<TEntity>(this TEntity entity, IEnumerable<string> rels)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var rel = entity.WithRel();
       rel.Clear();
@@ -775,7 +775,7 @@ namespace Paper.Media.Design
     /// <param name="rels">Os relacionamentos definidos.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetRel<TEntity>(this TEntity entity, params Rel[] rels)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var rel = entity.WithRel();
       rel.Clear();
@@ -791,7 +791,7 @@ namespace Paper.Media.Design
     /// <param name="rels">Os relacionamentos definidos.</param>
     /// <returns>A própria instância da entidade para encadeamento.</returns>
     public static TEntity SetRel<TEntity>(this TEntity entity, IEnumerable<Rel> rels)
-      where TEntity : IMediaObject
+      where TEntity : IMetaObject
     {
       var rel = entity.WithRel();
       rel.Clear();

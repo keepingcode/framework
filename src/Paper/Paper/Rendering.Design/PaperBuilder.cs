@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,43 +20,62 @@ using Toolset.Xml;
 
 namespace Paper.Rendering.Design
 {
-  public class PaperBuilder<TTarget> : IPaperBuilder<TTarget>
+  internal class PaperBuilder<THost> : IPaperBuilder<THost>
   {
-    private readonly PaperBlueprint blueprint;
-    private readonly Func<IPaperContext, TTarget> targetFactory;
+    private readonly PaperInfo info;
+    private readonly Func<IPaperContext, THost> hostFactory;
 
-    public PaperBuilder(PaperInfo info, Func<IPaperContext, TTarget> targetFactory)
+    private Func<Func<IPaperContext, IMediaObject>> getStatementFactory;
+    private Func<Func<IPaperContext, IMediaObject>> postStatementFactory;
+
+    public PaperBuilder(PaperInfo info, Func<IPaperContext, THost> hostFactory)
     {
-      this.blueprint = new PaperBlueprint(info);
-      this.targetFactory = targetFactory;
+      this.info = info;
+      this.hostFactory = hostFactory;
     }
 
-    public IStepBuilder<TTarget, TResult> Get<TResult>()
+    public IStatementBuilder<THost, TData> Get<TData>()
     {
-      return Get((ctx, target) => default(TResult));
+      return Get((ctx, target) => default(TData));
     }
 
-    public IStepBuilder<TTarget, TResult> Get<TResult>(Func<IPaperContext, TTarget, TResult> resultFactory)
+    public IStatementBuilder<THost, TData> Get<TData>(Func<IPaperContext, THost, TData> dataFactory)
     {
-      if (blueprint.GetStatements != null)
+      if (getStatementFactory != null)
         throw new InvalidOperationException("Já existe uma sintaxe declarada para processamento de requisições do tipo GET.");
 
-      blueprint.GetStatements = new List<Action<IPaperContext>>();
-      return new StepBuilder<TTarget, TResult>(targetFactory, resultFactory, blueprint.GetStatements);
+      var builder = new StatementBuilder<THost, TData>(hostFactory, 
+        (ctx, host, formData) => dataFactory.Invoke(ctx, host)
+      );
+
+      getStatementFactory = () => builder.BuildStatement();
+
+      return builder;
     }
 
-    public IStepBuilder<TTarget, TResult> Post<TResult>(Func<IPaperContext, TTarget, FormData, TResult> resultFactory)
+    public IStatementBuilder<THost, TData> Post<TData>(Func<IPaperContext, THost, IMediaObject, TData> dataFactory)
     {
-      if (blueprint.PostStatements != null)
-        throw new InvalidOperationException("Já existe uma sintaxe declarada para processamento de requisições do tipo POST.");
+      if (postStatementFactory != null)
+        throw new InvalidOperationException("Já existe uma sintaxe declarada para processamento de requisições do tipo GET.");
 
-      blueprint.PostStatements = new List<Action<IPaperContext>>();
-      return new StepBuilder<TTarget, TResult>(targetFactory, resultFactory, blueprint.PostStatements);
+      var builder = new StatementBuilder<THost, TData>(hostFactory, dataFactory);
+
+      postStatementFactory = () => builder.BuildStatement();
+
+      return builder;
     }
 
     public IPaperBlueprint BuildPaper()
     {
+      var blueprint = new PaperBlueprint(info);
+      blueprint.GetStatement = getStatementFactory?.Invoke() ?? MethodNotAllowed;
+      blueprint.PostStatement = getStatementFactory?.Invoke() ?? MethodNotAllowed;
       return blueprint;
+    }
+
+    private IMediaObject MethodNotAllowed(IPaperContext ctx)
+    {
+      throw new HttpException(HttpStatusCode.MethodNotAllowed);
     }
   }
 }

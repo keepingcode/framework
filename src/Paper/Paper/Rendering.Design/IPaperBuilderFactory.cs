@@ -21,6 +21,6 @@ namespace Paper.Rendering.Design
 {
   public interface IPaperBuilderFactory
   {
-    IPaperBuilder<T> CreatePaperBuilder<T>(PaperInfo info, Func<IPaperContext, T> factory);
+    IPaperBuilder<THost> CreatePaperBuilder<THost>(PaperInfo info, Func<IPaperContext, THost> hostFactory);
   }
 }

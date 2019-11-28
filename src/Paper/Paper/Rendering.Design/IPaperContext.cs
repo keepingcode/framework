@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using Toolset;
 using Toolset.Collections;
+using Toolset.Net;
 using Toolset.Reflection;
 using Toolset.Xml;
 
@@ -21,16 +22,14 @@ namespace Paper.Rendering.Design
 {
   public interface IPaperContext
   {
-    bool ResultPayload { get; }
-
     string Verb { get; }
 
     IMap<string, Var> Args { get; }
 
     IMap<string, object> Cache { get; }
 
-    IObjectFactory ObjectFactory { get; }
+    IDataReader IncomingData { get; }
 
-    FormData ParseFormData();
+    IDataWriter OutgoingData { get; }
   }
 }

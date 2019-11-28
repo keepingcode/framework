@@ -19,7 +19,7 @@ using Toolset.Xml;
 
 namespace Paper.Rendering.Design
 {
-  class RecordGetter<TValue> : IRecordObjectGetter<TValue>
+  internal class RecordGetter<TValue> : IRecordObjectGetter<TValue>
   {
     private readonly string recordKey;
     private readonly string nodeKey;

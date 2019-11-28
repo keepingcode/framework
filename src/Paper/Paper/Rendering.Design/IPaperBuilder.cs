@@ -19,11 +19,11 @@ using Toolset.Xml;
 
 namespace Paper.Rendering.Design
 {
-  public interface IPaperBuilder<TTarget>
+  public interface IPaperBuilder<THost>
   {
-    IStepBuilder<TTarget, TResult> Get<TResult>();
-    IStepBuilder<TTarget, TResult> Get<TResult>(Func<IPaperContext, TTarget, TResult> process);
-    IStepBuilder<TTarget, TResult> Post<TResult>(Func<IPaperContext, TTarget, FormData, TResult> process);
+    IStatementBuilder<THost, TData> Get<TData>();
+    IStatementBuilder<THost, TData> Get<TData>(Func<IPaperContext, THost, TData> dataFactory);
+    IStatementBuilder<THost, TData> Post<TData>(Func<IPaperContext, THost, IMediaObject, TData> dataFactory);
     IPaperBlueprint BuildPaper();
   }
 }

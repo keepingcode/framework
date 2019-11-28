@@ -2,6 +2,7 @@
 using Innkeeper.Rest;
 using Paper.Media;
 using Paper.Media.Design;
+using Paper.Media.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,10 +20,22 @@ using Toolset.Xml;
 
 namespace Paper.Rendering.Design
 {
-  class PaperContext : IPaperContext
+  public class PaperContext : IPaperContext
   {
-    public IMap<string, Var> Args { get; }
-    public IObjectFactory ObjectFactory { get; }
-    public IRequestContext RequestContext { get; }
+    private IMap<string, Var> _args;
+
+    public string Verb { get; set; }
+
+    public IMap<string, Var> Args
+    {
+      get => _args ?? (_args = new HashMap<Var>());
+      set => _args = value;
+    }
+
+    public IMap<string, object> Cache { get; } = new HashMap<object>();
+
+    public IDataReader IncomingData { get; set; }
+
+    public IDataWriter OutgoingData { get; set; }
   }
 }

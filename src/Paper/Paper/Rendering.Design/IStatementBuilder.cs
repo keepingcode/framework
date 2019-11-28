@@ -5,16 +5,16 @@ using System.Text;
 
 namespace Paper.Rendering.Design
 {
-  public interface IStepBuilder<THost, TData>
+  public interface IStatementBuilder<THost, TData>
   {
     IRecordObjectGetter<TRecord> PopulateRecord<TRecord>(Func<IPaperContext, THost, TData, TRecord> populator);
     IRecordCollectionGetter<TRecord> PopulateRecords<TRecord>(Func<IPaperContext, THost, TData, ICollection<TRecord>> populator);
 
-    IRecordObjectGetter<TRecord> PopulateRecord<TBase, TRecord>(IRecordObjectGetter<TBase> @base, Func<IPaperContext, THost, TData, TBase, TRecord> populator);
-    IRecordCollectionGetter<TRecord> PopulateRecords<TBase, TRecord>(IRecordObjectGetter<TBase> @base, Func<IPaperContext, THost, TData, TBase, ICollection<TRecord>> populator);
+    IRecordObjectGetter<TRecord> PopulateRecord<TRef, TRecord>(IRecordObjectGetter<TRef> @ref, Func<IPaperContext, THost, TData, TRef, TRecord> populator);
+    IRecordCollectionGetter<TRecord> PopulateRecords<TRef, TRecord>(IRecordObjectGetter<TRef> @ref, Func<IPaperContext, THost, TData, TRef, ICollection<TRecord>> populator);
 
-    IRecordObjectGetter<TRecord> PopulateRecord<TBase, TRecord>(IRecordCollectionGetter<TBase> @base, Func<IPaperContext, THost, TData, TBase, TRecord> populator);
-    IRecordCollectionGetter<TRecord> PopulateRecords<TBase, TRecord>(IRecordCollectionGetter<TBase> @base, Func<IPaperContext, THost, TData, TBase, ICollection<TRecord>> populator);
+    IRecordObjectGetter<TRecord> PopulateRecord<TRef, TRecord>(IRecordCollectionGetter<TRef> @ref, Func<IPaperContext, THost, TData, TRef, TRecord> populator);
+    IRecordCollectionGetter<TRecord> PopulateRecords<TRef, TRecord>(IRecordCollectionGetter<TRef> @ref, Func<IPaperContext, THost, TData, TRef, ICollection<TRecord>> populator);
 
     void CreateEntity<TRecord>(Func<IPaperContext, THost, TData, Entity> formatter);
     void CreateEntity<TRecord>(IRecordObjectGetter<TRecord> getter, Func<IPaperContext, THost, TData, TRecord, Entity> formatter);

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Paper.Media
 {
-  public interface IEntity
+  public interface IEntity : IMediaObject
   {
   }
 }

@@ -19,7 +19,7 @@ using Toolset.Xml;
 
 namespace Paper.Rendering.Design
 {
-  class RecordCollectionGetter<TValue> : IRecordCollectionGetter<TValue>
+  internal class RecordCollectionGetter<TValue> : IRecordCollectionGetter<TValue>
   {
     private string recordsKey;
     private string nodesKey;

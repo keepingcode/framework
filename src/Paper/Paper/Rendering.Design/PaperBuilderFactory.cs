@@ -1,5 +1,6 @@
 ﻿using Innkeeper.Host;
 using Innkeeper.Rest;
+using Paper.Design;
 using Paper.Media;
 using Paper.Media.Design;
 using System;
@@ -19,11 +20,21 @@ using Toolset.Xml;
 
 namespace Paper.Rendering.Design
 {
-  class PaperBuilderFactory : IPaperBuilderFactory
+  public class PaperBuilderFactory : IPaperBuilderFactory
   {
-    public IPaperBuilder<T> CreatePaperBuilder<T>(PaperInfo info, Func<IPaperContext, T> factory)
+    private PaperBuilderFactory()
     {
-      throw new NotImplementedException();
+    }
+
+    public static PaperBuilderFactory Create()
+    {
+      return new PaperBuilderFactory();
+    }
+
+    public IPaperBuilder<THost> CreatePaperBuilder<THost>(PaperInfo info, Func<IPaperContext, THost> hostFactory)
+    {
+      var builder = new PaperBuilder<THost>(info, hostFactory);
+      return builder;
     }
   }
 }

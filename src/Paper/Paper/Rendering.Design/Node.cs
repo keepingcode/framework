@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Paper.Rendering.Design
 {
-  class Node<TRecord> : INode<TRecord>
+  internal class Node<TRecord> : INode<TRecord>
   {
     public INode Parent { get; set; }
 

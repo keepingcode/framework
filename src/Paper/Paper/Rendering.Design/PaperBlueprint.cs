@@ -2,6 +2,7 @@
 using Innkeeper.Rest;
 using Paper.Media;
 using Paper.Media.Design;
+using Paper.Media.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ using Toolset.Xml;
 
 namespace Paper.Rendering.Design
 {
-  class PaperBlueprint : IPaperBlueprint
+  internal class PaperBlueprint : IPaperBlueprint
   {
     public PaperBlueprint(PaperInfo info)
     {
@@ -30,43 +31,29 @@ namespace Paper.Rendering.Design
 
     public PaperInfo Info { get; }
 
-    public List<Action<IPaperContext>> GetStatements { get; set; }
+    public Func<IPaperContext, IMediaObject> GetStatement { get; set; }
 
-    public List<Action<IPaperContext>> PostStatements { get; set; }
+    public Func<IPaperContext, IMediaObject> PostStatement { get; set; }
 
-    public async Task RenderPaperAsync(IPaperContext ctx, TextWriter writer)
+    public void RenderPaper(IPaperContext ctx)
     {
+      Func<IPaperContext, IMediaObject> statement = null;
+
       switch (ctx.Verb)
       {
         case VerbNames.Get:
-          {
-            if (GetStatements != null)
-            {
-              await RenderPaperAsync(ctx, writer, GetStatements);
-              return;
-            }
-            break;
-          }
+          statement = GetStatement;
+          break;
         case VerbNames.Post:
-          {
-            if (PostStatements != null)
-            {
-              await RenderPaperAsync(ctx, writer, PostStatements);
-              return;
-            }
-            break;
-          }
+          statement = PostStatement;
+          break;
       }
-      throw new HttpException(HttpStatusCode.MethodNotAllowed);
-    }
 
-    private async Task RenderPaperAsync(IPaperContext ctx, TextWriter writer, List<Action<IPaperContext>> statements)
-    {
-      foreach (var statement in statements)
-      {
-        statement.Invoke(ctx);
-      }
-      await Task.Yield();
+      if (statement == null)
+        throw new HttpException(HttpStatusCode.MethodNotAllowed);
+
+      var result = statement.Invoke(ctx);
+      ctx.OutgoingData.WriteMediaObject(result);
     }
   }
 }

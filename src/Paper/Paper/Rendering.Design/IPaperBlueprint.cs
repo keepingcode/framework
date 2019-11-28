@@ -24,6 +24,6 @@ namespace Paper.Rendering.Design
   {
     PaperInfo Info { get; }
 
-    Task RenderPaperAsync(IPaperContext ctx, TextWriter writer);
+    void RenderPaper(IPaperContext ctx);
   }
 }
