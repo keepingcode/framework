@@ -47,6 +47,9 @@
 
   <ItemGroup>
     <Compile Remove="IPaperSettings.cs" />
+    <Compile Remove="Rendering.Design\IPaperRenderer.cs" />
+    <Compile Remove="Rendering.Design\PaperRenderer.cs" />
+    <Compile Remove="Rendering.Design\Verb.cs" />
     <Compile Remove="Rendering\CatalogPipelineRouter.cs" />
   </ItemGroup>
 

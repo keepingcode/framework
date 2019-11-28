@@ -55,7 +55,7 @@ namespace Paper.Rendering
       var descriptor = paperCatalog.FindPaperDescriptor(defaultCatalog, paper);
       if (descriptor == null)
       {
-        var ret = Ret.Fail(HttpStatusCode.NotFound, $"O obteto não existe: {defaultCatalog}/{paper}");
+        var ret = Ret.Fail(HttpStatusCode.NotFound, $"O objeto não existe: {defaultCatalog}/{paper}");
         await Res.SendEntityStatusAsync(ret);
         return;
       }

@@ -27,39 +27,68 @@ namespace Sandbox
       {
         IPaperBuilderFactory factory = null;
 
-        var action = factory.CreatePaperBuilder("/MyCatalog/MyPaper/MyAction",
-          ctx => new { ArgCount = ctx.Args.Count }
+        var builder = factory.CreatePaperBuilder(info: null,
+          factory: ctx => new { ArgCount = ctx.Args.Count }
         );
 
-        var invoiceGetter = action.PopulateOne((ctx, target) => new
-        {
-          InvoiceId = ctx.Args.Get<int>("InvoiceId"),
-          Number = 2,
-          Series = 3
-        });
-        var invoiceItemsGetter = action.PopulateMany((ctx, target) => new[]
-        {
-          new {
-            invoiceGetter(ctx).InvoiceId,
-            ItemId = 10,
-            Name = "Ten"
-          },
-          new {
-            invoiceGetter(ctx).InvoiceId,
-            ItemId = 11,
-            Name = "Eleven"
-          }
-        });
+        builder.Info.Catalog = "MyCatalog";
+        builder.Info.Name = "MyPaper";
+        builder.Info.Action = "MyAction";
+        builder.Info.Description = "My Paper Action";
+        builder.Info.Title = "My action performed over my paper.";
 
-        action.Format(invoiceGetter);
-        action.Format(invoiceItemsGetter, (ctx, target, all, item, entity) =>
         {
-          entity.AddClass($"MyFormattedItem");
-        });
+          var resultGetter = builder.Get((ctx, target) => target);
 
-        var payloadGetter = action.Restore((ctx, target, payload) => payload);
+          var recordGetter = builder.PopulateRecord(resultGetter, (ctx, target, result) => new
+          {
+            InvoiceId = ctx.Args.Get<int>("InvoiceId"),
+            Number = 2,
+            Series = 3
+          });
+          var recordsGetter = builder.PopulateRecords(resultGetter, (ctx, target, result) => new[]
+          {
+            new {
+              recordGetter.Get(ctx, target).InvoiceId,
+              ItemId = 10,
+              Name = "Ten"
+            },
+            new {
+              recordGetter.Get(ctx, target).InvoiceId,
+              ItemId = 11,
+              Name = "Eleven"
+            }
+          });
 
-        action.Act(payloadGetter, (ctx, target, payload) => Console.WriteLine("It`s done!"));
+          builder.FormatEntity(recordGetter, (ctx, target, item, entity) =>
+            entity.AddClass($"MyFormattedInvoice")
+          );
+          builder.FormatEntity(recordsGetter, (ctx, target, all, item, entity) =>
+            entity.AddClass($"MyFormattedItem")
+          );
+        }
+
+        {
+          var resultGetter = builder.Act((ctx, target, formData) => new { Message = "Action succeeded" });
+
+          var recordGetter = builder.PopulateRecord(resultGetter, (ctx, target, result) => result);
+          var recordsGetter = builder.PopulateRecords(resultGetter, (ctx, target, result) => new[] { result });
+
+          builder.FormatEntity(recordGetter, (ctx, target, item, entity) =>
+            entity.AddClass($"MyFormattedResult")
+          );
+          builder.FormatEntity(recordsGetter, (ctx, target, all, item, entity) =>
+            entity.AddClass($"MyFormattedResults")
+          );
+        }
+
+        {
+          IPaperContext ctx = null;
+          TextWriter output = Console.Out;
+
+          var paper = builder.BuildPaper();
+          paper.RenderPaper(ctx, output);
+        }
       }
       catch (Exception ex)
       {
@@ -69,29 +98,70 @@ namespace Sandbox
 
     #region Types
 
+    class PaperInfo
+    {
+      public string Catalog { get; set; }
+      public string Name { get; set; }
+      public string Action { get; set; }
+      public string Title { get; set; }
+      public string Description { get; set; }
+    }
+
+    interface IPaperRenderer
+    {
+      void Render(IPaperContext ctx);
+    }
+
     interface IPaperContext
     {
       IMap<string, Var> Args { get; }
       IObjectFactory Factory { get; }
     }
 
-    interface IPaperBuilder<T>
+    interface IRecordGetter<TValue>
     {
-      Func<IPaperContext, TValue> PopulateOne<TValue>(Func<IPaperContext, T, TValue> populator);
-      Func<IPaperContext, TValue> PopulateMany<TValue>(Func<IPaperContext, T, TValue> populator);
+      TValue Get<TTarget>(IPaperContext ctx, TTarget target);
+    }
 
-      void Format(Action<IPaperContext, T, Entity> formatter);
-      void Format<TValue>(Func<IPaperContext, TValue> getter, Action<IPaperContext, T, TValue, Entity> formatter = null);
-      void Format<TValue>(Func<IPaperContext, ICollection<TValue>> getter, Action<IPaperContext, T, ICollection<TValue>, TValue, Entity> formatter = null);
+    interface IRecordCollectionGetter<TValue>
+    {
+      ICollection<TValue> Get<TTarget>(IPaperContext ctx, TTarget target);
+    }
 
-      Func<IPaperContext, TValue> Restore<TValue>(Func<IPaperContext, T, Payload, TValue> restorer);
+    interface IResultGetter<TResult>
+    {
+      TResult Get<TTarget>(IPaperContext ctx, TTarget target);
+    }
 
-      void Act<TValue>(Func<IPaperContext, TValue> getter, Action<IPaperContext, T, TValue> action);
+    interface IFormData
+    {
+    }
+
+    interface IPaperBlueprint
+    {
+      PaperInfo Info { get; }
+      void RenderPaper(IPaperContext ctx, TextWriter output);
+    }
+
+    interface IPaperBuilder<TTarget>
+    {
+      PaperInfo Info { get; set; }
+
+      IRecordGetter<TValue> PopulateRecord<TResult, TValue>(IResultGetter<TResult> resultGetter, Func<IPaperContext, TTarget, TResult, TValue> populator);
+      IRecordCollectionGetter<TValue> PopulateRecords<TResult, TValue>(IResultGetter<TResult> resultGetter, Func<IPaperContext, TTarget, TResult, TValue> populator);
+
+      void FormatEntity<TValue>(IRecordGetter<TValue> getter, Action<IPaperContext, TTarget, TValue, Entity> formatter);
+      void FormatEntity<TValue>(IRecordCollectionGetter<TValue> getter, Action<IPaperContext, TTarget, ICollection<TValue>, TValue, Entity> formatter);
+
+      IResultGetter<TResult> Get<TResult>(Func<IPaperContext, TTarget, TResult> process);
+      IResultGetter<TResult> Act<TResult>(Func<IPaperContext, TTarget, IFormData, TResult> process);
+
+      IPaperBlueprint BuildPaper();
     }
 
     interface IPaperBuilderFactory
     {
-      IPaperBuilder<T> CreatePaperBuilder<T>(string name, Func<IPaperContext, T> factory);
+      IPaperBuilder<T> CreatePaperBuilder<T>(PaperInfo info, Func<IPaperContext, T> factory);
     }
 
     #endregion
