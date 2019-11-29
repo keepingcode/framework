@@ -57,5 +57,10 @@ namespace Paper.Media
     /// </summary>
     [DataMember(EmitDefaultValue = false, Order = 70)]
     public virtual LinkCollection Links { get; set; }
+
+    public Payload GetPayload()
+    {
+      return new Payload();
+    }
   }
 }

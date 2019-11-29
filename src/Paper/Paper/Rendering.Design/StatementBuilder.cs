@@ -5,6 +5,7 @@ using System.Text;
 using Innkeeper.Rest;
 using Paper.Media;
 using Paper.Media.Design;
+using Toolset;
 
 namespace Paper.Rendering.Design
 {
@@ -28,14 +29,38 @@ namespace Paper.Rendering.Design
     {
       return ctx =>
       {
-        foreach (var statement in statements)
+        try
         {
-          statement.Invoke(ctx);
+          if (ctx.OutgoingData.IsPayload)
+          {
+            ctx.Cache[PayloadKey] = new Payload();
+          }
+
+          foreach (var statement in statements)
+          {
+            statement.Invoke(ctx);
+          }
+
+          var result = ctx.OutgoingData.IsPayload
+            ? (IMediaObject)ctx.Cache[PayloadKey]
+            : (IMediaObject)ctx.Cache[EntityKey];
+          return result;
         }
-        var result = ctx.OutgoingData.IsPayload
-          ? (IMediaObject)ctx.Cache[PayloadKey]
-          : (IMediaObject)ctx.Cache[EntityKey];
-        return result;
+        catch (Exception ex)
+        {
+          var ret = Ret.Fail(ex);
+          var entity = HttpEntity.CreateFromRet(ret);
+          if (ctx.OutgoingData.IsPayload)
+          {
+            var payload = Payload.FromEntity(entity);
+            ctx.Cache[PayloadKey] = payload;
+          }
+          else
+          {
+            ctx.Cache[EntityKey] = entity;
+          }
+          throw;
+        }
       };
     }
 
@@ -67,6 +92,11 @@ namespace Paper.Rendering.Design
         var node = new Node<TRecord> { Record = record };
         ctx.Cache[recordKey] = record;
         ctx.Cache[nodeKey] = node;
+
+        if (ctx.Cache[PayloadKey] is Payload payload)
+        {
+          //payload.SetProperty(.SetProperty(record);
+        }
       });
       return new RecordGetter<TRecord>(recordKey, nodeKey);
     }
@@ -83,6 +113,21 @@ namespace Paper.Rendering.Design
         var nodes = records.Select(x => new Node<TRecord> { Record = x }).ToArray();
         ctx.Cache[recordsKey] = records;
         ctx.Cache[nodesKey] = nodes;
+
+        if (ctx.Cache[PayloadKey] is Payload payload)
+        {
+          if (payload.Records is Payload.RecordCollection payloadRecords)
+          {
+            // Usando SetProperty para converter a coleção de registros.
+            payload.SetProperty(nameof(payload.Records), records);
+            payloadRecords.AddRange(payload.Records);
+            payload.Records = payloadRecords;
+          }
+          else
+          {
+            payload.SetProperty(nameof(payload.Records), records);
+          }
+        }
       });
       return new RecordCollectionGetter<TRecord>(recordsKey, nodesKey);
     }

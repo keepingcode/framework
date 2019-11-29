@@ -22,6 +22,10 @@ namespace Sandbox
         var builder = factory.CreatePaperBuilder(
           new PaperInfo
           {
+            Catalog = "MyCatalog",
+            Name = "MyName",
+            Title = "My Paper",
+            Description = "This is my sample paper"
           },
           ctx => new { Name = "MyPaper", Title = "My Paper" }
         );
@@ -61,7 +65,7 @@ namespace Sandbox
 
         var result = writer.Result;
 
-        Console.WriteLine(result.ToXElement());
+        Console.WriteLine(result?.ToXElement());
       }
       catch (Exception ex)
       {

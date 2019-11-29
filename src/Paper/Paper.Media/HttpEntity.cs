@@ -21,15 +21,15 @@ namespace Paper.Media
       }
     }
 
-    public static Ret<Entity> CreateFromRet(UriString route, Ret ret)
+    public static Ret<Entity> CreateFromRet(Ret ret)
     {
       if (ret.Value is Entity entity)
         return Ret.OK(entity);
       else
-        return Create(route, ret.Status.Code, ret.Fault.Message, ret.Fault.Exception);
+        return Create(ret.Status.Code, ret.Fault.Message, ret.Fault.Exception);
     }
 
-    public static Ret<Entity> Create(UriString route, HttpStatusCode status, string message, Exception exception)
+    public static Ret<Entity> Create(HttpStatusCode status, string message, Exception exception)
     {
       var causes = EnumerateCauses(message, exception).Distinct();
       var description =
@@ -55,77 +55,70 @@ namespace Paper.Media
       if (exception != null)
         entity.Properties.Add("StackTrace", exception.GetStackTrace());
 
-      entity.Links = new LinkCollection();
-      entity.Links.Add(new Link
-      {
-        Href = route.ToString(),
-        Rel = RelNames.Self
-      });
-
       return Ret.Create(status, entity);
     }
 
-    public static Ret<Entity> Create(UriString route, HttpStatusCode status, string message)
+    public static Ret<Entity> Create(HttpStatusCode status, string message)
     {
-      return Create(route, status, message, null);
+      return Create(status, message, null);
     }
 
-    public static Ret<Entity> Create(UriString route, HttpStatusCode status, Exception exception)
+    public static Ret<Entity> Create(HttpStatusCode status, Exception exception)
     {
-      return Create(route, status, null, exception);
+      return Create(status, null, exception);
     }
 
-    public static Ret<Entity> Create(UriString route, HttpStatusCode status)
+    public static Ret<Entity> Create(HttpStatusCode status)
     {
-      return Create(route, status, null, null);
+      return Create(status, null, null);
     }
 
-    public static Ret<Entity> Create(UriString route, int status, string message, Exception exception)
+    public static Ret<Entity> Create(int status, string message, Exception exception)
     {
-      return Create(route, (HttpStatusCode)status, message, exception);
+      return Create((HttpStatusCode)status, message, exception);
     }
 
-    public static Ret<Entity> Create(UriString route, int status, string message)
+    public static Ret<Entity> Create(int status, string message)
     {
-      return Create(route, (HttpStatusCode)status, message, null);
+      return Create((HttpStatusCode)status, message, null);
     }
 
-    public static Ret<Entity> Create(UriString route, int status, Exception exception)
+    public static Ret<Entity> Create(int status, Exception exception)
     {
-      return Create(route, (HttpStatusCode)status, null, exception);
+      return Create((HttpStatusCode)status, null, exception);
     }
 
-    public static Ret<Entity> Create(UriString route, int status)
+    public static Ret<Entity> Create(int status)
     {
-      return Create(route, (HttpStatusCode)status, null, null);
+      return Create((HttpStatusCode)status, null, null);
     }
 
-    public static Ret<Entity> Create(UriString route, string message, Exception exception)
+    public static Ret<Entity> Create(string message, Exception exception)
     {
       var status =
         exception is NotImplementedException
           ? HttpStatusCode.NotImplemented
           : HttpStatusCode.InternalServerError;
-      return Create(route, status, message, exception);
+      return Create(status, message, exception);
     }
 
-    public static Ret<Entity> Create(UriString route, string message)
+    public static Ret<Entity> Create(string message)
     {
-      return Create(route, HttpStatusCode.InternalServerError, message, null);
+      return Create(HttpStatusCode.InternalServerError, message, null);
     }
 
-    public static Ret<Entity> Create(UriString route, Exception exception)
+    public static Ret<Entity> Create(Exception exception)
     {
       var status =
         exception is NotImplementedException
           ? HttpStatusCode.NotImplemented
           : HttpStatusCode.InternalServerError;
-      return Create(route, status, null, exception);
+      return Create(status, null, exception);
     }
 
     public static Ret<Entity> Create(UriString route)
     {
-      return Create(route, HttpStatusCode.InternalServerError, null, null);
+      return Create(HttpStatusCode.InternalServerError, null, null);
     }
   }
 }

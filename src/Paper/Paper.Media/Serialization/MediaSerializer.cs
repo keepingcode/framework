@@ -98,8 +98,9 @@ namespace Paper.Media.Serialization
           var isPayload = !mimeType.Contains("siren");
           if (isPayload)
           {
-            var payload = Payload.FromEntity(entity);
-            Write(writer, payload);
+            throw new NotImplementedException();
+            //var payload = Payload.FromEntity(entity);
+            //Write(writer, payload);
           }
           else
           {
@@ -288,7 +289,10 @@ namespace Paper.Media.Serialization
         }
 
         var graph = graphWriter?.Graphs.Cast<object>().FirstOrDefault();
-        var entity = graph is Payload payload ? payload.ToEntity() : (Entity)graph;
+
+        var entity = graph as Entity ?? throw new NotImplementedException();
+        //var entity = graph is Payload payload ? payload.ToEntity() : (Entity)graph;
+
         return entity;
       }
     }

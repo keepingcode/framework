@@ -19,14 +19,14 @@ namespace Paper.Rendering
     public static async Task SendEntityStatusAsync(this IResponse res, HttpStatusCode status)
     {
       var req = res.Context.Request;
-      var entity = HttpEntity.Create(req.RequestUri, status);
+      var entity = HttpEntity.Create(status);
       await WriteEntityAsync(res, entity, status);
     }
 
     public static async Task SendEntityStatusAsync(this IResponse res, Ret ret)
     {
       var req = res.Context.Request;
-      var entity = HttpEntity.CreateFromRet(req.RequestUri, ret);
+      var entity = HttpEntity.CreateFromRet(ret);
       await WriteEntityAsync(res, entity, ret.Status.Code);
     }
 
@@ -54,8 +54,9 @@ namespace Paper.Rendering
       }
       else
       {
-        var payloadInstance = Payload.FromGraph(payload);
-        entity = payloadInstance.ToEntity();
+        throw new NotImplementedException();
+        //var payloadInstance = Payload.FromGraph(payload);
+        //entity = payloadInstance.ToEntity();
       }
 
       await WriteEntityAsync(res, entity);

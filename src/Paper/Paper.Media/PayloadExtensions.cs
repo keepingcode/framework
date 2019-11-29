@@ -113,10 +113,11 @@ namespace Paper.Media
 
     public static string ToJson(this Payload payload, bool indent = true)
     {
-      var entity = payload.ToEntity();
-      var serializer = new MediaSerializer(MediaSerializer.Json);
-      var json = serializer.Serialize(entity);
-      return indent ? Json.Beautify(json) : json;
+      throw new NotImplementedException();
+      //var entity = payload.ToEntity();
+      //var serializer = new MediaSerializer(MediaSerializer.Json);
+      //var json = serializer.Serialize(entity);
+      //return indent ? Json.Beautify(json) : json;
     }
   }
 }
