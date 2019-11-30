@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Paper.Media
 {
-  public interface INodeEnumerable : IEnumerable<INode>, INode
+  public class Field : Entity
   {
   }
 }

@@ -6,6 +6,8 @@
     <Version>1.0.0</Version>
     <ApplicationIcon />
     <StartupObject />
+    <AssemblyName>Sandbox</AssemblyName>
+    <RootNamespace>Paper</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -17,9 +19,9 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Media\**" />
-    <EmbeddedResource Remove="Media\**" />
-    <None Remove="Media\**" />
+    <Compile Remove="Media.tmp\**" />
+    <EmbeddedResource Remove="Media.tmp\**" />
+    <None Remove="Media.tmp\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="REVISION.txt" />
@@ -28,14 +30,10 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Innkeeper\Innkeeper\Innkeeper.csproj" />
-    <ProjectReference Include="..\..\paper\Paper.Media\Paper.Media.csproj" />
-    <ProjectReference Include="..\..\Paper\Paper\Paper.csproj" />
     <ProjectReference Include="..\..\Toolset\Toolset.Sequel\Toolset.Sequel.csproj" />
     <ProjectReference Include="..\..\toolset\Toolset.Serialization\Toolset.Serialization.csproj" />
     <ProjectReference Include="..\..\toolset\Toolset.Text.Template\Toolset.Text.Template.csproj" />
     <ProjectReference Include="..\..\Toolset\Toolset\Toolset.csproj" />
-    <ProjectReference Include="..\..\Innkeeper\Innkeeper.Host.Core\Innkeeper.Host.Core.csproj" />
     <ProjectReference Include="..\..\Innkeeper\Innkeeper\Innkeeper.csproj" />
   </ItemGroup>
 

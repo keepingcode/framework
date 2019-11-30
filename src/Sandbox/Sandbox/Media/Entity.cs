@@ -7,38 +7,71 @@ using Toolset.Collections;
 
 namespace Paper.Media
 {
-  public class Entity : INode, INodeEnumerable
+  public class Entity : IMediaObject
   {
-    public Text Title { get; set; }
+    public string Title { get; set; }
 
-    public NodeCollection<Text> Class { get; set; }
+    public Collection<string> Classes { get; set; }
 
-    public NodeCollection<Text> Rel { get; set; }
+    public Collection<string> Relations { get; set; }
 
-    public NodeCollection<Property> Properties { get; set; }
+    public PropertyCollection DataProperties { get; set; }
 
-    public NodeCollection<Entity> Entities { get; set; }
+    public PropertyCollection MetaProperties { get; set; }
 
-    public NodeCollection<Link> Links { get; set; }
+    public Collection<Entity> Entities { get; set; }
 
-    private IEnumerable<INode> Enumerate()
+    public Collection<Link> Links { get; set; }
+
+    public Payload ToPayload()
     {
-      if (Title != null) yield return Title;
-      if (Class != null) yield return Class;
-      if (Rel != null) yield return Rel;
-      if (Properties != null) foreach (var child in Properties) yield return child;
-      if (Entities != null) foreach (var child in Entities) yield return child;
-      if (Links != null) foreach (var child in Links) yield return child;
+      var payload = new Payload();
+
+      if (Classes?.Contains(ClassNames.Error) == true)
+      {
+        payload.Error = new PropertyCollection(DataProperties);
+        payload.Error.AddAt(0, "@class", (Text)ClassifyEntity(this, ClassNames.Error));
+      }
+      else
+      {
+        if (Classes?.Contains(ClassNames.Form) == true)
+        {
+          payload.Form = new PropertyCollection(DataProperties);
+          payload.Form.AddAt(0, "@class", (Text)ClassifyEntity(this, ClassNames.Form));
+        }
+
+        payload.Records = new PropertyCollection();
+
+        // TODO: o algoritmo deveria ser recursivo
+
+        if (Classes?.Contains(ClassNames.Record) == true)
+        {
+          payload.Records.AddMany(DataProperties);
+          payload.Records.AddAt(0, "@class", (Text)ClassifyEntity(this, ClassNames.Record));
+        }
+
+        if (Entities != null)
+        {
+          foreach (var entity in Entities)
+          {
+            if (entity.Classes?.Contains(ClassNames.Record) == true)
+            {
+              payload.Records.AddMany(entity.DataProperties);
+              payload.Records.AddAt(0, "@class", (Text)ClassifyEntity(entity, ClassNames.Record));
+            }
+          }
+        }
+      }
+
+      return payload;
     }
 
-    public IEnumerator<INode> GetEnumerator()
+    private string ClassifyEntity(Entity source, string defaultValue)
     {
-      return Enumerate().GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return Enumerate().GetEnumerator();
+      var className = source.Classes?
+        .Where(x => char.IsUpper(x.FirstOrDefault()))
+        .FirstOrDefault();
+      return className ?? defaultValue;
     }
   }
 }

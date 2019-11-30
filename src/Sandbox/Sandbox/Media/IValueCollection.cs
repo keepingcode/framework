@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Toolset.Collections;
 
 namespace Paper.Media
 {
-  public class Property
+  public interface IValueCollection : IValue, IEnumerable, IEnumerable<IValue>
   {
-    public CaseVariantText Name { get; set; }
+    int Count { get; }
 
-    public IValue Value { get; set; }
+    IValue this[int index] { get; }
   }
 }

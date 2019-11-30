@@ -8,7 +8,7 @@ namespace Paper.Media
 {
   public static class Value
   {
-    public static IValue Create(object value)
+    public static IValue Get(object value)
     {
       if (value == null) return Null.Default;
       if (value is IValue) return (IValue)value;
@@ -27,9 +27,9 @@ namespace Paper.Media
       throw new NotSupportedException($"O valor não corresponde a um tipo suportado pelo Media Paper: {value.GetType().FullName}");
     }
 
-    public static ValueCollection CreateArray(params object[] arrayItems)
+    public static ValueCollection GetArray(params object[] arrayItems)
     {
-      var values = arrayItems.Select(Create);
+      var values = arrayItems.Select(Get);
       var collection = new ValueCollection(values);
       return collection;
     }

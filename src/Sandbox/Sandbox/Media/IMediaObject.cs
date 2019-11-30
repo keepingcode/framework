@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Paper.Media
 {
-  public interface IValue
+  public interface IMediaObject
   {
-    object Value { get; }
+    Payload ToPayload();
   }
 }

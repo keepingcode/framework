@@ -5,7 +5,7 @@ using Toolset.Collections;
 
 namespace Paper.Media
 {
-  public class ValueCollection : Collection<IValue>, IValueCollection
+  public class ValueCollection : Collection<IValue>, IValue
   {
     public ValueCollection()
     {
