@@ -9,19 +9,21 @@ namespace Paper.Media
 {
   public class Class
   {
+    public string Name { get; set; }
+
     private Class()
     {
     }
 
-    public string Name { get; set; }
-
-    public bool MetaClass => char.IsLower(Name.First());
-
     public static implicit operator string(Class @class)
-      => @class.Name;
+    {
+      return @class.Name;
+    }
 
     public static implicit operator Class(string @class)
-      => string.IsNullOrWhiteSpace(@class) ? null : new Class { Name = @class.Trim() };
+    {
+      return new Class { Name = @class };
+    }
   }
 
   public class Relation
@@ -43,37 +45,55 @@ namespace Paper.Media
     }
   }
 
-  public interface IEntity : ICollection<object>
-  {
-    string Title { get; set; }
-
-    IEnumerable<Class> Classes();
-
-    IEnumerable<Relation> Relations();
-
-    IEnumerable<Property> UserProperties();
-
-    IEnumerable<Property> MetaProperties();
-
-    IEnumerable<Record> Records();
-
-    IEnumerable<Action> Actions();
-
-    IEnumerable<Field> Fields();
-
-    IEnumerable<IEntity> MetaEntities();
-
-    IEnumerable<Link> Links();
-  }
-
-
-
-
-  public class Record : EntityBase
+  public interface IObject : ICollection<object>
   {
   }
 
-  public abstract class EntityBase : Collection<object>
+  public interface IEntity : IObject
+  {
+    public string Title { get; set; }
+    public IEnumerable<Class> UserClasses();
+    public IEnumerable<Class> MetaClasses();
+    public IEnumerable<Relation> Relations();
+    public IEnumerable<Property> UserProperties();
+    public IEnumerable<Property> MetaProperties();
+    public IEnumerable<IRecord> Records();
+    public IEnumerable<IAction> Actions();
+    public IEnumerable<IEntity> MetaEntities();
+    public IEnumerable<Link> Links();
+  }
+
+  public interface IRecord : IObject
+  {
+    public IEnumerable<Class> UserClasses();
+    public IEnumerable<Property> UserProperties();
+    public IEnumerable<IRecord> Records();
+  }
+
+  public interface IAction : IObject
+  {
+    public string Title { get; set; }
+    public IEnumerable<Class> UserClasses();
+    public IEnumerable<Class> MetaClasses();
+    public IEnumerable<Relation> Relations();
+    public IEnumerable<Property> MetaProperties();
+    public IEnumerable<IField> Fields();
+    public IEnumerable<IEntity> MetaEntities();
+    public IEnumerable<Link> Links();
+  }
+
+  public interface IField : IObject
+  {
+    public string Title { get; set; }
+    public IEnumerable<Class> UserClasses();
+    public IEnumerable<Class> MetaClasses();
+    public IEnumerable<Relation> Relations();
+    public IEnumerable<Property> MetaProperties();
+    public IEnumerable<IEntity> MetaEntities();
+    public IEnumerable<Link> Links();
+  }
+
+  public class Entity : Collection<object>, IEntity, IRecord, IAction, IField
   {
     public string Title
     {
@@ -90,8 +110,11 @@ namespace Paper.Media
       }
     }
 
-    public IEnumerable<Class> Classes()
-      => this.OfType<Class>();
+    public IEnumerable<Class> UserClasses()
+      => this.OfType<Class>().Where(x => char.IsUpper(x.Name.First()));
+
+    public IEnumerable<Class> MetaClasses()
+      => this.OfType<Class>().Where(x => char.IsLower(x.Name.First()));
 
     public IEnumerable<Relation> Relations()
       => this.OfType<Relation>();

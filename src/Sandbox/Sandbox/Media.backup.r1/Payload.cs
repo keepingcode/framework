@@ -4,18 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Toolset.Collections;
+using Toolset.Sequel;
 
 namespace Paper.Media
 {
   public class Payload : IMediaObject, IValueCollection, IFormData, ISentData
   {
-    public PropertyCollection Error { get; set; }
+    public Record Error { get; set; }
 
-    public PropertyCollection Form { get; set; }
+    public Record Form { get; set; }
 
-    public PropertyCollection Records { get; set; }
+    public Record[] Records { get; set; }
 
-    Payload IMediaObject.ToPayload() => this;
+    Payload IMediaObject.ExtractPayload() => this;
 
     #region Implementação de IValueCollection
 
@@ -23,7 +24,7 @@ namespace Paper.Media
     {
       if (Error != null) yield return Error;
       if (Form != null) yield return Form;
-      if (Records != null) yield return Records;
+      if (Records != null) foreach (var record in Records) yield return record;
     }
 
     IEnumerator<IValue> IEnumerable<IValue>.GetEnumerator()
@@ -41,6 +42,25 @@ namespace Paper.Media
     int IValueCollection.Count => Enumerate().Count();
 
     IValue IValueCollection.this[int index] => Enumerate().ElementAt(index);
+
+    #endregion
+
+    #region Clonagem
+
+    public Payload Clone()
+    {
+      return new Payload
+      {
+        Error = Error?.Clone(),
+        Form = Form?.Clone(),
+        Records = Records?.Select(x => x.Clone()).ToArray()
+      };
+    }
+
+    IValue IValue.Clone() => Clone();
+
+    object ICloneable.Clone() => Clone();
+
 
     #endregion
   }

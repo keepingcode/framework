@@ -121,6 +121,12 @@ namespace Toolset
         return defaultValue;
       }
 
+      if (value is IChangeTypeSupport support)
+      {
+        var done = support.ChangeTo(targetType, out object target);
+        if (done) return target;
+      }
+
       if (Is.Collection(targetType))
       {
         var elementType = TypeOf.CollectionElement(targetType);

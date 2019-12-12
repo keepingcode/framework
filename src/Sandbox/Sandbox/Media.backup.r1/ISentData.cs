@@ -6,8 +6,8 @@ namespace Paper.Media
 {
   public interface ISentData : IMediaObject, IValueCollection
   {
-    PropertyCollection Error { get; set; }
+    Record Error { get; set; }
 
-    PropertyCollection Records { get; set; }
+    Record[] Records { get; set; }
   }
 }

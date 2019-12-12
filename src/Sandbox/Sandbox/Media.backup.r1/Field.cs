@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Paper.Media
 {
-  public interface IMediaObject
+  public class Field : Entity
   {
-    Payload ToPayload();
   }
 }

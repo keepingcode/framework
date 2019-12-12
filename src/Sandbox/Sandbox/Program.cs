@@ -1,31 +1,86 @@
 ﻿using Paper.Media;
 using System;
 using System.Diagnostics;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using Toolset;
 using Toolset.Collections;
 using Toolset.Xml;
 
 namespace Sandbox
 {
+  class Talz
+  {
+    [XmlElement("MyID")]
+    public string Id { get; set; }
+
+    [XmlElement("MyTelz")]
+    public Telz Telz { get; set; }
+  }
+
+  [DataContract]
+  class Telz
+  {
+    [DataMember(Name = "MyIDs")]
+    public string[] Ids { get; set; }
+  }
+
   public static class Program
   {
     public static void Main(string[] commandArgs)
     {
       try
       {
-        var entity = new Entity();
-        entity.Classes = new Collection<string>();
-        entity.Classes.Add(ClassNames.Form);
-        entity.Entities = new Collection<Entity>();
-        entity.Entities.Add(new Entity());
-        entity.Entities[0].Classes = new Collection<string>();
-        entity.Entities[0].Classes.Add(ClassNames.Record);
-        entity.Entities[0].DataProperties = new PropertyCollection();
-        entity.Entities[0].DataProperties.Add("Id", Value.Create(10));
-        entity.Entities[0].DataProperties.Add("Name", Value.Create("Ten"));
+        var talz = new Talz
+        {
+          Id = "Ten",
+          Telz = new Telz
+          {
+            Ids = new[] { "One", "Two" }
+          }
+        };
 
-        var payload = entity.ToPayload();
-        Debug.WriteLine(payload);
+        var entity = new Entity();
+        entity.Title = "My Test";
+        entity.Add((Class)"record");
+        entity.Add((Class)"action");
+        entity.Add((Class)"Talz");
+        entity.AddMany(PropertyCollection.CreateFrom(talz));
+        entity.Add(entity);
+
+        foreach (var @class in entity.UserClasses())
+        {
+          Debug.WriteLine($"user-class: {@class.Name}");
+        }
+        foreach (var @class in entity.MetaClasses())
+        {
+          Debug.WriteLine($"meta-class: {@class.Name}");
+        }
+        foreach (var prop in entity.UserProperties())
+        {
+          Debug.WriteLine($"user-prop: {prop.Name} = {prop.Value}");
+        }
+        foreach (var prop in entity.MetaProperties())
+        {
+          Debug.WriteLine($"meta-prop: {prop.Name} = {prop.Value}");
+        }
+        foreach (var record in entity.Records())
+        {
+          Debug.WriteLine($"record: {record.GetType().FullName}");
+        }
+        foreach (var action in entity.Actions())
+        {
+          Debug.WriteLine($"action: {action.GetType().FullName}");
+        }
+        foreach (var metaEntity in entity.MetaEntities())
+        {
+          Debug.WriteLine($"meta-entity: {metaEntity.GetType().FullName}");
+        }
+
+        //var props = Value.Create(talz) as PropertyCollection;
+        //var graph = props.CopyTo<Talz>();
+        //
+        //Debug.WriteLine(graph);
       }
       catch (Exception ex)
       {

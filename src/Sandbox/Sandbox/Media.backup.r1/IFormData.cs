@@ -6,8 +6,8 @@ namespace Paper.Media
 {
   public interface IFormData : IMediaObject, IValueCollection
   {
-    PropertyCollection Form { get; set; }
+    Record Form { get; set; }
 
-    PropertyCollection Records { get; set; }
+    Record[] Records { get; set; }
   }
 }
