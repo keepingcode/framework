@@ -3,11 +3,11 @@ using Toolset.Collections;
 
 namespace Paper.Media
 {
-  public class Field : Entity
+  public class Action : Entity
   {
-    public Field()
+    public Action()
     {
-      this.Add(Class.Field);
+      this.Add(Class.Action);
     }
   }
 }

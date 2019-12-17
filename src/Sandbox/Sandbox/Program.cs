@@ -1,147 +1,68 @@
 ﻿using Paper.Media;
+using Paper.Media.Serialization;
 using System;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Toolset;
 using Toolset.Collections;
+using Toolset.Net;
 using Toolset.Xml;
 
-namespace Sandbox
+namespace Sandbo
 {
-  class Talz
-  {
-    [XmlElement("MyID")]
-    public string Id { get; set; }
-
-    [XmlElement("MyTelz")]
-    public Telz Telz { get; set; }
-  }
-
-  [DataContract]
-  class Telz
-  {
-    [DataMember(Name = "MyIDs")]
-    public string[] Ids { get; set; }
-  }
-
   public static class Program
   {
     public static void Main(string[] commandArgs)
     {
       try
       {
-        var talz = new Talz
+        var record = new Record();
+        record.Add(new Property("title", "My Title"));
+        record.Add(new Property("header", "My Header"));
+
+        var link = new Link();
+        link.Add(new Property("title", "My Title"));
+        link.Add(new Property("href", "My #ref"));
+        link.Add(new Property("header", "My Header"));
+        link.Add(new Class("header"));
+        link.Add(new Rel("header"));
+        record.Add(link);
+
+        var file = new ResourceRef();
+        file.Add(new Property("title", "My Title"));
+        file.Add(new Property("href", "My #ref"));
+        file.Add(new Property("header", "My Header"));
+        file.Add(new Class("header"));
+        file.Add(new Rel("header"));
+        record.Add(file);
+
+        record.Add(new Property("__meta", Value.CreateObject(new
         {
-          Id = "Ten",
-          Telz = new Telz
+          Tables = new
           {
-            Ids = new[] { "One", "Two" }
+            Headers = new VName[] {
+              "Id",
+              "Name"
+            }
           }
-        };
+        })));
 
-        var entity = new Entity();
-        entity.Title = "My Test";
-        entity.Add((Class)"record");
-        entity.Add((Class)"action");
-        entity.Add((Class)"Talz");
-        entity.AddMany(PropertyCollection.CreateFrom(talz));
-        entity.Add(entity);
 
-        foreach (var @class in entity.UserClasses())
-        {
-          Debug.WriteLine($"user-class: {@class.Name}");
-        }
-        foreach (var @class in entity.MetaClasses())
-        {
-          Debug.WriteLine($"meta-class: {@class.Name}");
-        }
-        foreach (var prop in entity.UserProperties())
-        {
-          Debug.WriteLine($"user-prop: {prop.Name} = {prop.Value}");
-        }
-        foreach (var prop in entity.MetaProperties())
-        {
-          Debug.WriteLine($"meta-prop: {prop.Name} = {prop.Value}");
-        }
-        foreach (var record in entity.Records())
-        {
-          Debug.WriteLine($"record: {record.GetType().FullName}");
-        }
-        foreach (var action in entity.Actions())
-        {
-          Debug.WriteLine($"action: {action.GetType().FullName}");
-        }
-        foreach (var metaEntity in entity.MetaEntities())
-        {
-          Debug.WriteLine($"meta-entity: {metaEntity.GetType().FullName}");
-        }
+        var p1 = record.GetProperty<VArray>("__meta.tables.headers");
+        record.SetProperty("__meta.tables.headers.id", new[] { 10 });
+        var p2 = record.GetProperty<VArray>("__meta.tables.headers.id");
 
-        //var props = Value.Create(talz) as PropertyCollection;
-        //var graph = props.CopyTo<Talz>();
-        //
-        //Debug.WriteLine(graph);
+
+        var serializer = new MediaSerializer(MimeType.JsonSiren);
+        var text = serializer.Serialize(record);
+
+        Debug.WriteLine(Json.Beautify(text));
       }
       catch (Exception ex)
       {
         ex.Trace();
       }
     }
-
-    //  private static void TestPaper()
-    //  {
-    //    //
-    //    // Construindo 
-    //    //
-
-    //    var factory = PaperBuilderFactory.Create();
-    //    var builder = factory.CreatePaperBuilder(
-    //      new PaperInfo
-    //      {
-    //        Catalog = "MyCatalog",
-    //        Name = "MyName",
-    //        Title = "My Paper",
-    //        Description = "This is my sample paper"
-    //      },
-    //      ctx => new { Name = "MyPaper", Title = "My Paper" }
-    //    );
-
-    //    var get = builder.Get((ctx, host) => new { Id = 10, Login = "user", Name = "My User" });
-
-    //    var userGetter = get.PopulateRecord((ctx, host, data) => data);
-    //    var postGetter = get.PopulateRecords(userGetter, (ctx, host, data, user) => new[]
-    //    {
-    //        new { Id = 1, UserId = user.Id, Title = "My 1st Post", Body = "Lorem ipsum dolor sit ament." },
-    //        new { Id = 2, UserId = user.Id, Title = "My 2nd Post", Body = "Lorem ipsum dolor sit ament." }
-    //      });
-
-    //    get.FormatEntity(userGetter, (ctx, host, data, user, entity) =>
-    //    {
-    //      entity.WithClass().Add("MySampleUser");
-    //    });
-
-    //    get.FormatEntity(postGetter, (ctx, host, data, allPosts, post, entity) =>
-    //    {
-    //      entity.WithClass().Add("MySamplePost");
-    //      entity.WithProperties().Add("PostCount", allPosts.Count);
-    //    });
-
-    //    var blueprint = builder.BuildPaper();
-
-    //    //
-    //    // Formatando 
-    //    //
-    //    var writer = new MediaDataWriter<Payload>();
-
-    //    var context = new PaperContext();
-    //    context.Verb = VerbNames.Get;
-    //    context.OutgoingData = writer;
-
-    //    blueprint.RenderPaper(context);
-
-    //    var result = writer.Result;
-
-    //    Console.WriteLine(result?.ToXElement());
-    //  }
   }
 }

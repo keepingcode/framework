@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Toolset;
-using Toolset.Collections;
 
 namespace Paper.Media
 {
-  public class Link : NodeCollection, INode
+  public class EntityRef : NodeCollection, IEntityRef
   {
     public string Type
     {

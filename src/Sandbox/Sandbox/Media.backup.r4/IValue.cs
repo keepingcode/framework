@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Paper.Media
 {
-  public interface IValue
+  public interface IValue : ICloneable
   {
     object Value { get; }
+
+    new IValue Clone();
   }
 }

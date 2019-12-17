@@ -1,11 +1,9 @@
 ﻿using System;
-using Toolset.Collections;
-
 namespace Paper.Media
 {
-  public class Field : Entity
+  public class FieldRef : EntityRef
   {
-    public Field()
+    public FieldRef()
     {
       this.Add(Class.Field);
     }

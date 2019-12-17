@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Paper.Media
 {
-  public interface IValue
+  public class Field : Entity
   {
-    object Value { get; }
   }
 }
