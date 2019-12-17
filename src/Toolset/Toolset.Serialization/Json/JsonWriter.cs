@@ -50,7 +50,7 @@ namespace Toolset.Serialization.Json
     #endregion
 
     public JsonWriter(TextWriter writer, SerializationSettings settings)
-      : base(settings)
+      : base(settings, TextCase.CamelCase)
     {
       this.writer = writer;
       this.stack = new Stack<Children>();

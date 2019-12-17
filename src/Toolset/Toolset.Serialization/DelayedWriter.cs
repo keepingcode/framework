@@ -13,10 +13,12 @@ namespace Toolset.Serialization
     private Writer writer;
 
     public DelayedWriter()
+      : base(TextCase.KeepOriginal)
     {
     }
 
     public DelayedWriter(Action<Node, ISetter> interceptor)
+      : base(TextCase.KeepOriginal)
     {
       Intercept += (o, e) => interceptor.Invoke(e.Node, e.Setter);
     }

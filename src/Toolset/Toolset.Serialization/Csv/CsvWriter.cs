@@ -17,34 +17,37 @@ namespace Toolset.Serialization.Csv
     #region Construtores TextWriter ...
 
     public CsvWriter(TextWriter textWriter)
+      : base(TextCase.KeepOriginal)
     {
       Initialize(textWriter, true);
     }
 
     public CsvWriter(TextWriter textWriter, Func<string, bool> fieldFilter)
+      : base(TextCase.KeepOriginal)
     {
       Initialize(textWriter, true, fieldFilter);
     }
 
     public CsvWriter(TextWriter textWriter, string[] fields)
+      : base(TextCase.KeepOriginal)
     {
       Initialize(textWriter, true, fields);
     }
 
     public CsvWriter(TextWriter textWriter, SerializationSettings settings)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       Initialize(textWriter, true);
     }
 
     public CsvWriter(TextWriter textWriter, SerializationSettings settings, Func<string, bool> fieldFilter)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       Initialize(textWriter, true, fieldFilter);
     }
 
     public CsvWriter(TextWriter textWriter, SerializationSettings settings, string[] fields)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       Initialize(textWriter, true, fields);
     }
@@ -54,39 +57,42 @@ namespace Toolset.Serialization.Csv
     #region Construtores Stream ...
 
     public CsvWriter(Stream textStream)
+      : base(TextCase.KeepOriginal)
     {
       var writer = new StreamWriter(textStream, Encoding.UTF8, 1024, true);
       Initialize(writer, true);
     }
 
     public CsvWriter(Stream textStream, Func<string, bool> fieldFilter)
+      : base(TextCase.KeepOriginal)
     {
       var writer = new StreamWriter(textStream, Encoding.UTF8, 1024, true);
       Initialize(writer, true, fieldFilter);
     }
 
     public CsvWriter(Stream textStream, string[] fields)
+      : base(TextCase.KeepOriginal)
     {
       var writer = new StreamWriter(textStream, Encoding.UTF8, 1024, true);
       Initialize(writer, true, fields);
     }
 
     public CsvWriter(Stream textStream, SerializationSettings settings)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       var writer = new StreamWriter(textStream, settings.Encoding, 1024, true);
       Initialize(writer, true);
     }
 
     public CsvWriter(Stream textStream, SerializationSettings settings, Func<string, bool> fieldFilter)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       var writer = new StreamWriter(textStream, settings.Encoding, 1024, true);
       Initialize(writer, true, fieldFilter);
     }
 
     public CsvWriter(Stream textStream, SerializationSettings settings, string[] fields)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       var writer = new StreamWriter(textStream, settings.Encoding, 1024, true);
       Initialize(writer, true, fields);

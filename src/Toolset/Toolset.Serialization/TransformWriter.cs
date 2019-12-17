@@ -11,7 +11,7 @@ namespace Toolset.Serialization
     private readonly ITransform transform;
 
     public TransformWriter(Writer writer, ITransform transform)
-      : base(writer.Settings)
+      : base(writer.Settings, TextCase.KeepOriginal)
     {
       this.writer = writer;
       this.transform = transform;
@@ -19,7 +19,7 @@ namespace Toolset.Serialization
     }
 
     public TransformWriter(Writer writer, ITransform transform, SerializationSettings settings)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       this.writer = writer;
       this.transform = transform;

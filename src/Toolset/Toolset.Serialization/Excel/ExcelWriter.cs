@@ -9,7 +9,7 @@ namespace Toolset.Serialization.Excel
 {
   public class ExcelWriter : Writer
   {
-    internal const TextCase DefaultTextCase = TextCase.KeepOriginal;
+    public static readonly TextCase DefaultTextCase = TextCase.KeepOriginal;
 
     private readonly Writer writer;
 
@@ -80,21 +80,21 @@ namespace Toolset.Serialization.Excel
     #endregion
 
     public ExcelWriter(Stream streamWriter, SerializationSettings settings)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       var basicExcelWriter = new BasicExcelWriter(streamWriter, base.Settings);
       writer = new FlatMatrixWriter(basicExcelWriter, base.Settings);
     }
 
     public ExcelWriter(Stream streamWriter, SerializationSettings settings, Func<string, bool> fieldFilter)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       var basicExcelWriter = new BasicExcelWriter(streamWriter, base.Settings);
       writer = new FlatMatrixWriter(basicExcelWriter, base.Settings, fieldFilter);
     }
 
     public ExcelWriter(Stream streamWriter, SerializationSettings settings, string[] fields)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       var basicExcelWriter = new BasicExcelWriter(streamWriter, base.Settings);
       writer = new FlatMatrixWriter(basicExcelWriter, base.Settings, fields);

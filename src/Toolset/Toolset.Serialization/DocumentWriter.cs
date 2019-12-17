@@ -25,14 +25,14 @@ namespace Toolset.Serialization
     private readonly List<DocumentModel> documents2 = new List<DocumentModel>();
 
     public DocumentWriter()
-      : base(new SerializationSettings())
+      : base(new SerializationSettings(), TextCase.KeepOriginal)
     {
       this.stack = new Stack<NodeModel>();
       this.cache = new Stack<Stack<NodeModel>>();
     }
 
     public DocumentWriter(SerializationSettings settings)
-      : base(settings ?? new SerializationSettings())
+      : base(settings ?? new SerializationSettings(), TextCase.KeepOriginal)
     {
       this.stack = new Stack<NodeModel>();
       this.cache = new Stack<Stack<NodeModel>>();

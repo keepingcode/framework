@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Toolset.Serialization.Transformations;
 using System.IO;
+using Toolset;
 
 namespace Toolset.Serialization.Csv
 {
@@ -15,13 +16,13 @@ namespace Toolset.Serialization.Csv
     private int cols;
 
     public BasicCsvWriter(TextWriter writer)
-      : base(null)
+      : base(TextCase.KeepOriginal)
     {
       this.writer = writer;
     }
 
     public BasicCsvWriter(TextWriter writer, SerializationSettings settings)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       this.writer = writer;
     }

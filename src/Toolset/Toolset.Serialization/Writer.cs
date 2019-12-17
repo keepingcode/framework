@@ -24,16 +24,24 @@ namespace Toolset.Serialization
     private Validator validator;
     private Action<Node> forward;
 
-    public Writer()
+    public Writer(TextCase defaultTextCase)
     {
-      this.Settings = new SerializationSettings();
       this.forward = DoWrite;
+      this.Settings = new SerializationSettings();
+      if (this.Settings.TextCase == TextCase.Default)
+      {
+        this.Settings.TextCase = defaultTextCase;
+      }
     }
 
-    public Writer(SerializationSettings settings)
+    public Writer(SerializationSettings settings, TextCase defaultTextCase)
     {
-      this.Settings = settings ?? new SerializationSettings();
       this.forward = DoWrite;
+      this.Settings = settings ?? new SerializationSettings();
+      if (this.Settings.TextCase == TextCase.Default)
+      {
+        this.Settings.TextCase = defaultTextCase;
+      }
     }
 
     public SerializationSettings Settings
@@ -181,7 +189,7 @@ namespace Toolset.Serialization
     private class NullWriter : Writer
     {
       public NullWriter()
-        : base(null)
+        : base(null, TextCase.KeepOriginal)
       {
       }
 

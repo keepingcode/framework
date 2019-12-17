@@ -36,7 +36,7 @@ namespace Toolset.Serialization.Xml
     #endregion
 
     public XmlDocumentWriter(Stream textStream, SerializationSettings settings)
-      : base(settings)
+      : base(settings, TextCase.PascalCase)
     {
       this.writer = XmlWriter.Create(textStream,
         new XmlWriterSettings
@@ -52,7 +52,7 @@ namespace Toolset.Serialization.Xml
     }
 
     public XmlDocumentWriter(TextWriter textWriter, SerializationSettings settings)
-      : base(settings)
+      : base(settings, TextCase.PascalCase)
     {
       this.writer = XmlWriter.Create(textWriter,
         new XmlWriterSettings
@@ -68,7 +68,7 @@ namespace Toolset.Serialization.Xml
     }
 
     public XmlDocumentWriter(XmlWriter textWriter, SerializationSettings settings)
-      : base(settings)
+      : base(settings, TextCase.PascalCase)
     {
       this.writer = textWriter;
       this.stack = new Stack<NodeType>();

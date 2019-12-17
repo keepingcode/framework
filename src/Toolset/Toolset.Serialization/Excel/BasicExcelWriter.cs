@@ -22,7 +22,7 @@ namespace Toolset.Serialization.Excel
     private int collectionDepth;
 
     public BasicExcelWriter(Stream stream, SerializationSettings settings)
-      : base(settings)
+      : base(settings, TextCase.KeepOriginal)
     {
       this.output = stream;
       this.workbook = new WorkbookBuilder(this.Settings);

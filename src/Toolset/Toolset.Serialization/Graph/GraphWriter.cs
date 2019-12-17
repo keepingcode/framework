@@ -37,8 +37,10 @@ namespace Toolset.Serialization.Graph
     }
 
     public GraphWriter(Type graphType, SerializationSettings settings)
-      : base(settings as GraphSerializationSettings ?? new GraphSerializationSettings(settings)
-      )
+      : base(
+          settings as GraphSerializationSettings ?? new GraphSerializationSettings(settings),
+          TextCase.KeepOriginal
+        )
     {
       this.graphType = graphType;
       this.graphList = new List<object>();

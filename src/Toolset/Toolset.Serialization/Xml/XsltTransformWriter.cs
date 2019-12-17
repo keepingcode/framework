@@ -154,7 +154,7 @@ namespace Toolset.Serialization.Xml
     #endregion
 
     public XsltTransformWriter(XmlWriter writer, XmlReader xsltReader, XsltArgumentList arguments, SerializationSettings settings)
-      : base(new XmlSerializationSettings(settings))
+      : base(new XmlSerializationSettings(settings), TextCase.CamelCase)
     {
       this.arguments = arguments;
 
@@ -176,7 +176,7 @@ namespace Toolset.Serialization.Xml
     }
 
     public XsltTransformWriter(Writer writer, XmlReader xsltReader, XsltArgumentList arguments, SerializationSettings settings)
-      : base(new XmlSerializationSettings(settings))
+      : base(new XmlSerializationSettings(settings), TextCase.CamelCase)
     {
       this.arguments = arguments;
 
