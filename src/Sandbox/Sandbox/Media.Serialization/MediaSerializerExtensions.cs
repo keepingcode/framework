@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -21,6 +22,22 @@ namespace Paper.Media.Serialization
       serializer.Serialize(entity, writer);
       writer.Flush();
       stream.Flush();
+    }
+
+    public static ICollection<IEntity> Deserialize(this MediaSerializer serializer, string image)
+    {
+      using (var reader = new StringReader(image))
+      {
+        var result = serializer.Deserialize(reader);
+        return result;
+      }
+    }
+
+    public static ICollection<IEntity> Deserialize(this MediaSerializer serializer, IEntity entity, Stream stream, Encoding encoding = null)
+    {
+      var reader = new StreamReader(stream, encoding ?? Encoding.UTF8);
+      var result = serializer.Deserialize(reader);
+      return result;
     }
   }
 }

@@ -16,7 +16,7 @@ namespace Paper.Media.Serialization
     public void Write(IMedia media, Writer writer)
     {
       writer.WriteDocumentStart();
-      WriteEntity(media, writer);
+      WriteMedia(media, writer);
       writer.WriteDocumentEnd();
       writer.Flush();
     }
@@ -35,7 +35,7 @@ namespace Paper.Media.Serialization
       return reservedKeyMap[type];
     }
 
-    private void WriteEntity(IMedia media, Writer writer)
+    private void WriteMedia(IMedia media, Writer writer)
     {
       writer.WriteObjectStart("Entity");
 
@@ -50,14 +50,14 @@ namespace Paper.Media.Serialization
           child is Record ? 1 : child is Field ? 2 : child is Action ? 3 : 4
         orderby priority
         select child;
-      WriteEntities(entities, writer);
+      WriteMedias(entities, writer);
 
       WriteLinks(media.OfType<Link>(), writer);
 
       writer.WriteObjectEnd();
     }
 
-    private void WriteEntities(IEnumerable<IMedia> entities, Writer writer)
+    private void WriteMedias(IEnumerable<IMedia> entities, Writer writer)
     {
       if (!entities.Any())
         return;
@@ -66,7 +66,7 @@ namespace Paper.Media.Serialization
       writer.WriteCollectionStart();
       foreach (var entity in entities)
       {
-        WriteEntity(entity, writer);
+        WriteMedia(entity, writer);
       }
       writer.WriteCollectionEnd();
       writer.WritePropertyEnd();

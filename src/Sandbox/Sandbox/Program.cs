@@ -2,6 +2,7 @@
 using Paper.Media.Serialization;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Toolset;
@@ -53,11 +54,27 @@ namespace Sandbo
         record.SetProperty("__meta.tables.headers.id", new[] { 10 });
         var p2 = record.GetProperty<VArray>("__meta.tables.headers.id");
 
+        var action = new Paper.Media.Action();
+        action.Name = "My Action";
+        action.Add(new Property("Title", "Tananana"));
+        action.Add(new Property("Header", "My Header"));
+        record.Add(action);
+
+        var field = new Field();
+        field.Name = "tananana";
+        field.Value = "10";
+        action.Add(field);
 
         var serializer = new MediaSerializer(MimeType.JsonSiren);
-        var text = serializer.Serialize(record);
+        var json = serializer.Serialize(record);
+        Debug.WriteLine(Json.Beautify(json));
 
-        Debug.WriteLine(Json.Beautify(text));
+        Debug.WriteLine("- - -");
+
+        var obj = serializer.Deserialize(json).First();
+        var txt = serializer.Serialize(obj);
+
+        Debug.WriteLine(Json.Beautify(txt));
       }
       catch (Exception ex)
       {

@@ -31,11 +31,24 @@ namespace Paper.Media.Serialization
         ? (Writer)new JsonWriter(writer)
         : (Writer)new XmlDocumentWriter(writer);
 
-      var marshaller = new MediaWriter();
-      marshaller.Write(entity, documentWriter);
+      var mediaWriter = new MediaWriter();
+      mediaWriter.Write(entity, documentWriter);
 
       documentWriter.Flush();
       writer.Flush();
+    }
+
+    public ICollection<IEntity> Deserialize(TextReader reader)
+    {
+      var documentReader = isJson
+        ? (Reader)new JsonReader(reader)
+        : (Reader)new XmlDocumentReader(reader);
+
+      var mediaReader = new MediaReader();
+      var medias = mediaReader.Read(documentReader);
+
+      var entities = medias.OfType<IEntity>().ToArray();
+      return entities;
     }
   }
 }

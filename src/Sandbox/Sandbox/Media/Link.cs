@@ -9,23 +9,9 @@ namespace Paper.Media
 {
   public class Link : NodeCollection, INode
   {
-    public string Type
-    {
-      get => Get<string>();
-      set => Set(value);
-    }
-
-    public string Href
-    {
-      get => Get<string>();
-      set => Set(value);
-    }
-
-    public string Title
-    {
-      get => Get<string>();
-      set => Set(value);
-    }
+    public string Type { get => Get<string>(); set => Set(value); }
+    public string Href { get => Get<string>(); set => Set(value); }
+    public string Title { get => Get<string>(); set => Set(value); }
 
     protected override void OnCommitAdd(ItemStore store, IEnumerable<INode> items, int index = -1)
     {
