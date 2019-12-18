@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Toolset;
 using Toolset.Collections;
 using Toolset.Net;
 using Toolset.Serialization;
@@ -40,9 +41,11 @@ namespace Paper.Media.Serialization
 
     public ICollection<IEntity> Deserialize(TextReader reader)
     {
+      var settings = new SerializationSettings { TextCase = TextCase.PascalCase };
+
       var documentReader = isJson
-        ? (Reader)new JsonReader(reader)
-        : (Reader)new XmlDocumentReader(reader);
+        ? (Reader)new JsonReader(reader, settings)
+        : (Reader)new XmlDocumentReader(reader, settings);
 
       var mediaReader = new MediaReader();
       var medias = mediaReader.Read(documentReader);

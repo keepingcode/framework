@@ -88,21 +88,6 @@ namespace Paper.Media
       nodes.Add(new Property(targetName, value));
     }
 
-    protected override void OnCommitAdd(ItemStore store, IEnumerable<INode> items, int index = -1)
-    {
-      var olders = store.OfType<Property>();
-      var newers = items.OfType<Property>();
-      if (olders.Any() && newers.Any())
-      {
-        var discards = olders.Where(older =>
-          newers.Any(newer => newer.Name.Equals(older.Name))
-        ).ToArray();
-        store.RemoveMany(discards);
-      }
-
-      base.OnCommitAdd(store, items, index);
-    }
-
     protected T Get<T>([CallerMemberName]string propertyName = null)
     {
       var property =
@@ -125,6 +110,71 @@ namespace Paper.Media
       {
         this.Add(new Property(propertyName, value));
       }
+    }
+
+    protected override void OnCommitAdd(ItemStore store, IEnumerable<INode> items, int index = -1)
+    {
+      {
+        var olders = store.OfType<Class>();
+        var newers = items.OfType<Class>();
+        if (olders.Any() && newers.Any())
+        {
+          var discards = olders.Where(older =>
+            newers.Any(newer => newer.Name.Equals(older.Name))
+          ).ToArray();
+          store.RemoveMany(discards);
+        }
+      }
+
+      {
+        var olders = store.OfType<Rel>();
+        var newers = items.OfType<Rel>();
+        if (olders.Any() && newers.Any())
+        {
+          var discards = olders.Where(older =>
+            newers.Any(newer => newer.Name.Equals(older.Name))
+          ).ToArray();
+          store.RemoveMany(discards);
+        }
+      }
+
+      {
+        var olders = store.OfType<Property>();
+        var newers = items.OfType<Property>();
+        if (olders.Any() && newers.Any())
+        {
+          var discards = olders.Where(older =>
+            newers.Any(newer => newer.Name.Equals(older.Name))
+          ).ToArray();
+          store.RemoveMany(discards);
+        }
+      }
+
+      {
+        var olders = store.OfType<Action>();
+        var newers = items.OfType<Action>();
+        if (olders.Any() && newers.Any())
+        {
+          var discards = olders.Where(older =>
+            newers.Any(newer => newer.Name.Equals(older.Name))
+          ).ToArray();
+          store.RemoveMany(discards);
+        }
+      }
+
+      {
+        var olders = store.OfType<Field>();
+        var newers = items.OfType<Field>();
+        if (olders.Any() && newers.Any())
+        {
+          var discards = olders.Where(older =>
+            newers.Any(newer => newer.Name.Equals(older.Name))
+          ).ToArray();
+          store.RemoveMany(discards);
+        }
+      }
+
+      base.OnCommitAdd(store, items, index);
     }
   }
 }

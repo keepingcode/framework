@@ -55,23 +55,9 @@ namespace Toolset.Serialization
 
     public abstract IEnumerable<NodeModel> Children();
 
-    public virtual IEnumerable<NodeModel> ChildrenAndSelf()
-    {
-      if (this is NodeModel)
-        yield return (NodeModel)this;
-
-      foreach (var child in Children())
-        yield return child;
-    }
-
     public virtual IEnumerable<ObjectModel> ChildObjects()
     {
       return Children().OfType<ObjectModel>();
-    }
-
-    public virtual IEnumerable<ObjectModel> ChildObjectsAndSelf()
-    {
-      return ChildrenAndSelf().OfType<ObjectModel>();
     }
 
     public virtual IEnumerable<CollectionModel> ChildCollections()
@@ -79,29 +65,14 @@ namespace Toolset.Serialization
       return Children().OfType<CollectionModel>();
     }
 
-    public virtual IEnumerable<CollectionModel> ChildCollectionsAndSelf()
-    {
-      return ChildrenAndSelf().OfType<CollectionModel>();
-    }
-
     public virtual IEnumerable<PropertyModel> ChildProperties()
     {
       return Children().OfType<PropertyModel>();
     }
 
-    public virtual IEnumerable<PropertyModel> ChildPropertiesAndSelf()
-    {
-      return ChildrenAndSelf().OfType<PropertyModel>();
-    }
-
     public virtual IEnumerable<ValueModel> ChildValues()
     {
       return Children().OfType<ValueModel>();
-    }
-
-    public virtual IEnumerable<ValueModel> ChildValuesAndSelf()
-    {
-      return ChildrenAndSelf().OfType<ValueModel>();
     }
 
     #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Toolset;
+using Toolset.Collections;
 using Toolset.Serialization;
 
 namespace Paper.Media.Serialization
@@ -19,30 +20,105 @@ namespace Paper.Media.Serialization
       return entities;
     }
 
-    private IMedia ParseMedia(NodeModel node)
+    private void ParseNodes(ObjectModel objectNode, IExtendedCollection<INode> target)
     {
-      IMedia media = CreateMedia(node);
-
-      var classes = GetStringArray(node, "Class");
+      var classes = GetStringArray(objectNode, "Class");
       foreach (var @class in classes)
       {
-        media.Add(new Class(@class));
+        target.Add(new Class(@class));
       }
 
-      var rels = GetStringArray(node, "Rel");
+      var rels = GetStringArray(objectNode, "Rel");
       foreach (var rel in rels)
       {
-        media.Add(new Rel(rel));
+        target.Add(new Rel(rel));
       }
 
-      var entities = GetObjectArray(node, "Entities");
+      var entities = GetObjectArray(objectNode, "Entities");
       foreach (var entity in entities)
       {
         var child = ParseMedia(entity);
-        media.Add(child);
+        target.Add(child);
       }
 
+      var selfProperties = ParseProperties(objectNode,
+        exceptions: new[] { "Class", "Rel", "Entities", "Properties", "Links" }
+      );
+      target.AddMany(selfProperties);
+
+      var @object = GetObject(objectNode, "Properties");
+      if (@object != null)
+      {
+        var otherProperties = ParseProperties(@object);
+        target.AddMany(otherProperties);
+      }
+
+      var links = GetObjectArray(objectNode, "Links");
+      foreach (var link in links)
+      {
+        var child = ParseLink(link);
+        target.Add(child);
+      }
+    }
+
+    private IEnumerable<Property> ParseProperties(ObjectModel objectModel, params string[] exceptions)
+    {
+      foreach (var propertyModel in objectModel.ChildProperties())
+      {
+        if (propertyModel.Name.EqualsAnyIgnoreCase(exceptions))
+          continue;
+
+        var nodeModel = propertyModel.Value;
+        if (nodeModel == null)
+          continue;
+
+        var propertyName = propertyModel.Name;
+        var propertyValue = ParseValue(nodeModel);
+
+        yield return new Property(propertyName, propertyValue);
+      }
+    }
+
+    private IValue ParseValue(NodeModel nodeModel)
+    {
+      if (nodeModel is ValueModel valueModel)
+      {
+        return Value.Create(valueModel.Value);
+      }
+
+      if (nodeModel is CollectionModel collectionModel)
+      {
+        var values = collectionModel.Children().Select(ParseValue);
+        return Value.CreateArray(values);
+      }
+
+      if (nodeModel is ObjectModel objectModel)
+      {
+        var properties = ParseProperties(objectModel);
+        return Value.CreateObject(properties);
+      }
+
+      throw new NotSupportedException($"Elemento inválido para esta posição: {nodeModel.GetType().FullName}");
+    }
+
+    private IMedia ParseMedia(NodeModel nodeModel)
+    {
+      var objectModel = nodeModel as ObjectModel
+        ?? (nodeModel as DocumentModel)?.Root as ObjectModel;
+
+      if (objectModel == null)
+        return null;
+
+      IMedia media = CreateMedia(nodeModel);
+      ParseNodes(objectModel, media);
       return media;
+    }
+
+    private Link ParseLink(ObjectModel node)
+    {
+      var link = new Link();
+      ParseNodes(node, link);
+      return link;
     }
 
     private IMedia CreateMedia(NodeModel node)
@@ -69,13 +145,26 @@ namespace Paper.Media.Serialization
 
     private string GetString(NodeModel node, string propertyName)
     {
-      var href = (
+      var text = (
         from property in node.ChildProperties()
         where property.Name.EqualsIgnoreCase(propertyName)
-        from value in property.ChildValues()
+        let value = property.Value as ValueModel
+        where value != null
         select value.Value as string
       ).FirstOrDefault();
-      return href;
+      return text;
+    }
+
+    private ObjectModel GetObject(NodeModel node, string propertyName)
+    {
+      var @object = (
+        from property in node.ChildProperties()
+        where property.Name.EqualsIgnoreCase(propertyName)
+        let value = property.Value as ObjectModel
+        where value != null
+        select value
+      ).FirstOrDefault();
+      return @object;
     }
 
     private string[] GetStringArray(NodeModel node, string propertyName)
@@ -83,7 +172,9 @@ namespace Paper.Media.Serialization
       var classes = (
         from property in node.ChildProperties()
         where property.Name.EqualsIgnoreCase(propertyName)
-        from value in property.ChildValues()
+        let values = property.Value as CollectionModel
+        where values != null
+        from value in values.ChildValues()
         select value.Value as string
       ).ToArray();
       return classes;
@@ -91,13 +182,15 @@ namespace Paper.Media.Serialization
 
     private ObjectModel[] GetObjectArray(NodeModel node, string propertyName)
     {
-      var classes = (
+      var objects = (
         from property in node.ChildProperties()
         where property.Name.EqualsIgnoreCase(propertyName)
-        from value in property.ChildObjects()
+        let values = property.Value as CollectionModel
+        where values != null
+        from value in values.ChildObjects()
         select value
       ).ToArray();
-      return classes;
+      return objects;
     }
   }
 }
