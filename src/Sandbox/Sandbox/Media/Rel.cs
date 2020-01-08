@@ -13,6 +13,8 @@ namespace Paper.Media
       this.Name = name.Trim();
     }
 
+    public object Tag { get; set; }
+
     public string Name { get; }
 
     public bool IsMetaTag => char.IsUpper(Name.First());

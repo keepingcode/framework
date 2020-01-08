@@ -48,6 +48,7 @@ namespace Sandbo
           }
         })));
 
+
         var p1 = record.GetProperty<VArray>("__meta.tables.headers");
         record.SetProperty("__meta.tables.headers.id", new[] { 10 });
         var p2 = record.GetProperty<VArray>("__meta.tables.headers.id");

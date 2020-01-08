@@ -9,6 +9,8 @@ namespace Paper.Media
 {
   public class Link : NodeCollection, INode
   {
+    public object Tag { get; set; }
+
     public string Type { get => Get<string>(); set => Set(value); }
     public string Href { get => Get<string>(); set => Set(value); }
     public string Title { get => Get<string>(); set => Set(value); }

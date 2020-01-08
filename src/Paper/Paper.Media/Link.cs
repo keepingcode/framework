@@ -1,60 +1,27 @@
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Toolset;
+using Toolset.Collections;
 
 namespace Paper.Media
 {
-  /// <summary>
-  /// Representação de um link associado a uma entidade.
-  /// </summary>
-  [DataContract(Namespace = Namespaces.Default)]
-  public class Link : IMetaObject, IHyperLink
+  public class Link : NodeCollection, INode
   {
-    /// <summary>
-    /// Tipo do link. Opcional.
-    /// 
-    /// Mais de um tipo pode ser indicado quando o link se comporta
-    /// de mais de uma forma.
-    /// 
-    /// A ordem dos tipos importa. O aplicativo cliente pode
-    /// optar por refletir apenas o primeiro tipo definido, ou o
-    /// formato de serialização pode não suportar mais de um tipo.
-    /// Sempre defina o tipo primário antes dos tipos alternativos.
-    /// </summary>
-    [DataMember(EmitDefaultValue = false, Order = 10)]
-    public virtual NameCollection Class { get; set; }
+    public object Tag { get; set; }
 
-    /// <summary>
-    /// Título do link. Opcional.
-    /// </summary>
-    [DataMember(EmitDefaultValue = false, Order = 20)]
-    public virtual string Title { get; set; }
+    public string Type { get => Get<string>(); set => Set(value); }
+    public string Href { get => Get<string>(); set => Set(value); }
+    public string Title { get => Get<string>(); set => Set(value); }
 
-    /// <summary>
-    /// Natureza da relação entre o link e a entidade, segundo o modelo
-    /// Web Linking (RFC5988).
-    /// 
-    /// Para uma lista de relações pré-definidas consulte a seção;
-    /// -   6.2.2. Initial Registry Contents" do RFC5988:
-    ///     -   https://tools.ietf.org/html/rfc5988#section-6.2.2
-    /// 
-    /// As relações mais comuns estão disponíveis na classe RelValues.
-    /// </summary>
-    [DataMember(EmitDefaultValue = false, Order = 30)]
-    public virtual NameCollection Rel { get; set; }
+    protected override void OnCommitAdd(ItemStore store, IEnumerable<INode> items, int index = -1)
+    {
+      var invalidNode = items.OfType<IMedia>().FirstOrDefault();
+      if (invalidNode != null)
+        throw new InvalidOperationException($"Um link não suporta propriedades do tipo {invalidNode.GetType().FullName}");
 
-    /// <summary>
-    /// URL de referência do link.
-    /// </summary>
-    [DataMember(EmitDefaultValue = false, Order = 40)]
-    public virtual Href Href { get; set; }
-
-    /// <summary>
-    /// Tipo do conteúdo oferecido pelo link.
-    /// Um mimetype como "text/json", etc.
-    /// </summary>
-    [DataMember(EmitDefaultValue = false, Order = 50)]
-    public virtual string Type { get; set; }
+      base.OnCommitAdd(store, items, index);
+    }
   }
 }

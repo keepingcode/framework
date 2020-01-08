@@ -18,7 +18,6 @@
   <ItemGroup>
     <Compile Remove="Design.Mappings\**" />
     <Compile Remove="Design.Papers\**" />
-    <Compile Remove="discarded_classes\**" />
     <Compile Remove="Rendering.Papers\**" />
     <Compile Remove="Rendering2\**" />
     <Compile Remove="Routing\**" />
@@ -27,7 +26,6 @@
     <Compile Remove="Utilities\**" />
     <EmbeddedResource Remove="Design.Mappings\**" />
     <EmbeddedResource Remove="Design.Papers\**" />
-    <EmbeddedResource Remove="discarded_classes\**" />
     <EmbeddedResource Remove="Rendering.Papers\**" />
     <EmbeddedResource Remove="Rendering2\**" />
     <EmbeddedResource Remove="Routing\**" />
@@ -36,7 +34,6 @@
     <EmbeddedResource Remove="Utilities\**" />
     <None Remove="Design.Mappings\**" />
     <None Remove="Design.Papers\**" />
-    <None Remove="discarded_classes\**" />
     <None Remove="Rendering.Papers\**" />
     <None Remove="Rendering2\**" />
     <None Remove="Routing\**" />
@@ -88,6 +85,10 @@
     <None Remove="Data\Page.cs.bak" />
     <None Remove="Design\EntityExtensions.cs.bak" />
     <None Remove="PropertyCollection.cs.bak" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Utilities\ExpressionUtils.cs" />
   </ItemGroup>
 
   <ItemGroup>

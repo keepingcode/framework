@@ -22,45 +22,24 @@
     <Compile Remove="Media.backup.r1\**" />
     <Compile Remove="Media.backup.r2\**" />
     <Compile Remove="Media.backup.r3\**" />
+    <Compile Remove="Media.backup.r4\**" />
     <Compile Remove="Media.backup\**" />
     <Compile Remove="Media.discarded\**" />
     <Compile Remove="Media.tmp\**" />
     <EmbeddedResource Remove="Media.backup.r1\**" />
     <EmbeddedResource Remove="Media.backup.r2\**" />
     <EmbeddedResource Remove="Media.backup.r3\**" />
+    <EmbeddedResource Remove="Media.backup.r4\**" />
     <EmbeddedResource Remove="Media.backup\**" />
     <EmbeddedResource Remove="Media.discarded\**" />
     <EmbeddedResource Remove="Media.tmp\**" />
     <None Remove="Media.backup.r1\**" />
     <None Remove="Media.backup.r2\**" />
     <None Remove="Media.backup.r3\**" />
+    <None Remove="Media.backup.r4\**" />
     <None Remove="Media.backup\**" />
     <None Remove="Media.discarded\**" />
     <None Remove="Media.tmp\**" />
-    <Compile Remove="Media.backup.r4\Bit.cs" />
-    <Compile Remove="Media.backup.r4\CaseVariantText.cs" />
-    <Compile Remove="Media.backup.r4\ClassNames.cs" />
-    <Compile Remove="Media.backup.r4\Field.cs" />
-    <Compile Remove="Media.backup.r4\IPayload.cs" />
-    <Compile Remove="Media.backup.r4\IValue.cs" />
-    <Compile Remove="Media.backup.r4\IValueCollection.cs" />
-    <Compile Remove="Media.backup.r4\Link.cs" />
-    <Compile Remove="Media.backup.r4\NameCollection.cs" />
-    <Compile Remove="Media.backup.r4\NameCollectionExtensions.cs" />
-    <Compile Remove="Media.backup.r4\Namespaces.cs" />
-    <Compile Remove="Media.backup.r4\Null.cs" />
-    <Compile Remove="Media.backup.r4\Number.cs" />
-    <Compile Remove="Media.backup.r4\Property.cs" />
-    <Compile Remove="Media.backup.r4\PropertyCollection.cs" />
-    <Compile Remove="Media.backup.r4\RelNames.cs" />
-    <Compile Remove="Media.backup.r4\Text.cs" />
-    <Compile Remove="Media.backup.r4\Time.cs" />
-    <Compile Remove="Media.backup.r4\Value.cs" />
-    <Compile Remove="Media.backup.r4\ValueCollection.cs" />
-    <Compile Remove="Media.backup.r4\Entity.cs" />
-    <Compile Remove="Media.backup.r4\Property.cs" />
-    <Compile Remove="Media\IObject.cs" />
-    <Compile Remove="Media\VObjectExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="REVISION.txt" />
@@ -69,7 +48,6 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Media\" />
     <Folder Include="Media.Serialization\" />
     <Folder Include="Media.Design\" />
   </ItemGroup>
