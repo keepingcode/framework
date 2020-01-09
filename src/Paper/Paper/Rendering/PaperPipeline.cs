@@ -2,6 +2,7 @@
 using Innkeeper.Rest;
 using Paper.Media;
 using Paper.Media.Design;
+using Paper.Media.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Toolset;
 using Toolset.Net;
+using Toolset.Reflection;
 
 namespace Paper.Rendering
 {
@@ -60,10 +62,43 @@ namespace Paper.Rendering
         return;
       }
 
-      //var rendererType = descriptor.GetRendererType();
-      //var renderer = (IPaperRenderer)objectFactory.CreateObject(renderType, descriptor);
+      object output;
 
-      //renderer.
+      var instance = objectFactory.CreateObject(descriptor.PaperType);
+      if (instance._HasMethod("Render"))
+      {
+        output = objectFactory.Call(instance, "Render", null);
+      }
+      else
+      {
+        throw new HttpException($"Não há um algoritmo de renderização conhecido para objeto do tipo ${descriptor.PaperType.FullName}.");
+      }
+
+      if (output is Stream stream)
+      {
+        await stream.CopyToAsync(Res.Body);
+        await Res.Body.FlushAsync();
+      }
+      else if (output is StreamReader reader)
+      {
+        var encoding = Encoding.UTF8;
+        var writer = new StreamWriter(Res.Body, encoding);
+        await reader.CopyToAsync(writer);
+        await writer.FlushAsync();
+        await Res.Body.FlushAsync();
+      }
+      else if (output is Entity entity)
+      {
+        var encoding = Encoding.UTF8;
+        var mimeType = "json";
+        var serializer = new MediaSerializer(mimeType);
+        serializer.Serialize(entity, Res.Body, encoding);
+        await Res.Body.FlushAsync();
+      }
+      else
+      {
+        throw new HttpException($"Não há suporte para renderização de dados do tipo {output.GetType().FullName}");
+      }
     }
 
     [Get("/{paper}/{action}")]

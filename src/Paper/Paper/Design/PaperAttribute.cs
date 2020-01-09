@@ -11,9 +11,9 @@ namespace Paper.Design
     {
     }
 
-    public PaperAttribute(string schema)
+    public PaperAttribute(string name)
     {
-      this.Name = schema;
+      this.Name = name;
     }
 
     public string Catalog { get; set; }

@@ -24,6 +24,11 @@ namespace Toolset
       return (fault.Length > 0) ? $"{Status} - {fault}" : Status.ToString();
     }
 
+    public Ret<global::Paper.Sandbox.Host.Domain.User> FirstOrDefault()
+    {
+      throw new NotImplementedException();
+    }
+
     public static implicit operator Ret<T>(T value)
     {
       return new Ret<T>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Toolset
 {
@@ -30,7 +31,7 @@ namespace Toolset
     /// </summary>
     /// <param name="reader">O fluxo de leitura.</param>
     /// <param name="writer">O fluxo de saída.</param>
-    public static async void CopyToAsync(this TextReader reader, TextWriter writer)
+    public static async Task CopyToAsync(this TextReader reader, TextWriter writer)
     {
       var buffer = new char[8 * 1024];
       var len = 0;

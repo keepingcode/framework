@@ -18,6 +18,14 @@
   <ItemGroup>
     <Compile Remove="Browser\**" />
     <Compile Remove="Commons\**" />
+    <Compile Remove="discarded_classes\**" />
+    <Compile Remove="discarded_classes\Browser\**" />
+    <Compile Remove="discarded_classes\Commons\**" />
+    <Compile Remove="discarded_classes\Extensions.Papers\**" />
+    <Compile Remove="discarded_classes\Extensions.Site.Rendering\**" />
+    <Compile Remove="discarded_classes\Extensions.Site\**" />
+    <Compile Remove="discarded_classes\Host\**" />
+    <Compile Remove="discarded_classes\Rendering_\**" />
     <Compile Remove="Extensions.Papers\**" />
     <Compile Remove="Extensions.Site.Rendering\**" />
     <Compile Remove="Extensions.Site\**" />
@@ -27,6 +35,14 @@
     <Compile Remove="temp\**" />
     <EmbeddedResource Remove="Browser\**" />
     <EmbeddedResource Remove="Commons\**" />
+    <EmbeddedResource Remove="discarded_classes\**" />
+    <EmbeddedResource Remove="discarded_classes\Browser\**" />
+    <EmbeddedResource Remove="discarded_classes\Commons\**" />
+    <EmbeddedResource Remove="discarded_classes\Extensions.Papers\**" />
+    <EmbeddedResource Remove="discarded_classes\Extensions.Site.Rendering\**" />
+    <EmbeddedResource Remove="discarded_classes\Extensions.Site\**" />
+    <EmbeddedResource Remove="discarded_classes\Host\**" />
+    <EmbeddedResource Remove="discarded_classes\Rendering_\**" />
     <EmbeddedResource Remove="Extensions.Papers\**" />
     <EmbeddedResource Remove="Extensions.Site.Rendering\**" />
     <EmbeddedResource Remove="Extensions.Site\**" />
@@ -36,6 +52,14 @@
     <EmbeddedResource Remove="temp\**" />
     <None Remove="Browser\**" />
     <None Remove="Commons\**" />
+    <None Remove="discarded_classes\**" />
+    <None Remove="discarded_classes\Browser\**" />
+    <None Remove="discarded_classes\Commons\**" />
+    <None Remove="discarded_classes\Extensions.Papers\**" />
+    <None Remove="discarded_classes\Extensions.Site.Rendering\**" />
+    <None Remove="discarded_classes\Extensions.Site\**" />
+    <None Remove="discarded_classes\Host\**" />
+    <None Remove="discarded_classes\Rendering_\**" />
     <None Remove="Extensions.Papers\**" />
     <None Remove="Extensions.Site.Rendering\**" />
     <None Remove="Extensions.Site\**" />

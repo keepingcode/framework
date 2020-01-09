@@ -11,37 +11,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Toolset", "Toolset", "{FB81
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandbox", "Sandbox", "{8C4D08DE-5F5D-471F-95A7-41D2A4D04F26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeeper", "src\Innkeeper\Innkeeper\Innkeeper.csproj", "{091273C8-B61B-4578-BB4D-9814BAD1DD43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innkeeper", "src\Innkeeper\Innkeeper\Innkeeper.csproj", "{091273C8-B61B-4578-BB4D-9814BAD1DD43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeeper.Host.Core", "src\Innkeeper\Innkeeper.Host.Core\Innkeeper.Host.Core.csproj", "{576B002D-B4AD-4659-9FC5-1C1571155DC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innkeeper.Host.Core", "src\Innkeeper\Innkeeper.Host.Core\Innkeeper.Host.Core.csproj", "{576B002D-B4AD-4659-9FC5-1C1571155DC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeeper.Sandbox.Host", "src\Innkeeper\Innkeeper.Sandbox.Host\Innkeeper.Sandbox.Host.csproj", "{9C3DF273-5AD1-43EA-B5D6-9490846455EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innkeeper.Sandbox.Host", "src\Innkeeper\Innkeeper.Sandbox.Host\Innkeeper.Sandbox.Host.csproj", "{9C3DF273-5AD1-43EA-B5D6-9490846455EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paper.Media", "src\paper\Paper.Media\Paper.Media.csproj", "{B2AC3B54-9E1A-49F3-8019-B563EF45A848}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paper.Media", "src\paper\Paper.Media\Paper.Media.csproj", "{B2AC3B54-9E1A-49F3-8019-B563EF45A848}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paper", "src\Paper\Paper\Paper.csproj", "{16C55DD7-76DE-45D3-A146-78856210D3D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paper", "src\Paper\Paper\Paper.csproj", "{16C55DD7-76DE-45D3-A146-78856210D3D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolset", "src\toolset\Toolset\Toolset.csproj", "{D67DA84B-AB39-4EE0-9DA4-7AECC8DBAAAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolset", "src\toolset\Toolset\Toolset.csproj", "{D67DA84B-AB39-4EE0-9DA4-7AECC8DBAAAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolset.Sequel", "src\toolset\Toolset.Sequel\Toolset.Sequel.csproj", "{969FA68A-C9EE-48EE-8DF4-B3645A98DE5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolset.Sequel", "src\toolset\Toolset.Sequel\Toolset.Sequel.csproj", "{969FA68A-C9EE-48EE-8DF4-B3645A98DE5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolset.Text.Template", "src\toolset\Toolset.Text.Template\Toolset.Text.Template.csproj", "{F1361A69-74CA-41D4-8938-2FE9E72C7D1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolset.Text.Template", "src\toolset\Toolset.Text.Template\Toolset.Text.Template.csproj", "{F1361A69-74CA-41D4-8938-2FE9E72C7D1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolset.Serialization", "src\toolset\Toolset.Serialization\Toolset.Serialization.csproj", "{CB5ECC2F-41FE-4BD8-8EA7-F63CDD106A42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolset.Serialization", "src\toolset\Toolset.Serialization\Toolset.Serialization.csproj", "{CB5ECC2F-41FE-4BD8-8EA7-F63CDD106A42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "src\sandbox\Sandbox\Sandbox.csproj", "{F4265554-B337-49C0-8CDE-0DD9784C32E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "src\sandbox\Sandbox\Sandbox.csproj", "{F4265554-B337-49C0-8CDE-0DD9784C32E7}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Paper.Host", "src\paper\Paper.Host\Paper.Host.csproj", "{22348036-0A62-45CD-9978-FCE30E5CF15B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paper.Host", "src\paper\Paper.Host\Paper.Host.csproj", "{22348036-0A62-45CD-9978-FCE30E5CF15B}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Paper.Core", "src\paper\Paper.Core\Paper.Core.csproj", "{6ADF5F05-63BF-4CB9-B258-A482B8A690CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paper.Sandbox.Host", "src\Paper\Paper.Sandbox.Host\Paper.Sandbox.Host.csproj", "{4268CF97-B37E-49DB-B2A9-B5FAB104F6A7}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Paper.Browser.Web", "src\Paper\Paper.Browser.Web\Paper.Browser.Web.csproj", "{1131E47D-3634-4B5C-B83B-6E8E847ECBDB}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Paper.Browser.Windows", "src\Paper\Paper.Browser.Windows\Paper.Browser.Windows.csproj", "{31D1AFD3-D627-4E96-AFCB-D70A4196B8B3}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Paper.Sandbox.Host", "src\Paper\Paper.Sandbox.Host\Paper.Sandbox.Host.csproj", "{4268CF97-B37E-49DB-B2A9-B5FAB104F6A7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.Host", "src\Sandbox\Sandbox.Host\Sandbox.Host.csproj", "{51698D70-F101-45D2-A70D-1F923C5CEE7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox.Host", "src\Sandbox\Sandbox.Host\Sandbox.Host.csproj", "{51698D70-F101-45D2-A70D-1F923C5CEE7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,18 +87,6 @@ Global
 		{22348036-0A62-45CD-9978-FCE30E5CF15B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22348036-0A62-45CD-9978-FCE30E5CF15B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22348036-0A62-45CD-9978-FCE30E5CF15B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6ADF5F05-63BF-4CB9-B258-A482B8A690CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6ADF5F05-63BF-4CB9-B258-A482B8A690CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6ADF5F05-63BF-4CB9-B258-A482B8A690CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6ADF5F05-63BF-4CB9-B258-A482B8A690CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1131E47D-3634-4B5C-B83B-6E8E847ECBDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1131E47D-3634-4B5C-B83B-6E8E847ECBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1131E47D-3634-4B5C-B83B-6E8E847ECBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1131E47D-3634-4B5C-B83B-6E8E847ECBDB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{31D1AFD3-D627-4E96-AFCB-D70A4196B8B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{31D1AFD3-D627-4E96-AFCB-D70A4196B8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{31D1AFD3-D627-4E96-AFCB-D70A4196B8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31D1AFD3-D627-4E96-AFCB-D70A4196B8B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4268CF97-B37E-49DB-B2A9-B5FAB104F6A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4268CF97-B37E-49DB-B2A9-B5FAB104F6A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4268CF97-B37E-49DB-B2A9-B5FAB104F6A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -129,9 +111,6 @@ Global
 		{CB5ECC2F-41FE-4BD8-8EA7-F63CDD106A42} = {FB81EE7C-CA12-443D-B59C-EC00CA548DCE}
 		{F4265554-B337-49C0-8CDE-0DD9784C32E7} = {8C4D08DE-5F5D-471F-95A7-41D2A4D04F26}
 		{22348036-0A62-45CD-9978-FCE30E5CF15B} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
-		{6ADF5F05-63BF-4CB9-B258-A482B8A690CA} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
-		{1131E47D-3634-4B5C-B83B-6E8E847ECBDB} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
-		{31D1AFD3-D627-4E96-AFCB-D70A4196B8B3} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
 		{4268CF97-B37E-49DB-B2A9-B5FAB104F6A7} = {F1C5D111-3D87-4B83-AC65-19E2346E682F}
 		{51698D70-F101-45D2-A70D-1F923C5CEE7F} = {8C4D08DE-5F5D-471F-95A7-41D2A4D04F26}
 	EndGlobalSection

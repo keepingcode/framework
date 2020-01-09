@@ -28,11 +28,7 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Innkeeper\Innkeeper\Innkeeper.csproj" />
-    <ProjectReference Include="..\..\Toolset\Toolset.Sequel\Toolset.Sequel.csproj" />
-    <ProjectReference Include="..\..\Toolset\Toolset\Toolset.csproj" />
-    <ProjectReference Include="..\..\Innkeeper\Innkeeper.Host.Core\Innkeeper.Host.Core.csproj" />
-    <ProjectReference Include="..\..\Innkeeper\Innkeeper\Innkeeper.csproj" />
+    <ProjectReference Include="..\..\toolset\Toolset\Toolset.csproj" />
     <ProjectReference Include="..\Paper\Paper.csproj" />
   </ItemGroup>
 

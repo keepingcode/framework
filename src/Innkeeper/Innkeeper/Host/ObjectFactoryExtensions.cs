@@ -18,7 +18,7 @@ namespace Innkeeper.Host
       return (T)factory.GetInstance(typeof(T));
     }
 
-    public static object Invoke(this IObjectFactory factory, Delegate @delegate, params object[] extraArgs)
+    public static object Call(this IObjectFactory factory, Delegate @delegate, params object[] extraArgs)
     {
       var parameters = @delegate.Method.GetParameters();
       var values = new object[parameters.Length];
@@ -32,7 +32,7 @@ namespace Innkeeper.Host
       return result;
     }
 
-    public static object Invoke(this IObjectFactory factory, object host, MethodInfo method, params object[] extraArgs)
+    public static object Call(this IObjectFactory factory, object host, MethodInfo method, params object[] extraArgs)
     {
       var parameters = method.GetParameters();
       var values = new object[parameters.Length];
@@ -46,11 +46,11 @@ namespace Innkeeper.Host
       return result;
     }
 
-    public static object Invoke(this IObjectFactory factory, object host, string methodName, params object[] extraArgs)
+    public static object Call(this IObjectFactory factory, object host, string methodName, params object[] extraArgs)
     {
       var type = host as Type ?? host.GetType();
       var method = type.GetMethod(methodName);
-      return Invoke(factory, host, method, extraArgs);
+      return Call(factory, host, method, extraArgs);
     }
 
     private static object SelectArgument(object[] args, Type expectedType)

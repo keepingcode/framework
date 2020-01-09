@@ -46,7 +46,6 @@
     <ProjectReference Include="..\..\toolset\Toolset.Serialization\Toolset.Serialization.csproj" />
     <ProjectReference Include="..\..\toolset\Toolset.Text.Template\Toolset.Text.Template.csproj" />
     <ProjectReference Include="..\..\toolset\Toolset\Toolset.csproj" />
-    <ProjectReference Include="..\Paper.Browser.Web\Paper.Browser.Web.csproj" />
     <ProjectReference Include="..\Paper.Media\Paper.Media.csproj" />
     <ProjectReference Include="..\Paper\Paper.csproj" />
   </ItemGroup>
