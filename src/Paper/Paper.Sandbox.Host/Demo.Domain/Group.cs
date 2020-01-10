@@ -1,11 +1,10 @@
-﻿using Paper.Design;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Paper.Sandbox.Host.Forms
+namespace Paper.Sandbox.Host.Demo.Domain
 {
-  public class GroupForm
+  public class Group
   {
     public int Id { get; set; }
     public string Name { get; set; }

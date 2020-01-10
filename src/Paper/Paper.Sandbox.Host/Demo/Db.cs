@@ -1,9 +1,9 @@
-﻿using Paper.Sandbox.Host.Domain;
+﻿using Paper.Sandbox.Host.Demo.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Paper.Sandbox.Host.Databases
+namespace Paper.Sandbox.Host.Demo
 {
   public static class Db
   {
@@ -18,56 +18,56 @@ namespace Paper.Sandbox.Host.Databases
         Id = GenerateId(),
         Login = "Fulano",
         Name = "fulano",
-        UserId = 1
+        GroupId = 1
       },
       new User
       {
         Id = GenerateId(),
         Login = "Beltrano",
         Name = "beltrano",
-        UserId = 2
+        GroupId = 2
       },
       new User
       {
         Id = GenerateId(),
         Login = "Sicrano",
         Name = "sicrano",
-        UserId = 2
+        GroupId = 2
       },
       new User
       {
         Id = GenerateId(),
         Login = "Alano",
         Name = "alano",
-        UserId = 3
+        GroupId = 3
       },
       new User
       {
         Id = GenerateId(),
         Login = "Mengano",
         Name = "mengano",
-        UserId = 3
+        GroupId = 3
       },
       new User
       {
         Id = GenerateId(),
         Login = "Zutano",
         Name = "zutano",
-        UserId = 3
+        GroupId = 3
       },
       new User
       {
         Id = GenerateId(),
         Login = "Citano",
         Name = "citano",
-        UserId = 3
+        GroupId = 3
       },
       new User
       {
         Id = GenerateId(),
         Login = "Perengano",
         Name = "perengano",
-        UserId = 3
+        GroupId = 3
       }
     };
 

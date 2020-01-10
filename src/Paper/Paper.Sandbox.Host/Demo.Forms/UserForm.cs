@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Paper.Sandbox.Host.Forms
+namespace Paper.Sandbox.Host.Demo.Forms
 {
   public static class UserForm
   {
@@ -11,15 +11,20 @@ namespace Paper.Sandbox.Host.Forms
     {
       public string Login { get; set; }
       public string Name { get; set; }
-      public string User { get; set; }
+      public int GroupId { get; set; }
+      public bool Enabled { get; set; } = true;
     }
 
-    public class Edit
+    public class BulkEdit
     {
-      public int Id { get; set; }
-      public string Login { get; set; }
       public string Name { get; set; }
-      public string User { get; set; }
+      public int? GroupId { get; set; }
+      public bool? Enabled { get; set; }
+    }
+
+    public class MassEdit
+    {
+      public int? GroupId { get; set; }
       public bool? Enabled { get; set; }
     }
   }
