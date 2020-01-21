@@ -19,20 +19,20 @@ namespace Paper.Rendering
     public static async Task SendEntityStatusAsync(this IResponse res, HttpStatusCode status)
     {
       var req = res.Context.Request;
-      var entity = HttpEntity.Create(status);
+      var entity = Entity.Create(status);
       await WriteEntityAsync(res, entity, status);
     }
 
     public static async Task SendEntityStatusAsync(this IResponse res, Ret ret)
     {
       var req = res.Context.Request;
-      var entity = HttpEntity.CreateFromRet(ret);
+      var entity = Entity.Create(ret);
       await WriteEntityAsync(res, entity, ret.Status.Code);
     }
 
     public static async Task SendEntityObjectAsync(this IResponse res, object payload)
     {
-      var entity = payload as Entity;
+      var entity = payload as IEntity;
       if (entity == null)
       {
         entity = CreateEntity(payload);
@@ -40,43 +40,38 @@ namespace Paper.Rendering
       await WriteEntityAsync(res, entity);
     }
 
-    public static async Task SendEntityAsync<T>(this IResponse res, T payload, Func<T, Entity> mediaFormat)
+    public static async Task SendEntityAsync<T>(this IResponse res, T payload, Func<T, IEntity> mediaFormat)
     {
-      Entity entity;
-
       var req = res.Context.Request;
       var mediaType = req.Headers[HeaderNames.Accept] ?? MimeTypeNames.JsonSiren;
-
-      var isHypermedia = mediaType.Contains("siren");
-      if (isHypermedia)
-      {
-        entity = mediaFormat?.Invoke(payload) ?? CreateEntity(payload);
-      }
-      else
-      {
-        throw new NotImplementedException();
-        //var payloadInstance = Payload.FromGraph(payload);
-        //entity = payloadInstance.ToEntity();
-      }
-
+      var entity = mediaFormat?.Invoke(payload) ?? CreateEntity(payload);
       await WriteEntityAsync(res, entity);
     }
 
-    public static async Task SendEntityAsync(this IResponse res, Entity entity)
+    public static async Task SendEntityAsync(this IResponse res, IEntity entity)
     {
       await WriteEntityAsync(res, entity);
     }
 
-    private static async Task WriteEntityAsync(IResponse res, Entity entity, HttpStatusCode status = HttpStatusCode.OK)
+    private static async Task WriteEntityAsync(IResponse res, IEntity entity, HttpStatusCode status = HttpStatusCode.OK)
     {
       var req = res.Context.Request;
       var accept = req.Headers[HeaderNames.Accept] ?? MimeTypeNames.JsonSiren;
-      var contentType = MediaSerializer.ParseFormat(accept);
+      var contentType = MediaSerializer.ParseMediaType(accept);
 
-      var hasSelf = entity.Links?.Any(x => x.Rel?.Any(y => y == RelNames.Self) == true) == true;
+      var hasSelf = (
+        from link in entity.OfType<Link>()
+        from rel in link.OfType<Rel>()
+        where rel.Name == Rel.Self.Name
+        select link
+      ).Any();
+
       if (!hasSelf)
       {
-        entity.WithLinks().Add(new Link { Rel = RelNames.Self, Href = req.RequestUri });
+        var link = new Link();
+        link.Href = req.RequestUri;
+        link.Add(Rel.Self);
+        entity.Add(link);
       }
 
       res.Status = status;
@@ -88,14 +83,13 @@ namespace Paper.Rendering
       await Task.Yield();
     }
 
-    private static Entity CreateEntity(object payload)
+    private static IEntity CreateEntity(object payload)
     {
       var entity = new Entity();
-      entity.Properties = new PropertyMap();
       foreach (var property in payload._GetPropertyNames())
       {
         var value = payload._Get(property);
-        entity.Properties[property] = value;
+        entity.Add(new Property(property, value));
       }
       return entity;
     }

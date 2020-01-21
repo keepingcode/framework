@@ -53,7 +53,7 @@ namespace Paper.Rendering
       try
       {
         var factory = new PaperDescriptorFactory(webApp);
-        var types = ExposedTypes.GetTypes<IPaper>();
+        var types = ExposedTypes.GetTypes<IPaper>().Distinct();
         foreach (var type in types)
         {
           try

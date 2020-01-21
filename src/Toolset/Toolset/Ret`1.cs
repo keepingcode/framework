@@ -24,11 +24,6 @@ namespace Toolset
       return (fault.Length > 0) ? $"{Status} - {fault}" : Status.ToString();
     }
 
-    public Ret<global::Paper.Sandbox.Host.Domain.User> FirstOrDefault()
-    {
-      throw new NotImplementedException();
-    }
-
     public static implicit operator Ret<T>(T value)
     {
       return new Ret<T>
@@ -44,6 +39,17 @@ namespace Toolset
     public static implicit operator T(Ret<T> ret)
     {
       return ret.Value;
+    }
+
+    public static implicit operator Ret<T>(HttpStatusCode status)
+    {
+      return new Ret<T>
+      {
+        Status = new Ret.RetStatus
+        {
+          Code = status
+        }
+      };
     }
 
     public static implicit operator Ret<T>(Exception exception)

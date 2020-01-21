@@ -59,8 +59,19 @@ namespace Paper.Rendering
       await Res.SendEntityAsync(catalog, payload =>
       {
         var entity = FormatPayload(payload);
-        entity.AddLink(new Url(Req.RequestUri).Combine(".."), link => link.Title = "Catálogos");
-        entity.AddLink(new Url(Req.RequestUri).Append("Papers"), link => link.Title = "Papers");
+        
+        entity.Add(new Link
+        {
+          Href = new Url(Req.RequestUri).Combine(".."),
+          Title = "Catálogos"
+        });
+
+        entity.Add(new Link
+        {
+          Href = new Url(Req.RequestUri).Append("Papers"),
+          Title = "Papers"
+        });
+        
         return entity;
       });
     }
@@ -83,12 +94,23 @@ namespace Paper.Rendering
       await Res.SendEntityAsync(papers, payload =>
       {
         var entity = FormatPayload(payload);
-        entity.AddLink(new Url(Req.RequestUri).Combine(".."), link => link.Title = "Catálogo");
+
+        entity.Add(new Link
+        {
+          Href = new Url(Req.RequestUri).Combine(".."),
+          Title = "Catálogo"
+        });
+
         foreach (var descriptor in descriptors)
         {
           var paper = descriptor.Paper;
           var title = descriptor.Title;
-          entity.AddLink(new Url(Req.RequestUri).Append(paper), link => link.Title = title);
+
+          entity.Add(new Link
+          {
+            Href = new Url(Req.RequestUri).Append(paper),
+            Title = title
+          });
         }
         return entity;
       });
@@ -116,9 +138,25 @@ namespace Paper.Rendering
       await Res.SendEntityAsync(instance, payload =>
       {
         var entity = FormatPayload(payload);
-        entity.AddLink(new Url(Req.RequestUri).Combine("../.."), link => link.Title = "Catálogo");
-        entity.AddLink(new Url(Req.RequestUri).Combine(".."), link => link.Title = "Papers");
-        entity.AddLink(new Url(Req.RequestUri).Append("Actions"), link => link.Title = "Ações");
+
+        entity.Add(new Link
+        {
+          Href = new Url(Req.RequestUri).Combine("../.."),
+          Title = "Catálogo"
+        });
+
+        entity.Add(new Link
+        {
+          Href = new Url(Req.RequestUri).Combine(".."),
+          Title = "Papers"
+        });
+
+        entity.Add(new Link
+        {
+          Href = new Url(Req.RequestUri).Append("Actions"),
+          Title = "Ações"
+        });
+
         return entity;
       });
     }
@@ -129,38 +167,41 @@ namespace Paper.Rendering
       var entity = new Entity();
       if (payload is ICollection list)
       {
-        entity.WithClass().Add("records");
-
+        entity.Add(Class.Records);
+        
         var itemType = TypeOf.CollectionElement(type);
-        var headers = itemType.GetProperties().Select(x => (CaseVariantString)x.Name).ToArray();
-        entity.WithProperties().Add("__meta", new
+        var headers = itemType.GetProperties().Select(x => (VName)x.Name).ToArray();
+
+        entity.Add(new Property("__meta", new
         {
           records = new
           {
             headers = headers.ToArray()
           }
-        });
+        }));
 
-        entity.Entities = new EntityCollection();
         foreach (var item in list)
         {
           var child = FormatPayload(item);
-          entity.Entities.Add(child);
+          entity.Add(child);
         }
       }
       else
       {
-        entity.WithClass().Add(type.FullName);
-        entity.WithClass().Add("record");
-        var headers = type.GetProperties().Select(x => (CaseVariantString)x.Name).ToArray();
-        entity.WithProperties().Add("__meta", new
+        entity.Add(new Class(type.FullName));
+        entity.Add(Class.Record);
+
+        var headers = type.GetProperties().Select(x => (VName)x.Name).ToArray();
+        entity.Add(new Property("__meta", new
         {
           record = new
           {
             headers = headers.ToArray()
           }
-        });
-        entity.WithProperties().AddProperties(payload);
+        }));
+
+        var payloadProperties = Value.CreateObject(payload);
+        entity.AddMany(payloadProperties);
 
         if (payload is Beans.Catalog)
         {

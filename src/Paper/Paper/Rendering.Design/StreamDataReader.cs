@@ -20,7 +20,7 @@ namespace Paper.Rendering.Design
       this.encoding = encoding ?? Encoding.UTF8;
     }
 
-    public IMediaObject ReadMediaObject()
+    public ICollection<IEntity> ReadData()
     {
       var serializer = new MediaSerializer(contentType);
       var result = serializer.Deserialize(content, encoding);

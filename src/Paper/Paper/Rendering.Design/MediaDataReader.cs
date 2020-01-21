@@ -6,7 +6,7 @@ using System.Text;
 namespace Paper.Rendering.Design
 {
   public class MediaDataReader<T> : IDataReader
-    where T : IMediaObject
+    where T : IEntity
   {
     private readonly T mediaObject;
 
@@ -15,6 +15,6 @@ namespace Paper.Rendering.Design
       this.mediaObject = mediaObject;
     }
 
-    public IMediaObject ReadMediaObject() => mediaObject;
+    public ICollection<IEntity> ReadData() => new[] { (IEntity)mediaObject };
   }
 }

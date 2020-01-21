@@ -19,11 +19,21 @@ using Toolset.Xml;
 
 namespace Paper.Rendering.Design
 {
-  public interface IPaperBuilder<THost>
+  public class PaperDesignerFactory : IPaperDesignerFactory
   {
-    IStatementBuilder<THost, TData> Get<TData>();
-    IStatementBuilder<THost, TData> Get<TData>(Func<IPaperContext, THost, TData> dataFactory);
-    IStatementBuilder<THost, TData> Post<TData>(Func<IPaperContext, THost, IMediaObject, TData> dataFactory);
-    IPaperBlueprint BuildPaper();
+    private PaperDesignerFactory()
+    {
+    }
+
+    public static PaperDesignerFactory Create()
+    {
+      return new PaperDesignerFactory();
+    }
+
+    public IPaperDesigner<THost> CreatePaperBuilder<THost>(PaperInfo info, Func<IPaperContext, THost> hostFactory)
+    {
+      var builder = new PaperDesigner<THost>(info, hostFactory);
+      return builder;
+    }
   }
 }

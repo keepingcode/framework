@@ -5,7 +5,11 @@ namespace Paper.Media
 {
   public class Class : INode
   {
+    public static readonly Class Status = new Class("status");
+    public static readonly Class Error = new Class("error");
+
     public static readonly Class Record = new Class("record");
+    public static readonly Class Records = new Class("records");
     public static readonly Class Resource = new Class("resource");
     public static readonly Class Action = new Class("action");
     public static readonly Class Field = new Class("field");

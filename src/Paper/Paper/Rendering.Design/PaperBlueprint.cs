@@ -31,13 +31,13 @@ namespace Paper.Rendering.Design
 
     public PaperInfo Info { get; }
 
-    public Func<IPaperContext, IMediaObject> GetStatement { get; set; }
+    public Func<IPaperContext, IEntity> GetStatement { get; set; }
 
-    public Func<IPaperContext, IMediaObject> PostStatement { get; set; }
+    public Func<IPaperContext, IEntity> PostStatement { get; set; }
 
     public void RenderPaper(IPaperContext ctx)
     {
-      Func<IPaperContext, IMediaObject> statement = null;
+      Func<IPaperContext, IEntity> statement = null;
 
       switch (ctx.Verb)
       {
@@ -53,7 +53,7 @@ namespace Paper.Rendering.Design
         throw new HttpException(HttpStatusCode.MethodNotAllowed);
 
       var result = statement.Invoke(ctx);
-      ctx.OutgoingData.WriteMediaObject(result);
+      ctx.OutgoingData.WriteData(result);
     }
   }
 }

@@ -38,10 +38,20 @@ namespace Toolset
       };
     }
 
+    public static implicit operator Ret(HttpStatusCode status)
+    {
+      return new Ret
+      {
+        Status = new RetStatus
+        {
+          Code = status
+        }
+      };
+    }
+
     public static implicit operator Ret(Exception exception)
     {
       return new Ret
-
       {
         Status = new RetStatus
         {

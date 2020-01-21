@@ -8,6 +8,6 @@ namespace Paper.Rendering.Design
 {
   public interface IDataReader
   {
-    IMediaObject ReadMediaObject();
+    ICollection<IEntity> ReadData();
   }
 }

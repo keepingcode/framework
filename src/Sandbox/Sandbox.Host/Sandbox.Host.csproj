@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3;net47</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3;net462</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <Version>1.0.0</Version>
     <ApplicationIcon />
@@ -16,18 +16,24 @@
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
+  
   <ItemGroup>
     <None Remove="REVISION.txt" />
   </ItemGroup>
+  
   <ItemGroup>
     <Content Include="REVISION.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
   </ItemGroup>
+ 
   <ItemGroup>
+    <ProjectReference Include="..\..\paper\Paper.Media\Paper.Media.csproj" />
+    <ProjectReference Include="..\..\Paper\Paper\Paper.csproj" />
     <ProjectReference Include="..\..\Toolset\Toolset.Sequel\Toolset.Sequel.csproj" />
     <ProjectReference Include="..\..\Toolset\Toolset\Toolset.csproj" />
     <ProjectReference Include="..\..\Innkeeper\Innkeeper.Host.Core\Innkeeper.Host.Core.csproj" />

@@ -513,12 +513,12 @@ namespace Toolset
       return builder.ToString();
     }
 
-    public static explicit operator string(Url url)
+    public static implicit operator string(Url url)
     {
       return url?.ToString();
     }
 
-    public static explicit operator Url(string url)
+    public static implicit operator Url(string url)
     {
       return new Url(url);
     }

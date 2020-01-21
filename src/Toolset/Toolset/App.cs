@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Toolset
@@ -87,18 +88,23 @@ namespace Toolset
       try
       {
         var assembly = Assembly.GetEntryAssembly();
-        return assembly.FullName.Split(',').FirstOrDefault();
+        var name = assembly?.FullName.Split(',').FirstOrDefault();
+        if (name != null)
+        {
+          return name;
+        }
       }
       catch { /* Nada a fazer. */ }
 
       try
       {
         var process = Process.GetCurrentProcess();
-        return process.ProcessName;
+        var name = process.ProcessName.ChangeCase(TextCase.PascalCase);
+        return name;
       }
       catch { /* Nada a fazer. */ }
 
-      return null;
+      return "Aplicativo";
     }
 
     /// <summary>

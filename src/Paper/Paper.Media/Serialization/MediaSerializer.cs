@@ -53,5 +53,26 @@ namespace Paper.Media.Serialization
       var entities = medias.OfType<IEntity>().ToArray();
       return entities;
     }
+
+    public static string ParseMediaType(string mimeType, string defaultMediaType = MimeTypeNames.JsonSiren)
+    {
+      if (string.IsNullOrEmpty(mimeType))
+        return defaultMediaType;
+
+      if (mimeType.Contains("siren") && mimeType.Contains("xml"))
+        return MimeTypeNames.XmlSiren;
+      if (mimeType.Contains("siren"))
+        return MimeTypeNames.JsonSiren;
+      if (mimeType.Contains("json"))
+        return MimeTypeNames.JsonApplication;
+      if (mimeType.Contains("xml"))
+        return MimeTypeNames.XmlApplication;
+      if (mimeType.Contains("csv"))
+        return MimeTypeNames.Csv;
+      if (mimeType.Contains("excel") || mimeType.Contains("xlsx"))
+        return MimeTypeNames.Excel;
+
+      return defaultMediaType;
+    }
   }
 }

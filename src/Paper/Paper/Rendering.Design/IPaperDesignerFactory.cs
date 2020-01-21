@@ -19,8 +19,8 @@ using Toolset.Xml;
 
 namespace Paper.Rendering.Design
 {
-  public interface IPaperBuilderFactory
+  public interface IPaperDesignerFactory
   {
-    IPaperBuilder<THost> CreatePaperBuilder<THost>(PaperInfo info, Func<IPaperContext, THost> hostFactory);
+    IPaperDesigner<THost> CreatePaperBuilder<THost>(PaperInfo info, Func<IPaperContext, THost> hostFactory);
   }
 }

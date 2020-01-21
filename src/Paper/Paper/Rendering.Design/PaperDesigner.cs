@@ -20,52 +20,52 @@ using Toolset.Xml;
 
 namespace Paper.Rendering.Design
 {
-  internal class PaperBuilder<THost> : IPaperBuilder<THost>
+  internal class PaperDesigner<THost> : IPaperDesigner<THost>
   {
     private readonly PaperInfo info;
     private readonly Func<IPaperContext, THost> hostFactory;
 
-    private Func<Func<IPaperContext, IMediaObject>> getStatementFactory;
-    private Func<Func<IPaperContext, IMediaObject>> postStatementFactory;
+    private Func<Func<IPaperContext, IEntity>> getStatementFactory;
+    private Func<Func<IPaperContext, IEntity>> postStatementFactory;
 
-    public PaperBuilder(PaperInfo info, Func<IPaperContext, THost> hostFactory)
+    public PaperDesigner(PaperInfo info, Func<IPaperContext, THost> hostFactory)
     {
       this.info = info;
       this.hostFactory = hostFactory;
     }
 
-    public IStatementBuilder<THost, TData> Get<TData>()
+    public IStatementDesigner<THost, TData> Get<TData>()
     {
       return Get((ctx, target) => default(TData));
     }
 
-    public IStatementBuilder<THost, TData> Get<TData>(Func<IPaperContext, THost, TData> dataFactory)
+    public IStatementDesigner<THost, TData> Get<TData>(Func<IPaperContext, THost, TData> dataFactory)
     {
       if (getStatementFactory != null)
         throw new InvalidOperationException("Já existe uma sintaxe declarada para processamento de requisições do tipo GET.");
 
-      var builder = new StatementBuilder<THost, TData>(hostFactory, 
+      var builder = new StatementDesigner<THost, TData>(hostFactory, 
         (ctx, host, formData) => dataFactory.Invoke(ctx, host)
       );
 
-      getStatementFactory = () => builder.BuildStatement();
+      getStatementFactory = () => builder.DesignStatement();
 
       return builder;
     }
 
-    public IStatementBuilder<THost, TData> Post<TData>(Func<IPaperContext, THost, IMediaObject, TData> dataFactory)
+    public IStatementDesigner<THost, TData> Post<TData>(Func<IPaperContext, THost, IEntity, TData> dataFactory)
     {
       if (postStatementFactory != null)
         throw new InvalidOperationException("Já existe uma sintaxe declarada para processamento de requisições do tipo GET.");
 
-      var builder = new StatementBuilder<THost, TData>(hostFactory, dataFactory);
+      var builder = new StatementDesigner<THost, TData>(hostFactory, dataFactory);
 
-      postStatementFactory = () => builder.BuildStatement();
+      postStatementFactory = () => builder.DesignStatement();
 
       return builder;
     }
 
-    public IPaperBlueprint BuildPaper()
+    public IPaperBlueprint DesignPaper()
     {
       var blueprint = new PaperBlueprint(info);
       blueprint.GetStatement = getStatementFactory?.Invoke() ?? MethodNotAllowed;
@@ -73,7 +73,7 @@ namespace Paper.Rendering.Design
       return blueprint;
     }
 
-    private IMediaObject MethodNotAllowed(IPaperContext ctx)
+    private IEntity MethodNotAllowed(IPaperContext ctx)
     {
       throw new HttpException(HttpStatusCode.MethodNotAllowed);
     }

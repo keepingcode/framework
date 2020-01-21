@@ -22,10 +22,10 @@ namespace Paper.Rendering.Design
 
     public bool IsPayload => contentType?.Contains("siren") == true;
 
-    public void WriteMediaObject(IMediaObject result)
+    public void WriteData(IEntity data)
     {
       var serializer = new MediaSerializer(contentType);
-      serializer.Serialize((Entity)result, content, encoding);
+      serializer.Serialize((Entity)data, content, encoding);
     }
   }
 }

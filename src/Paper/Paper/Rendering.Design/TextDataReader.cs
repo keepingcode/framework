@@ -18,7 +18,7 @@ namespace Paper.Rendering.Design
       this.contentType = contentType;
     }
 
-    public IMediaObject ReadMediaObject()
+    public ICollection<IEntity> ReadData()
     {
       var serializer = new MediaSerializer(contentType);
       var result = serializer.Deserialize(content);

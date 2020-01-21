@@ -5,6 +5,8 @@ namespace Paper.Media
 {
   public class Rel : INode
   {
+    public static readonly Rel Self = new Rel("self");
+
     public Rel(string name)
     {
       if (string.IsNullOrWhiteSpace(name))

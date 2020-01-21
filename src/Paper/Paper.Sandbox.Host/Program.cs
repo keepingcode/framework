@@ -1,6 +1,7 @@
-﻿using Innkeeper.Host.Core;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Paper.Sandbox.Host.Abstract;
+using Paper.Sandbox.Host.Demo.Papers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,14 @@ namespace Paper.Sandbox.Host
     {
       try
       {
-        InnkeeperWebHost.Run(app =>
-        {
-          app.Port = 9090;
-          app.Name = "PaperSandbox";
-        }, args);
+        var extractor = new PaperSchemaExtractor();
+        var schema = extractor.ExtractSchema(typeof(UserPaper));
+
+        //InnkeeperWebHost.Run(app =>
+        //{
+        //  app.Port = 9090;
+        //  app.Name = "PaperSandbox";
+        //}, args);
       }
       catch (Exception ex)
       {

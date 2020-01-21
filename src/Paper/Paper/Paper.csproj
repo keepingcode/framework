@@ -70,7 +70,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Design\KeyAttribute.cs" />
     <Compile Remove="IPaperSettings.cs" />
     <Compile Remove="Rendering.Design\IPaperRenderer.cs" />
     <Compile Remove="Rendering.Design\PaperRenderer.cs" />

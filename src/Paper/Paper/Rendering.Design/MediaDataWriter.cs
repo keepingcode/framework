@@ -6,7 +6,7 @@ using System.Text;
 namespace Paper.Rendering.Design
 {
   public class MediaDataWriter<T> : IDataWriter
-    where T : IMediaObject
+    where T : IEntity
   {
     public MediaDataWriter()
     {
@@ -16,7 +16,7 @@ namespace Paper.Rendering.Design
 
     public T Result { get; internal set; }
 
-    public void WriteMediaObject(IMediaObject result)
+    public void WriteData(IEntity result)
     {
       Result = (T)result;
     }

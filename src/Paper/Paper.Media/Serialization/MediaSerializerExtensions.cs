@@ -33,7 +33,7 @@ namespace Paper.Media.Serialization
       }
     }
 
-    public static ICollection<IEntity> Deserialize(this MediaSerializer serializer, IEntity entity, Stream stream, Encoding encoding = null)
+    public static ICollection<IEntity> Deserialize(this MediaSerializer serializer, Stream stream, Encoding encoding = null)
     {
       var reader = new StreamReader(stream, encoding ?? Encoding.UTF8);
       var result = serializer.Deserialize(reader);

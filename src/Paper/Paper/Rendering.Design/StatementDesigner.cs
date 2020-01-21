@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using Innkeeper.Rest;
 using Paper.Media;
@@ -9,137 +10,111 @@ using Toolset;
 
 namespace Paper.Rendering.Design
 {
-  internal class StatementBuilder<THost, TData> : IStatementBuilder<THost, TData>
+  internal class StatementDesigner<TPaperInstance, TData> : IStatementDesigner<TPaperInstance, TData>
   {
-    private const string HostKey = nameof(HostKey);
+    private const string PaperInstanceKey = nameof(PaperInstanceKey);
     private const string DataKey = nameof(DataKey);
     private const string EntityKey = nameof(EntityKey);
-    private const string PayloadKey = nameof(PayloadKey);
 
     private readonly List<Action<IPaperContext>> statements = new List<Action<IPaperContext>>();
 
-    public StatementBuilder(
-      Func<IPaperContext, THost> hostFactory,
-      Func<IPaperContext, THost, IMediaObject, TData> dataFactory)
+    public StatementDesigner(
+      Func<IPaperContext, TPaperInstance> paperInstanceFactory,
+      Func<IPaperContext, TPaperInstance, IEntity, TData> dataFactory)
     {
-      SelectData(hostFactory, dataFactory);
+      SelectData(paperInstanceFactory, dataFactory);
     }
 
-    public Func<IPaperContext, IMediaObject> BuildStatement()
+    public Func<IPaperContext, IEntity> DesignStatement()
     {
       return ctx =>
       {
         try
         {
-          if (ctx.OutgoingData.IsPayload)
-          {
-            ctx.Cache[PayloadKey] = new Payload();
-          }
-
           foreach (var statement in statements)
           {
             statement.Invoke(ctx);
           }
 
-          var result = ctx.OutgoingData.IsPayload
-            ? (IMediaObject)ctx.Cache[PayloadKey]
-            : (IMediaObject)ctx.Cache[EntityKey];
+          var result = ctx.Cache[EntityKey] as IEntity;
+          if (result == null)
+          {
+            result = Entity.Create(HttpStatusCode.NotFound);
+          }
+
           return result;
         }
         catch (Exception ex)
         {
-          var ret = Ret.Fail(ex);
-          var entity = HttpEntity.CreateFromRet(ret);
-          if (ctx.OutgoingData.IsPayload)
-          {
-            var payload = Payload.FromEntity(entity);
-            ctx.Cache[PayloadKey] = payload;
-          }
-          else
-          {
-            ctx.Cache[EntityKey] = entity;
-          }
+          var result = Entity.Create(ex);
+          ctx.Cache[EntityKey] = result;
           throw;
         }
       };
     }
 
     private void SelectData(
-      Func<IPaperContext, THost> hostFactory,
-      Func<IPaperContext, THost, IMediaObject, TData> dataFactory)
+      Func<IPaperContext, TPaperInstance> hostFactory,
+      Func<IPaperContext, TPaperInstance, IEntity, TData> dataFactory)
     {
       this.statements.Add(ctx =>
       {
-        var formData = (ctx.Verb == VerbNames.Get) ? null : ctx.IncomingData?.ReadMediaObject();
+        IEntity formData = null;
 
-        var host = hostFactory.Invoke(ctx);
-        ctx.Cache[HostKey] = host;
+        if (ctx.Verb == VerbNames.Get)
+        {
+          var dataCollection = ctx.IncomingData?.ReadData();
+          formData = dataCollection?.FirstOrDefault();
+        }
 
-        var data = dataFactory.Invoke(ctx, host, formData);
+        TPaperInstance host = hostFactory.Invoke(ctx);
+        ctx.Cache[PaperInstanceKey] = host;
+
+        TData data = dataFactory.Invoke(ctx, host, formData);
         ctx.Cache[DataKey] = data;
       });
     }
 
-    public IRecordObjectGetter<TRecord> PopulateRecord<TRecord>(Func<IPaperContext, THost, TData, TRecord> populator)
+    public IRecordObjectGetter<TRecord> PopulateRecord<TRecord>(Func<IPaperContext, TPaperInstance, TData, TRecord> populator)
     {
       var recordKey = $"Record-{Guid.NewGuid():B}";
       var nodeKey = $"Node-{recordKey}";
       this.statements.Add(ctx =>
       {
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
         var record = populator.Invoke(ctx, host, data);
         var node = new Node<TRecord> { Record = record };
         ctx.Cache[recordKey] = record;
         ctx.Cache[nodeKey] = node;
-
-        if (ctx.Cache[PayloadKey] is Payload payload)
-        {
-          //payload.SetProperty(.SetProperty(record);
-        }
       });
       return new RecordGetter<TRecord>(recordKey, nodeKey);
     }
 
-    public IRecordCollectionGetter<TRecord> PopulateRecords<TRecord>(Func<IPaperContext, THost, TData, ICollection<TRecord>> populator)
+    public IRecordCollectionGetter<TRecord> PopulateRecords<TRecord>(Func<IPaperContext, TPaperInstance, TData, ICollection<TRecord>> populator)
     {
       var recordsKey = $"Records-{Guid.NewGuid():B}";
       var nodesKey = $"Nodes-{recordsKey}";
       this.statements.Add(ctx =>
       {
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
         var records = populator.Invoke(ctx, host, data);
         var nodes = records.Select(x => new Node<TRecord> { Record = x }).ToArray();
         ctx.Cache[recordsKey] = records;
         ctx.Cache[nodesKey] = nodes;
-
-        if (ctx.Cache[PayloadKey] is Payload payload)
-        {
-          if (payload.Records is Payload.RecordCollection payloadRecords)
-          {
-            // Usando SetProperty para converter a coleção de registros.
-            payload.SetProperty(nameof(payload.Records), records);
-            payloadRecords.AddRange(payload.Records);
-            payload.Records = payloadRecords;
-          }
-          else
-          {
-            payload.SetProperty(nameof(payload.Records), records);
-          }
-        }
       });
       return new RecordCollectionGetter<TRecord>(recordsKey, nodesKey);
     }
 
-    public IRecordObjectGetter<TRecord> PopulateRecord<TRef, TRecord>(IRecordObjectGetter<TRef> @ref, Func<IPaperContext, THost, TData, TRef, TRecord> populator) 
+    public IRecordObjectGetter<TRecord> PopulateRecord<TRef, TRecord>(IRecordObjectGetter<TRef> @ref, Func<IPaperContext, TPaperInstance, TData, TRef, TRecord> populator) 
     {
       var recordKey = $"Record-{Guid.NewGuid():B}";
       var nodeKey = $"Node-{recordKey}";
       this.statements.Add(ctx =>
       {
         var parent = @ref.GetNode(ctx);
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
         var record = populator.Invoke(ctx, host, data, parent.Record);
         var node = new Node<TRecord> { Parent = parent, Record = record };
@@ -149,14 +124,14 @@ namespace Paper.Rendering.Design
       return new RecordGetter<TRecord>(recordKey, nodeKey);
     }
 
-    public IRecordCollectionGetter<TRecord> PopulateRecords<TRef, TRecord>(IRecordObjectGetter<TRef> @ref, Func<IPaperContext, THost, TData, TRef, ICollection<TRecord>> populator)
+    public IRecordCollectionGetter<TRecord> PopulateRecords<TRef, TRecord>(IRecordObjectGetter<TRef> @ref, Func<IPaperContext, TPaperInstance, TData, TRef, ICollection<TRecord>> populator)
     {
       var recordsKey = $"Records-{Guid.NewGuid():B}";
       var nodesKey = $"Nodes-{recordsKey}";
       this.statements.Add(ctx =>
       {
         var parent = @ref.GetNode(ctx);
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
         var records = populator.Invoke(ctx, host, data, parent.Record);
         var nodes = records.Select(x => new Node<TRecord> { Parent = parent, Record = x }).ToArray();
@@ -166,13 +141,13 @@ namespace Paper.Rendering.Design
       return new RecordCollectionGetter<TRecord>(recordsKey, nodesKey);
     }
 
-    public IRecordObjectGetter<TRecord> PopulateRecord<TRef, TRecord>(IRecordCollectionGetter<TRef> @ref, Func<IPaperContext, THost, TData, TRef, TRecord> populator)
+    public IRecordObjectGetter<TRecord> PopulateRecord<TRef, TRecord>(IRecordCollectionGetter<TRef> @ref, Func<IPaperContext, TPaperInstance, TData, TRef, TRecord> populator)
     {
       var recordKey = $"Record-{Guid.NewGuid():B}";
       var nodeKey = $"Node-{recordKey}";
       this.statements.Add(ctx =>
       {
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
 
         var recordArray = new List<TRecord>();
@@ -194,13 +169,13 @@ namespace Paper.Rendering.Design
       return new RecordGetter<TRecord>(recordKey, nodeKey);
     }
 
-    public IRecordCollectionGetter<TRecord> PopulateRecords<TRef, TRecord>(IRecordCollectionGetter<TRef> @ref, Func<IPaperContext, THost, TData, TRef, ICollection<TRecord>> populator)
+    public IRecordCollectionGetter<TRecord> PopulateRecords<TRef, TRecord>(IRecordCollectionGetter<TRef> @ref, Func<IPaperContext, TPaperInstance, TData, TRef, ICollection<TRecord>> populator)
     {
       var recordKey = $"Record-{Guid.NewGuid():B}";
       var nodeKey = $"Node-{recordKey}";
       this.statements.Add(ctx =>
       {
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
 
         var recordArray = new List<ICollection<TRecord>>();
@@ -222,48 +197,52 @@ namespace Paper.Rendering.Design
       return new RecordCollectionGetter<TRecord>(recordKey, nodeKey);
     }
 
-    public void CreateEntity<TRecord>(Func<IPaperContext, THost, TData, Entity> entityFactory)
+    public void CreateEntity<TRecord>(Func<IPaperContext, TPaperInstance, TData, Entity> entityFactory)
     {
       this.statements.Add(ctx =>
       {
         if (ctx.OutgoingData.IsPayload)
           return;
 
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
         var entity = entityFactory.Invoke(ctx, host, data);
         ctx.Cache[EntityKey] = entity;
       });
     }
 
-    public void CreateEntity<TRecord>(IRecordObjectGetter<TRecord> getter, Func<IPaperContext, THost, TData, TRecord, Entity> entityFactory)
+    public void CreateEntity<TRecord>(IRecordObjectGetter<TRecord> getter, Func<IPaperContext, TPaperInstance, TData, TRecord, Entity> entityFactory)
     {
       this.statements.Add(ctx =>
       {
         if (ctx.OutgoingData.IsPayload)
           return;
 
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
         var node = getter.GetNode(ctx);
 
         node.Entity = entityFactory.Invoke(ctx, host, data, node.Record);
 
         if (node.Parent?.Entity is Entity parent)
-          parent.WithEntities().Add(node.Entity);
+        {
+          parent.Add(node.Entity);
+        }
         else
+        {
           ctx.Cache[EntityKey] = node.Entity;
+        }
       });
     }
 
-    public void CreateEntity<TRecord>(IRecordCollectionGetter<TRecord> getter, Func<IPaperContext, THost, TData, ICollection<TRecord>, TRecord, Entity> entityFactory)
+    public void CreateEntity<TRecord>(IRecordCollectionGetter<TRecord> getter, Func<IPaperContext, TPaperInstance, TData, ICollection<TRecord>, TRecord, Entity> entityFactory)
     {
       this.statements.Add(ctx =>
       {
         if (ctx.OutgoingData.IsPayload)
           return;
 
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
         var nodes = getter.GetNodes(ctx);
         var records = getter.GetRecords(ctx);
@@ -278,19 +257,19 @@ namespace Paper.Rendering.Design
           node.Entity = entityFactory.Invoke(ctx, host, data, records, node.Record);
 
           var parent = node.Parent?.Entity ?? (Entity)ctx.Cache[EntityKey];
-          parent.WithEntities().Add(node.Entity);
+          parent.Add(node.Entity);
         }
       });
     }
 
-    public void FormatEntity<TRecord>(Action<IPaperContext, THost, TData, Entity> formatter)
+    public void FormatEntity<TRecord>(Action<IPaperContext, TPaperInstance, TData, Entity> formatter)
     {
       this.statements.Add(ctx =>
       {
         if (ctx.OutgoingData.IsPayload)
           return;
 
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
 
         var entity = (Entity)ctx.Cache[EntityKey];
@@ -303,14 +282,14 @@ namespace Paper.Rendering.Design
       });
     }
 
-    public void FormatEntity<TRecord>(IRecordObjectGetter<TRecord> getter, Action<IPaperContext, THost, TData, TRecord, Entity> formatter)
+    public void FormatEntity<TRecord>(IRecordObjectGetter<TRecord> getter, Action<IPaperContext, TPaperInstance, TData, TRecord, Entity> formatter)
     {
       this.statements.Add(ctx =>
       {
         if (ctx.OutgoingData.IsPayload)
           return;
 
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
         var node = getter.GetNode(ctx);
 
@@ -319,21 +298,21 @@ namespace Paper.Rendering.Design
           node.Entity = CreateDefaultEntity(node.Record);
 
           var parent = node.Parent?.Entity ?? (Entity)ctx.Cache[EntityKey];
-          parent.WithEntities().Add(node.Entity);
+          parent.Add(node.Entity);
         }
 
         formatter.Invoke(ctx, host, data, node.Record, node.Entity);
       });
     }
 
-    public void FormatEntity<TRecord>(IRecordCollectionGetter<TRecord> getter, Action<IPaperContext, THost, TData, ICollection<TRecord>, TRecord, Entity> formatter)
+    public void FormatEntity<TRecord>(IRecordCollectionGetter<TRecord> getter, Action<IPaperContext, TPaperInstance, TData, ICollection<TRecord>, TRecord, Entity> formatter)
     {
       this.statements.Add(ctx =>
       {
         if (ctx.OutgoingData.IsPayload)
           return;
 
-        var host = (THost)ctx.Cache[HostKey];
+        var host = (TPaperInstance)ctx.Cache[PaperInstanceKey];
         var data = (TData)ctx.Cache[DataKey];
         var nodes = getter.GetNodes(ctx);
         var records = getter.GetRecords(ctx);
@@ -345,7 +324,7 @@ namespace Paper.Rendering.Design
             node.Entity = CreateDefaultEntity(node.Record);
 
             var parent = node.Parent?.Entity ?? (Entity)ctx.Cache[EntityKey];
-            parent.WithEntities().Add(node.Entity);
+            parent.Add(node.Entity);
           }
 
           formatter.Invoke(ctx, host, data, records, node.Record, node.Entity);

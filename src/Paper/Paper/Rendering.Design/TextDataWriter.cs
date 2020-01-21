@@ -20,7 +20,7 @@ namespace Paper.Rendering.Design
 
     public bool IsPayload => contentType?.Contains("siren") == true;
 
-    public void WriteMediaObject(IMediaObject result)
+    public void WriteData(IEntity result)
     {
       var serializer = new MediaSerializer(contentType);
       serializer.Serialize((Entity)result, content);

@@ -10,6 +10,6 @@ namespace Paper.Rendering.Design
   {
     bool IsPayload { get; }
 
-    void WriteMediaObject(IMediaObject result);
+    void WriteData(IEntity data);
   }
 }
