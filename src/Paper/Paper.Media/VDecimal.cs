@@ -16,7 +16,7 @@ namespace Paper.Media
     public VDecimal(float value)
       => Value = (decimal)value;
 
-    public decimal Value { get; }
+    public decimal Value { get; set; }
 
     object IValue.Value
       => Value;

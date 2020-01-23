@@ -168,7 +168,7 @@ namespace Paper.Rendering
       if (payload is ICollection list)
       {
         entity.Add(Class.Records);
-        
+
         var itemType = TypeOf.CollectionElement(type);
         var headers = itemType.GetProperties().Select(x => (VName)x.Name).ToArray();
 
@@ -192,6 +192,8 @@ namespace Paper.Rendering
         entity.Add(Class.Record);
 
         var headers = type.GetProperties().Select(x => (VName)x.Name).ToArray();
+        var payloadProperties = Value.CreateObject(payload);
+
         entity.Add(new Property("__meta", new
         {
           record = new
@@ -200,7 +202,6 @@ namespace Paper.Rendering
           }
         }));
 
-        var payloadProperties = Value.CreateObject(payload);
         entity.AddMany(payloadProperties);
 
         if (payload is Beans.Catalog)

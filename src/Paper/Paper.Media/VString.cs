@@ -15,9 +15,9 @@ namespace Paper.Media
       this.IsCaseVariant = isCaseVariant;
     }
 
-    public string Value { get; }
+    public virtual string Value { get; set; }
 
-    public bool IsCaseVariant { get; }
+    public virtual bool IsCaseVariant { get; set; }
 
     object IValue.Value
       => Value;

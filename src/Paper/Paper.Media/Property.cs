@@ -31,6 +31,33 @@ namespace Paper.Media
 
     public string Name { get; }
 
+    /// <summary>
+    /// Por padrão, algumas propriedades são renderizadas no corpo da entidade e na sua
+    /// coleção de propriedades.
+    /// 
+    /// Por exemplo:
+    /// {
+    ///   "title": TITLE,
+    ///   "properties: {
+    ///     "title": TITLE
+    ///   }
+    /// }
+    /// 
+    /// Para omitir a renderização de propriedades como estas na coleção de propriedades
+    /// da entidade este campo "Hide" pode ser marcado como verdadeiro.
+    /// 
+    /// No exemplo acima, se "Hide" for verdadeiro, o resultado se torna:
+    /// {
+    ///   "title": TITLE
+    /// }
+    /// 
+    /// Embora menos comum, o campo "Hide" pode ser usado para apenas omitir uma propriedade
+    /// qualquer do renderizador.
+    /// Se uma propriedade qualquer tem seu campo "Hide" como verdadeiro o renderizador
+    /// simplismente a ignora.
+    /// </summary>
+    public bool Hidden { get; set; }
+
     public IValue Value { get; set; }
 
     public Property Clone()

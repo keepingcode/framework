@@ -110,25 +110,27 @@ namespace Paper.Media.Serialization
     {
       var keys = GetReservedPropertyNames(target);
 
-      var reservedProperties = (
+      var fields =
         from key in keys
         join property in target.OfType<Property>()
           on key equals property.Name
-        select property
-      ).ToArray();
+        select property;
 
-      var otherProperties = target.OfType<Property>().Except(reservedProperties);
+      var properties =
+        from property in target.OfType<Property>()
+        where !property.Hidden
+        select property;
 
-      foreach (var property in reservedProperties)
+      foreach (var field in fields)
       {
-        WriteProperty(property, writer);
+        WriteProperty(field, writer);
       }
 
-      if (otherProperties.Any())
+      if (properties.Any())
       {
         writer.WritePropertyStart("Properties");
         writer.WriteObjectStart("Properties");
-        foreach (var property in otherProperties)
+        foreach (var property in properties)
         {
           WriteProperty(property, writer);
         }

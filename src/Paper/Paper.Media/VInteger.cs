@@ -10,7 +10,7 @@ namespace Paper.Media
     public VInteger(int value)
       => Value = value;
 
-    public int Value { get; }
+    public int Value { get; set; }
 
     object IValue.Value => Value;
 

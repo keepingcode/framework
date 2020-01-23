@@ -99,17 +99,14 @@ namespace Paper.Media
 
     protected void Set<T>(T value, [CallerMemberName]string propertyName = null)
     {
-      var property =
-        this.OfType<Property>().FirstOrDefault(x => x.Name == propertyName);
-
-      if (property != null)
+      var property = this.OfType<Property>().FirstOrDefault(x => x.Name == propertyName);
+      if (property == null)
       {
-        property.Value = Value.Create(value);
+        property = new Property(propertyName);
+        property.Hidden = true;
+        this.Add(property);
       }
-      else
-      {
-        this.Add(new Property(propertyName, value));
-      }
+      property.Value = Value.Create(value);
     }
 
     protected override void OnCommitAdd(ItemStore store, IEnumerable<INode> items, int index = -1)

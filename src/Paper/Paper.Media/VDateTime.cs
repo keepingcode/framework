@@ -10,7 +10,7 @@ namespace Paper.Media
     public VDateTime(DateTime dateTime)
       => Value = dateTime;
 
-    public DateTime Value { get; }
+    public DateTime Value { get; set; }
 
     object IValue.Value
       => Value;

@@ -10,7 +10,7 @@ namespace Paper.Media
     public VLong(long value)
       => Value = value;
 
-    public long Value { get; }
+    public long Value { get; set; }
 
     object IValue.Value => Value;
 

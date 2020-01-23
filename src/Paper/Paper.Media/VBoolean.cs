@@ -13,7 +13,7 @@ namespace Paper.Media
     private VBoolean(bool value)
       => this.Value = value;
 
-    public bool Value { get; }
+    public bool Value { get; set; }
 
     public static VBoolean Create(bool value)
       => value ? True : False;

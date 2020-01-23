@@ -10,7 +10,7 @@ namespace Paper.Media
     public VTimeSpan(TimeSpan timeSpan)
       => Value = timeSpan;
 
-    public TimeSpan Value { get; }
+    public TimeSpan Value { get; set; }
 
     object IValue.Value
       => Value;
